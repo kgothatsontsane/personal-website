@@ -8,6 +8,9 @@ import Stats from './components/Stats'
 import Timeline from './components/Timeline'
 import Contact from './components/Contact'
 import Footer from './components/Footer'
+import Particles from './components/Particles'
+import Minimap from './components/Minimap'
+import Wasted from './components/Wasted'
 
 function Cursor() {
   const dotRef = useRef(null)
@@ -73,15 +76,23 @@ export default function App() {
     <>
       <Cursor />
       <ScrollProgress />
+      <Particles />
       <div className="noise-overlay" />
       <div className="scanlines" />
       <Nav />
+      <Minimap />
+      <Wasted />
       <main>
         <Hero />
+        <div className="section-divider" />
         <About />
+        <div className="section-divider" />
         <Projects />
+        <div className="section-divider" />
         <Stats />
+        <div className="section-divider" />
         <Timeline />
+        <div className="section-divider" />
         <Contact />
       </main>
       <Footer />

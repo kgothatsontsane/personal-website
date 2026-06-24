@@ -1319,3 +1319,70 @@ a, button, input, textarea { cursor: none; }
   letter-spacing: 1px;
   border-top: 1px solid var(--border);
 }
+
+/* ───────── Section Dividers ───────── */
+.section-divider {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    rgba(255, 204, 0, 0.05) 15%,
+    rgba(255, 204, 0, 0.15) 50%,
+    rgba(255, 204, 0, 0.05) 85%,
+    transparent 100%
+  );
+  position: relative;
+}
+
+.section-divider::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  background: var(--accent);
+  border-radius: 50%;
+  opacity: 0.4;
+}
+
+/* ───────── Timeline Ping ───────── */
+.timeline-ping {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  animation: radar-ping 2.5s ease-out infinite;
+}
+
+.timeline-item:hover .timeline-ping {
+  animation-play-state: running;
+}
+
+@keyframes radar-ping {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* ───────── Classified Stamp Rotation ───────── */
+.mission-classified-badge {
+  display: inline-block;
+  transform: rotate(-1.5deg);
+}
+
+.mission-card:nth-child(2) .mission-classified-badge {
+  transform: rotate(1deg);
+}
+
+.mission-card:nth-child(3) .mission-classified-badge {
+  transform: rotate(-0.5deg);
+}
+
+.mission-card:nth-child(4) .mission-classified-badge {
+  transform: rotate(1.5deg);
+}

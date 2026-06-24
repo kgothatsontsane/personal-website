@@ -29,7 +29,9 @@ export default function Timeline() {
       <div className="timeline">
         {serviceRecord.map((entry, i) => (
           <motion.div key={i} className="timeline-item" variants={child}>
-            <div className="timeline-dot" />
+            <div className="timeline-dot">
+              <div className="timeline-ping" />
+            </div>
             <div className="timeline-year">{entry.year}</div>
             <div className="timeline-company">{entry.company}</div>
             <div className="timeline-role">{entry.role}</div>
@@ -37,7 +39,9 @@ export default function Timeline() {
           </motion.div>
         ))}
         <motion.div className="timeline-item" variants={child}>
-          <div className="timeline-dot" />
+          <div className="timeline-dot">
+            <div className="timeline-ping" />
+          </div>
           <div className="timeline-redacted">[ REDACTED — PRIOR SERVICE ]</div>
         </motion.div>
       </div>
