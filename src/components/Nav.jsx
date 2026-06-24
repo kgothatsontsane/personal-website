@@ -33,23 +33,25 @@ export default function Nav() {
   }
 
   return (
-    <nav className={`nav${scrolled ? ' scrolled' : ''}`}>
+    <nav className={`nav${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <a className="nav-logo" href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero') }}>
         AGENT<span>.</span>
       </a>
       <button
         className={`nav-burger${menuOpen ? ' open' : ''}`}
         onClick={() => setMenuOpen(!menuOpen)}
-        aria-label="Menu"
+        aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+        aria-expanded={menuOpen}
       >
         <span /><span /><span />
       </button>
-      <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
+      <ul className={`nav-links${menuOpen ? ' open' : ''}`} role="list">
         {sections.map(s => (
           <li key={s}>
             <button
               className={`nav-link${active === s ? ' active' : ''}`}
               onClick={() => scrollTo(s)}
+              aria-current={active === s ? 'true' : undefined}
             >
               {s}
             </button>

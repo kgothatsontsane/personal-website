@@ -1,16 +1,19 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, lazy, Suspense } from 'react'
 import { motion, useScroll, useSpring } from 'framer-motion'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
-import About from './components/About'
-import Projects from './components/Projects'
-import Stats from './components/Stats'
-import Timeline from './components/Timeline'
-import Contact from './components/Contact'
-import Footer from './components/Footer'
 import Particles from './components/Particles'
 import Minimap from './components/Minimap'
 import Wasted from './components/Wasted'
+import BackToTop from './components/BackToTop'
+import Footer from './components/Footer'
+
+const About = lazy(() => import('./components/About'))
+const Projects = lazy(() => import('./components/Projects'))
+const Stats = lazy(() => import('./components/Stats'))
+const Timeline = lazy(() => import('./components/Timeline'))
+const Contact = lazy(() => import('./components/Contact'))
+const Testimonials = lazy(() => import('./components/Testimonials'))
 
 function Cursor() {
   const dotRef = useRef(null)
@@ -58,8 +61,8 @@ function Cursor() {
 
   return (
     <>
-      <div ref={dotRef} className="cursor-dot" />
-      <div ref={ringRef} className={`cursor-ring${hovering ? ' hovering' : ''}`} />
+      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
+      <div ref={ringRef} className={`cursor-ring${hovering ? ' hovering' : ''}`} aria-hidden="true" />
     </>
   )
 }
@@ -68,7 +71,27 @@ function ScrollProgress() {
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
 
-  return <motion.div className="scroll-progress" style={{ scaleX }} />
+  return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
+}
+
+function SectionLoader() {
+  return (
+    <div style={{
+      minHeight: '30vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    }}>
+      <div style={{
+        width: '20px',
+        height: '20px',
+        border: '1px solid var(--border)',
+        borderTopColor: 'var(--accent)',
+        borderRadius: '50%',
+        animation: 'spin 0.8s linear infinite',
+      }} />
+    </div>
+  )
 }
 
 export default function App() {
@@ -77,23 +100,28 @@ export default function App() {
       <Cursor />
       <ScrollProgress />
       <Particles />
-      <div className="noise-overlay" />
-      <div className="scanlines" />
+      <div className="noise-overlay" aria-hidden="true" />
+      <div className="scanlines" aria-hidden="true" />
       <Nav />
       <Minimap />
       <Wasted />
+      <BackToTop />
       <main>
         <Hero />
-        <div className="section-divider" />
-        <About />
-        <div className="section-divider" />
-        <Projects />
-        <div className="section-divider" />
-        <Stats />
-        <div className="section-divider" />
-        <Timeline />
-        <div className="section-divider" />
-        <Contact />
+        <Suspense fallback={<SectionLoader />}>
+          <div className="section-divider" />
+          <About />
+          <div className="section-divider" />
+          <Projects />
+          <div className="section-divider" />
+          <Stats />
+          <div className="section-divider" />
+          <Testimonials />
+          <div className="section-divider" />
+          <Timeline />
+          <div className="section-divider" />
+          <Contact />
+        </Suspense>
       </main>
       <Footer />
     </>
