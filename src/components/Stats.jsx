@@ -13,7 +13,7 @@ function getLevel(pct) {
 
 const stagger = {
   hidden: { opacity: 0 },
-  visible: { transition: { staggerChildren: 0.1 } },
+  visible: { transition: { staggerChildren: 0.08 } },
 }
 
 const child = {
@@ -21,7 +21,10 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 }
 
-function StatBar({ name, level, index }) {
+const CIRCLE_RADIUS = 42
+const CIRCLE_CIRCUMFERENCE = 2 * Math.PI * CIRCLE_RADIUS
+
+function StatCircle({ name, level, index }) {
   const [animated, setAnimated] = useState(false)
   const ref = useRef(null)
 
@@ -31,28 +34,34 @@ function StatBar({ name, level, index }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setTimeout(() => setAnimated(true), index * 100)
+          setTimeout(() => setAnimated(true), index * 120)
           observer.unobserve(el)
         }
       },
-      { threshold: 0.5 }
+      { threshold: 0.3 }
     )
     observer.observe(el)
     return () => observer.disconnect()
   }, [index])
 
+  const offset = CIRCLE_CIRCUMFERENCE - (level / 100) * CIRCLE_CIRCUMFERENCE
+
   return (
-    <div className="stat-item" ref={ref}>
-      <div className="stat-head">
-        <span className="stat-name">{name}</span>
-        <span className="stat-level">{levels[getLevel(level)]}</span>
+    <div className="stat-circle-item" ref={ref}>
+      <div className="stat-circle">
+        <svg viewBox="0 0 100 100">
+          <circle className="stat-circle-bg" cx="50" cy="50" r={CIRCLE_RADIUS} />
+          <circle
+            className="stat-circle-fill"
+            cx="50" cy="50" r={CIRCLE_RADIUS}
+            strokeDasharray={CIRCLE_CIRCUMFERENCE}
+            strokeDashoffset={animated ? offset : CIRCLE_CIRCUMFERENCE}
+          />
+        </svg>
+        <div className="stat-circle-value">{animated ? level : 0}%</div>
       </div>
-      <div className="stat-bar-track">
-        <div
-          className={`stat-bar-fill${animated ? ' animated' : ''}`}
-          style={{ width: animated ? `${level}%` : '0%' }}
-        />
-      </div>
+      <div className="stat-circle-name">{name}</div>
+      <div className="stat-circle-level">{levels[getLevel(level)]}</div>
     </div>
   )
 }
@@ -72,9 +81,9 @@ export default function Stats() {
         Agent <span>Competencies</span>
       </motion.h2>
 
-      <motion.div className="stats-list" variants={child}>
+      <motion.div className="stats-grid" variants={child}>
         {specializations.map((s, i) => (
-          <StatBar key={s.name} name={s.name} level={s.level} index={i} />
+          <StatCircle key={s.name} name={s.name} level={s.level} index={i} />
         ))}
       </motion.div>
     </motion.section>

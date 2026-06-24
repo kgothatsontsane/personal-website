@@ -14,10 +14,7 @@ export default function Hero() {
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setProgress(p => {
-        const next = Math.min(p + Math.random() * 15 + 5, 100)
-        return next
-      })
+      setProgress(p => Math.min(p + Math.random() * 15 + 5, 100))
       setMsgIndex(i => (i + 1) % loadingMessages.length)
     }, 400)
     return () => clearInterval(intervalRef.current)
@@ -28,11 +25,8 @@ export default function Hero() {
       clearInterval(intervalRef.current)
       setReady(true)
       readyRef.current = true
-      // ponytail: auto-advance after 1.5s if user doesn't press a key
       const timer = setTimeout(() => {
-        if (readyRef.current && loadingRef.current) {
-          doTransition()
-        }
+        if (readyRef.current && loadingRef.current) doTransition()
       }, 1500)
       return () => clearTimeout(timer)
     }
@@ -52,16 +46,9 @@ export default function Hero() {
     return () => window.removeEventListener('keydown', onKey)
   }, [loading])
 
-  const handleClick = () => {
-    if (readyRef.current && loadingRef.current) doTransition()
-  }
-
   const heroVariants = {
     hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12, delayChildren: 0.2 },
-    },
+    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
   }
 
   const childVariants = {
@@ -69,13 +56,16 @@ export default function Hero() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
   }
 
+  const nameFirst = personalInfo.name.split(' ')[0]
+  const nameRest = personalInfo.name.split(' ').slice(1).join(' ')
+
   return (
     <>
       <AnimatePresence>
         {loading && (
           <motion.div
             className="loading-screen"
-            onClick={handleClick}
+            onClick={() => readyRef.current && doTransition()}
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.5 } }}
           >
@@ -103,10 +93,9 @@ export default function Hero() {
             — Developer Profile —
           </motion.div>
           <motion.div className="hero-name" variants={childVariants}>
-            {personalInfo.name.split(' ')[0]}<br />
-            <span className="hero-name-accent">
-              {personalInfo.name.split(' ').slice(1).join(' ')}
-              <span className="hero-underline" />
+            {nameFirst}<br />
+            <span className="hero-name-accent glitch" data-text={nameRest}>
+              {nameRest}
             </span>
           </motion.div>
           <motion.div className="hero-meta" variants={childVariants}>
@@ -117,18 +106,11 @@ export default function Hero() {
             <span>{personalInfo.missionCount} Missions</span>
           </motion.div>
           <motion.div className="hero-cta" variants={childVariants}>
-            <a className="btn-primary" href="#projects">
-              View Missions →
-            </a>
-            <a className="btn-secondary" href="#contact">
-              Contact
-            </a>
+            <a className="btn-primary" href="#projects">View Missions →</a>
+            <a className="btn-secondary" href="#contact">Contact</a>
           </motion.div>
         </div>
-        <motion.div
-          className="hero-right"
-          variants={childVariants}
-        >
+        <motion.div className="hero-right" variants={childVariants}>
           <div className="hero-portrait-placeholder">[ editorial portrait ]</div>
           <div className="hero-right-overlay" />
         </motion.div>

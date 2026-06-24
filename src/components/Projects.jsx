@@ -1,3 +1,4 @@
+import { useRef, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { missions } from '../data'
 
@@ -11,10 +12,38 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 }
 
-function stars(n) {
-  return Array.from({ length: 5 }, (_, i) => (
-    <span key={i} style={{ color: i < n ? 'var(--accent)' : 'var(--border-light)' }}>★</span>
-  ))
+function TiltCard({ children }) {
+  const ref = useRef(null)
+  const [style, setStyle] = useState({})
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+
+    const onMove = (e) => {
+      const rect = el.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width - 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5
+      setStyle({
+        transform: `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`,
+      })
+    }
+
+    const onLeave = () => setStyle({ transform: 'perspective(800px) rotateY(0) rotateX(0)' })
+
+    el.addEventListener('mousemove', onMove)
+    el.addEventListener('mouseleave', onLeave)
+    return () => {
+      el.removeEventListener('mousemove', onMove)
+      el.removeEventListener('mouseleave', onLeave)
+    }
+  }, [])
+
+  return (
+    <div ref={ref} className="mission-card" style={{ ...style, transition: 'transform 0.2s ease-out' }}>
+      {children}
+    </div>
+  )
 }
 
 export default function Projects() {
@@ -34,7 +63,10 @@ export default function Projects() {
 
       <motion.div className="projects-grid" variants={child}>
         {missions.map((m) => (
-          <div key={m.id} className="mission-card">
+          <TiltCard key={m.id}>
+            <div className="mission-card-image">
+              <div className="mission-card-image-placeholder">[ project screenshot ]</div>
+            </div>
             <div className="mission-tape" />
             <div className="mission-watermark">C</div>
             <div className="mission-header">
@@ -70,7 +102,7 @@ export default function Projects() {
                 <button className="mission-cta">View Brief →</button>
               </div>
             </div>
-          </div>
+          </TiltCard>
         ))}
       </motion.div>
     </motion.section>

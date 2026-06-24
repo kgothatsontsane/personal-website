@@ -6,6 +6,7 @@ const sections = ['hero', 'about', 'projects', 'stats', 'timeline', 'contact']
 export default function Nav() {
   const [active, setActive] = useState('hero')
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
@@ -27,6 +28,7 @@ export default function Nav() {
   }, [])
 
   const scrollTo = (id) => {
+    setMenuOpen(false)
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -35,7 +37,14 @@ export default function Nav() {
       <a className="nav-logo" href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero') }}>
         AGENT<span>.</span>
       </a>
-      <ul className="nav-links">
+      <button
+        className={`nav-burger${menuOpen ? ' open' : ''}`}
+        onClick={() => setMenuOpen(!menuOpen)}
+        aria-label="Menu"
+      >
+        <span /><span /><span />
+      </button>
+      <ul className={`nav-links${menuOpen ? ' open' : ''}`}>
         {sections.map(s => (
           <li key={s}>
             <button
