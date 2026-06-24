@@ -83,7 +83,7 @@ a, button, input, textarea { cursor: none; }
   z-index: 10002;
   transform: translate(-50%, -50%);
   transition: transform 0.1s ease, opacity 0.2s ease;
-  mix-blend-mode: difference;
+  box-shadow: 0 0 6px rgba(255, 204, 0, 0.5);
 }
 
 .cursor-ring {
@@ -258,6 +258,7 @@ a, button, input, textarea { cursor: none; }
   display: grid;
   grid-template-columns: 3fr 2fr;
   position: relative;
+  background: transparent;
 }
 
 .hero-left {
