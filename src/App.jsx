@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
 import Particles from './components/Particles'
+import CodeBackground from './components/CodeBackground'
 import Minimap from './components/Minimap'
 import Wasted from './components/Wasted'
 import BackToTop from './components/BackToTop'
@@ -10,6 +11,7 @@ import CommandPalette from './components/CommandPalette'
 import ThemeToggle from './components/ThemeToggle'
 import SectionDivider from './components/SectionDivider'
 import LearningMarquee from './components/LearningMarquee'
+import MissionStats from './components/MissionStats'
 import Footer from './components/Footer'
 
 const About = lazy(() => import('./components/About'))
@@ -100,6 +102,7 @@ export default function App() {
       <GlowCursor />
       <ScrollProgress />
       <Particles />
+      <CodeBackground />
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <Nav />
@@ -110,6 +113,7 @@ export default function App() {
       <BackToTop />
       <main>
         <Hero />
+        <MissionStats />
         <Suspense fallback={<SectionLoader />}>
           <SectionDivider />
           <About />

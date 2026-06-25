@@ -11,7 +11,7 @@ export default function Particles() {
 
     const chars = '01{}[]<>/=;:const let var function return import export class async await'.split('')
     const particles = []
-    const PARTICLE_COUNT = 30
+    const PARTICLE_COUNT = 15
 
     const resize = () => {
       canvas.width = window.innerWidth
