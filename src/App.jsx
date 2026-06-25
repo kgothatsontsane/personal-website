@@ -7,6 +7,9 @@ import Minimap from './components/Minimap'
 import Wasted from './components/Wasted'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
+import ThemeToggle from './components/ThemeToggle'
+import SectionDivider from './components/SectionDivider'
+import LearningMarquee from './components/LearningMarquee'
 import Footer from './components/Footer'
 
 const About = lazy(() => import('./components/About'))
@@ -101,23 +104,26 @@ export default function App() {
       <div className="scanlines" aria-hidden="true" />
       <Nav />
       <CommandPalette />
+      <ThemeToggle />
       <Minimap />
       <Wasted />
       <BackToTop />
       <main>
         <Hero />
         <Suspense fallback={<SectionLoader />}>
-          <div className="section-divider" />
+          <SectionDivider />
           <About />
-          <div className="section-divider" />
+          <SectionDivider />
           <Projects />
-          <div className="section-divider" />
+          <SectionDivider />
           <Stats />
-          <div className="section-divider" />
+          <SectionDivider />
           <Certifications />
-          <div className="section-divider" />
+          <SectionDivider />
+          <LearningMarquee />
+          <SectionDivider />
           <Timeline />
-          <div className="section-divider" />
+          <SectionDivider />
           <Contact />
         </Suspense>
       </main>
