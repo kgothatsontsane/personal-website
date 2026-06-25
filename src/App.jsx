@@ -25,8 +25,16 @@ function Cursor() {
     const ring = ringRef.current
     if (!dot || !ring) return
 
-    let mouseX = 0, mouseY = 0
-    let ringX = 0, ringY = 0
+    let mouseX = window.innerWidth / 2
+    let mouseY = window.innerHeight / 2
+    let ringX = mouseX
+    let ringY = mouseY
+
+    // Set initial position immediately
+    dot.style.left = mouseX + 'px'
+    dot.style.top = mouseY + 'px'
+    ring.style.left = ringX + 'px'
+    ring.style.top = ringY + 'px'
 
     const onMove = (e) => {
       mouseX = e.clientX

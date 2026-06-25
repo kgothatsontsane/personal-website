@@ -25,9 +25,9 @@ export default function Particles() {
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         char: chars[Math.floor(Math.random() * chars.length)],
-        speed: Math.random() * 0.4 + 0.1,
-        opacity: Math.random() * 0.12 + 0.03,
-        size: Math.random() * 10 + 8,
+        speed: Math.random() * 0.5 + 0.15,
+        opacity: Math.random() * 0.25 + 0.08,
+        size: Math.random() * 14 + 10,
       })
     }
 
@@ -62,7 +62,7 @@ export default function Particles() {
         inset: 0,
         zIndex: 1,
         pointerEvents: 'none',
-        opacity: 0.5,
+        opacity: 0.8,
       }}
     />
   )
