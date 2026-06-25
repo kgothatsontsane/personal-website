@@ -35,7 +35,7 @@ export default function Nav() {
   return (
     <nav className={`nav${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <a className="nav-logo" href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero') }}>
-        AGENT<span>.</span>
+        KGOTHATSO<span>.</span>
       </a>
       <button
         className={`nav-burger${menuOpen ? ' open' : ''}`}

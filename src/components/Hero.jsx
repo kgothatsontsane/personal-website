@@ -2,6 +2,70 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo, loadingMessages } from '../data'
 
+const photos = [
+  '/images/hero-portrait.jpg',
+  '/images/about-portrait.jpg',
+  '/images/project-1.jpg',
+  '/images/project-2.jpg',
+]
+
+function PhotoSlideshow() {
+  const [current, setCurrent] = useState(0)
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent(c => (c + 1) % photos.length)
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+      <AnimatePresence mode="sync">
+        <motion.img
+          key={current}
+          src={photos[current]}
+          alt="Kgothatso Ntsane"
+          initial={{ opacity: 0, scale: 1.05 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.98 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+          }}
+        />
+      </AnimatePresence>
+      {/* Photo indicators */}
+      <div style={{
+        position: 'absolute',
+        bottom: '1rem',
+        left: '50%',
+        transform: 'translateX(-50%)',
+        display: 'flex',
+        gap: '6px',
+        zIndex: 2,
+      }}>
+        {photos.map((_, i) => (
+          <div
+            key={i}
+            style={{
+              width: i === current ? '20px' : '6px',
+              height: '6px',
+              borderRadius: '3px',
+              background: i === current ? 'var(--accent)' : 'rgba(255,255,255,0.3)',
+              transition: 'all 0.4s ease',
+            }}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function Hero() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
@@ -14,9 +78,9 @@ export default function Hero() {
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setProgress(p => Math.min(p + Math.random() * 15 + 5, 100))
+      setProgress(p => Math.min(p + Math.random() * 20 + 8, 100))
       setMsgIndex(i => (i + 1) % loadingMessages.length)
-    }, 400)
+    }, 250)
     return () => clearInterval(intervalRef.current)
   }, [])
 
@@ -27,7 +91,7 @@ export default function Hero() {
       readyRef.current = true
       const timer = setTimeout(() => {
         if (readyRef.current && loadingRef.current) doTransition()
-      }, 1500)
+      }, 800)
       return () => clearTimeout(timer)
     }
   }, [progress])
@@ -67,7 +131,7 @@ export default function Hero() {
             className="loading-screen"
             onClick={() => readyRef.current && doTransition()}
             initial={{ opacity: 1 }}
-            exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            exit={{ opacity: 0, transition: { duration: 0.4 } }}
           >
             <div className="loading-spinner" />
             <div className="loading-text">ESTABLISHING SECURE CONNECTION</div>
@@ -103,15 +167,15 @@ export default function Hero() {
             <span>•</span>
             <span>{personalInfo.location}</span>
             <span>•</span>
-            <span>{personalInfo.missionCount} Missions</span>
+            <span>{personalInfo.missionCount} Projects</span>
           </motion.div>
           <motion.div className="hero-cta" variants={childVariants}>
-            <a className="btn-primary" href="#projects">View Missions →</a>
+            <a className="btn-primary" href="#projects">View Projects →</a>
             <a className="btn-secondary" href="#contact">Contact</a>
           </motion.div>
         </div>
         <motion.div className="hero-right" variants={childVariants}>
-          <div className="hero-portrait-placeholder">[ editorial portrait ]</div>
+          <PhotoSlideshow />
           <div className="hero-right-overlay" />
         </motion.div>
         <div className="hero-edge-bottom" />

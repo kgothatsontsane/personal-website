@@ -11,6 +11,15 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 }
 
+const photoReveal = {
+  hidden: { clipPath: 'inset(100% 0 0 0)', opacity: 0 },
+  visible: {
+    clipPath: 'inset(0% 0 0 0)',
+    opacity: 1,
+    transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 },
+  },
+}
+
 const codeSnippet = `const developer = {
   name: "${personalInfo.name}",
   role: "${personalInfo.tagline}",
@@ -103,15 +112,23 @@ export default function About() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// AGENT PROFILE</motion.div>
+      <motion.div className="section-label" variants={child}>// PROFILE</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        About <span>the Agent</span>
+        About <span>{personalInfo.name.split(' ')[0]}</span>
       </motion.h2>
 
       <div className="about-grid">
-        <motion.div className="about-portrait-frame" variants={child}>
-          <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>CLASSIFIED</span>
-          <span className="hero-portrait-placeholder">[ portrait ]</span>
+        <motion.div
+          className="about-portrait-frame"
+          variants={photoReveal}
+        >
+          <span className="about-badge" style={{ transform: 'rotate(-2deg)', zIndex: 2 }}>CLASSIFIED</span>
+          <img
+            src={personalInfo.aboutImage}
+            alt="Kgothatso Ntsane"
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            loading="lazy"
+          />
         </motion.div>
 
         <motion.div variants={child}>

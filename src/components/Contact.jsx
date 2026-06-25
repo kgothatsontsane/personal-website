@@ -12,10 +12,10 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 }
 
-const promptText = 'agent@portfol.io:~$ contact --encrypt'
-const cmdText = 'agent@portfol.io:~$ '
+const promptText = 'kgothatso@portfol.io:~$ contact --encrypt'
+const cmdText = 'kgothatso@portfol.io:~$ '
 
-function Typewriter({ text, speed = 40, delay = 0, onComplete }) {
+function Typewriter({ text, speed = 20, delay = 0, onComplete }) {
   const [displayed, setDisplayed] = useState('')
   const [started, setStarted] = useState(false)
 

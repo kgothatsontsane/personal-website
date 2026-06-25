@@ -7,6 +7,8 @@ export const personalInfo = {
   clearance: 'LEVEL 5',
   status: 'ACTIVE',
   bio: 'Full-stack engineer specializing in React ecosystems, Node.js backends, and cloud-native deployments. 8+ years shipping production software across fintech, e-commerce, and SaaS. I build interfaces that feel fast and systems that scale. Strong opinions, loosely held — always learning.',
+  heroImage: '/images/hero-portrait.jpg',
+  aboutImage: '/images/about-portrait.jpg',
 }
 
 export const missions = [
@@ -74,10 +76,10 @@ export const serviceRecord = [
 ]
 
 export const contactInfo = {
-  email: 'agent@example.com',
-  github: 'github.com/agent',
-  linkedin: 'linkedin.com/in/agent',
-  twitter: '@agent',
+  email: 'kgothatso@example.com',
+  github: 'github.com/kgothatso',
+  linkedin: 'linkedin.com/in/kgothatso',
+  twitter: '@kgothatso',
 }
 
 export const loadingMessages = [
