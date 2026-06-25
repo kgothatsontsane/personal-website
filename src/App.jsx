@@ -6,6 +6,7 @@ import Particles from './components/Particles'
 import Minimap from './components/Minimap'
 import Wasted from './components/Wasted'
 import BackToTop from './components/BackToTop'
+import CommandPalette from './components/CommandPalette'
 import Footer from './components/Footer'
 
 const About = lazy(() => import('./components/About'))
@@ -99,6 +100,7 @@ export default function App() {
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <Nav />
+      <CommandPalette />
       <Minimap />
       <Wasted />
       <BackToTop />
