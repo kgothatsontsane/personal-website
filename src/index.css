@@ -262,6 +262,10 @@ a, button, input, textarea { cursor: none; }
   margin-bottom: 0.25rem;
 }
 
+.hero-name-xl {
+  font-size: 9rem;
+}
+
 .hero-name-accent {
   color: var(--accent);
   position: relative;

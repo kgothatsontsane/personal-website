@@ -48,12 +48,12 @@ export default function Hero() {
 
   const heroVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.12, delayChildren: 0.2 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
   }
 
   const childVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 25 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
   }
 
   const nameFirst = personalInfo.name.split(' ')[0]
@@ -92,7 +92,7 @@ export default function Hero() {
           <motion.div className="hero-label" variants={childVariants}>
             — Software Engineer —
           </motion.div>
-          <motion.div className="hero-name" variants={childVariants}>
+          <motion.div className="hero-name hero-name-xl" variants={childVariants}>
             {nameFirst}<br />
             <span className="hero-name-accent glitch" data-text={nameRest}>
               {nameRest}
@@ -108,6 +108,17 @@ export default function Hero() {
           <motion.div className="hero-cta" variants={childVariants}>
             <a className="btn-primary" href="#projects">View Projects →</a>
             <a className="btn-secondary" href="#contact">Contact</a>
+            <a
+              className="btn-secondary"
+              href="/Kgothatso Ntsane Resume.pdf"
+              download
+              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
+            >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+                <path d="M6 1v8M3 6l3 3 3-3M2 10h8" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+              Download CV
+            </a>
           </motion.div>
         </div>
         <div className="hero-edge-bottom" />
