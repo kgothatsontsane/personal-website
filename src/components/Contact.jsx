@@ -114,9 +114,9 @@ export default function Contact() {
 
         <div className="contact-socials">
           <a className="contact-social" href={`mailto:${contactInfo.email}`}>[Email]</a>
-          <a className="contact-social" href={`https://${contactInfo.github}`} target="_blank" rel="noopener noreferrer">[GitHub]</a>
-          <a className="contact-social" href={`https://${contactInfo.linkedin}`} target="_blank" rel="noopener noreferrer">[LinkedIn]</a>
-          <a className="contact-social" href={`https://twitter.com/${contactInfo.twitter.replace('@', '')}`} target="_blank" rel="noopener noreferrer">[X]</a>
+          {contactInfo.github && <a className="contact-social" href={`https://${contactInfo.github}`} target="_blank" rel="noopener noreferrer">[GitHub]</a>}
+          {contactInfo.linkedin && <a className="contact-social" href={`https://${contactInfo.linkedin}`} target="_blank" rel="noopener noreferrer">[LinkedIn]</a>}
+          {contactInfo.twitter && <a className="contact-social" href={`https://twitter.com/${contactInfo.twitter.replace('@', '')}`} target="_blank" rel="noopener noreferrer">[X]</a>}
         </div>
       </motion.div>
     </motion.section>

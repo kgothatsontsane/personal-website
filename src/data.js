@@ -1,12 +1,13 @@
 export const personalInfo = {
   name: 'KGOTHATSO NTSANE',
-  tagline: 'Full-Stack Developer',
-  location: 'South Africa',
-  missionCount: 47,
-  specialties: 'React · Node.js · TypeScript',
+  tagline: 'Software Engineer',
+  location: 'Johannesburg, South Africa',
+  missionCount: 7,
+  specialties: 'React · Node.js · Azure · TypeScript',
   clearance: 'LEVEL 5',
   status: 'ACTIVE',
-  bio: 'Full-stack engineer specializing in React ecosystems, Node.js backends, and cloud-native deployments. 8+ years shipping production software across fintech, e-commerce, and SaaS. I build interfaces that feel fast and systems that scale. Strong opinions, loosely held — always learning.',
+  phone: '076-792-2638',
+  bio: 'Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and systems integration across public and private sectors. Specializing in React, Node.js, Azure cloud services, and API-driven solutions. Proven track record of boosting application performance by 25% and leading digital transformation initiatives. Passionate about building scalable, efficient software that makes an impact.',
   heroImage: null,
   aboutImage: null,
 }
@@ -56,6 +57,28 @@ export const missions = [
     status: 'COMPLETE',
     image: null,
   },
+  {
+    id: '005',
+    codename: 'Operation Open Mic',
+    role: 'Full-Stack Engineer · DevOps',
+    budget: '$10,000',
+    description: 'Full-stack application for Open Mic Productions built with React, Node.js, and MongoDB. Deployed on AWS with Git version control. Improved application performance by 25%.',
+    equipment: ['React', 'Node.js', 'MongoDB', 'AWS', 'Git'],
+    difficulty: 4,
+    status: 'COMPLETE',
+    image: null,
+  },
+  {
+    id: '006',
+    codename: 'Project Mancor',
+    role: 'Web Developer · IT Systems',
+    budget: '$5,000',
+    description: 'Company website redesign and IT infrastructure support for Mancor Limited. Built with HTML, CSS, JavaScript, and WordPress. Managed ticketing systems and workflow optimization.',
+    equipment: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'IT Support'],
+    difficulty: 3,
+    status: 'COMPLETE',
+    image: null,
+  },
 ]
 
 export const specializations = [
@@ -65,21 +88,34 @@ export const specializations = [
   { name: 'CSS / Tailwind', level: 90 },
   { name: 'PostgreSQL', level: 82 },
   { name: 'AWS / DevOps', level: 78 },
+  { name: 'MongoDB', level: 80 },
+  { name: 'Azure Cloud', level: 75 },
+  { name: 'WordPress', level: 70 },
+  { name: 'API Engineering', level: 85 },
+]
+
+export const certifications = [
+  { name: 'Google Cybersecurity Professional Certificate', issuer: 'Google', year: '2026' },
+  { name: 'Microsoft Azure Developer Associate (AZ-204)', issuer: 'Microsoft', year: '2026' },
+  { name: 'Microsoft AI Fundamentals (AI-900)', issuer: 'Microsoft', year: '2026' },
+  { name: 'Microsoft Azure Fundamentals (AZ-900)', issuer: 'Microsoft', year: '2025' },
+  { name: 'CompTIA A+ (Mobile Engineering)', issuer: 'CompTIA', year: '2025' },
+  { name: 'Asana Workflow Specialist', issuer: 'Asana', year: '2025' },
+  { name: 'Google Analytics Certification', issuer: 'Google', year: '2024' },
 ]
 
 export const serviceRecord = [
-  { year: '2024–Present', company: 'TechCorp', role: 'Senior Full-Stack Developer', description: 'Leading architecture for core platform. Managing team of 5 engineers. Reduced bundle size 40% and improved LCP by 1.2s.' },
-  { year: '2022–2024', company: 'StartupXYZ', role: 'Full-Stack Developer', description: 'Built analytics dashboard from scratch serving 50k+ users. Architected real-time data pipeline with WebSockets.' },
-  { year: '2020–2022', company: 'AgencyCo', role: 'Frontend Developer', description: 'Delivered 20+ client projects across fintech, healthcare, and e-commerce. Introduced component library reducing dev time 30%.' },
-  { year: '2018–2020', company: 'Freelance', role: 'Web Developer', description: 'Independent contractor for SMBs. Full project lifecycle from design to deployment. 15+ repeat clients.' },
-  { year: '2016–2018', company: 'CodeCamp', role: 'Junior Developer', description: 'Built internal tools and maintained legacy PHP/WordPress systems. Transitioned team to React.' },
+  { year: '2024–2025', company: 'ALX | Holberton', role: 'Full Stack Software Engineering', description: 'Intensive full-stack program specializing in back-end development. Built production-grade applications with modern frameworks and cloud deployment.' },
+  { year: '2018–2024', company: 'Open Mic Productions', role: 'Software Engineer & Digital Marketing Manager', description: 'Developed full-stack applications with React, Node.js, and MongoDB. Managed AWS deployments and Git workflows. Boosted application performance by 25%. Increased social media engagement by 80%.' },
+  { year: '2015–2017', company: 'Mancor Limited', role: 'Web Developer & IT Support Specialist', description: 'Designed and maintained company website with HTML, CSS, JavaScript, and WordPress. Provided IT support, resolved issues via ticketing systems. Increased social media engagement by 30%.' },
 ]
 
 export const contactInfo = {
-  email: 'kgothatso@example.com',
-  github: 'github.com/kgothatso',
-  linkedin: 'linkedin.com/in/kgothatso',
-  twitter: '@kgothatso',
+  email: 'nvisionfactory@gmail.com',
+  phone: '076-792-2638',
+  github: null,
+  linkedin: 'linkedin.com/in/kgothatsontsane',
+  twitter: null,
 }
 
 export const loadingMessages = [

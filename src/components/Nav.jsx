@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { personalInfo } from '../data'
 
-const sections = ['hero', 'about', 'projects', 'stats', 'timeline', 'contact']
+const sections = ['hero', 'about', 'projects', 'stats', 'certifications', 'timeline', 'contact']
 
 export default function Nav() {
   const [active, setActive] = useState('hero')

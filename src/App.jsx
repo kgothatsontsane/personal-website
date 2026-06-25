@@ -11,6 +11,7 @@ import Footer from './components/Footer'
 const About = lazy(() => import('./components/About'))
 const Projects = lazy(() => import('./components/Projects'))
 const Stats = lazy(() => import('./components/Stats'))
+const Certifications = lazy(() => import('./components/Certifications'))
 const Timeline = lazy(() => import('./components/Timeline'))
 const Contact = lazy(() => import('./components/Contact'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
@@ -131,6 +132,8 @@ export default function App() {
           <Projects />
           <div className="section-divider" />
           <Stats />
+          <div className="section-divider" />
+          <Certifications />
           <div className="section-divider" />
           <Testimonials />
           <div className="section-divider" />
