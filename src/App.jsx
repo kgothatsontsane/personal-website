@@ -15,62 +15,79 @@ const Timeline = lazy(() => import('./components/Timeline'))
 const Contact = lazy(() => import('./components/Contact'))
 const Testimonials = lazy(() => import('./components/Testimonials'))
 
-function Cursor() {
+function GlowCursor() {
   const dotRef = useRef(null)
   const ringRef = useRef(null)
-  const [hovering, setHovering] = useState(false)
+  const glowRef = useRef(null)
 
   useEffect(() => {
     const dot = dotRef.current
     const ring = ringRef.current
-    if (!dot || !ring) return
+    const glow = glowRef.current
+    if (!dot || !ring || !glow) return
 
-    let mouseX = window.innerWidth / 2
-    let mouseY = window.innerHeight / 2
-    let ringX = mouseX
-    let ringY = mouseY
+    let mx = window.innerWidth / 2
+    let my = window.innerHeight / 2
+    let rx = mx, ry = my
 
-    // Set initial position immediately
-    dot.style.left = mouseX + 'px'
-    dot.style.top = mouseY + 'px'
-    ring.style.left = ringX + 'px'
-    ring.style.top = ringY + 'px'
+    const place = (el, x, y) => { el.style.left = x + 'px'; el.style.top = y + 'px' }
+    place(dot, mx, my)
+    place(ring, mx, my)
+    place(glow, mx, my)
 
-    const onMove = (e) => {
-      mouseX = e.clientX
-      mouseY = e.clientY
-      dot.style.left = mouseX + 'px'
-      dot.style.top = mouseY + 'px'
+    const onMove = (e) => { mx = e.clientX; my = e.clientY; place(dot, mx, my) }
+
+    const loop = () => {
+      rx += (mx - rx) * 0.12
+      ry += (my - ry) * 0.12
+      place(ring, rx, ry)
+      place(glow, rx, ry)
+      requestAnimationFrame(loop)
     }
 
-    const animate = () => {
-      ringX += (mouseX - ringX) * 0.15
-      ringY += (mouseY - ringY) * 0.15
-      ring.style.left = ringX + 'px'
-      ring.style.top = ringY + 'px'
-      requestAnimationFrame(animate)
-    }
+    window.addEventListener('mousemove', onMove, { passive: true })
+    loop()
 
-    const onHover = (e) => {
-      const tag = e.target.tagName
-      const isInteractive = tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || e.target.closest('a, button')
-      setHovering(isInteractive)
-    }
-
-    window.addEventListener('mousemove', onMove)
-    window.addEventListener('mouseover', onHover)
-    animate()
-
-    return () => {
-      window.removeEventListener('mousemove', onMove)
-      window.removeEventListener('mouseover', onHover)
-    }
+    return () => window.removeEventListener('mousemove', onMove)
   }, [])
 
   return (
     <>
-      <div ref={dotRef} className="cursor-dot" aria-hidden="true" />
-      <div ref={ringRef} className={`cursor-ring${hovering ? ' hovering' : ''}`} aria-hidden="true" />
+      {/* Big ambient glow — follows with delay */}
+      <div ref={glowRef} style={{
+        position: 'fixed',
+        width: '200px',
+        height: '200px',
+        borderRadius: '50%',
+        background: 'radial-gradient(circle, rgba(255,204,0,0.12) 0%, transparent 70%)',
+        pointerEvents: 'none',
+        zIndex: 10001,
+        transform: 'translate(-50%, -50%)',
+      }} aria-hidden="true" />
+      {/* Ring */}
+      <div ref={ringRef} style={{
+        position: 'fixed',
+        width: '40px',
+        height: '40px',
+        border: '1.5px solid rgba(255, 204, 0, 0.6)',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 10002,
+        transform: 'translate(-50%, -50%)',
+        boxShadow: '0 0 20px rgba(255, 204, 0, 0.2)',
+      }} aria-hidden="true" />
+      {/* Center dot */}
+      <div ref={dotRef} style={{
+        position: 'fixed',
+        width: '8px',
+        height: '8px',
+        background: '#ffcc00',
+        borderRadius: '50%',
+        pointerEvents: 'none',
+        zIndex: 10003,
+        transform: 'translate(-50%, -50%)',
+        boxShadow: '0 0 10px #ffcc00, 0 0 30px rgba(255,204,0,0.8), 0 0 60px rgba(255,204,0,0.5), 0 0 100px rgba(255,204,0,0.3)',
+      }} aria-hidden="true" />
     </>
   )
 }
@@ -78,25 +95,16 @@ function Cursor() {
 function ScrollProgress() {
   const { scrollYProgress } = useScroll()
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
-
   return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
 }
 
 function SectionLoader() {
   return (
-    <div style={{
-      minHeight: '30vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-    }}>
+    <div style={{ minHeight: '30vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{
-        width: '20px',
-        height: '20px',
-        border: '1px solid var(--border)',
-        borderTopColor: 'var(--accent)',
-        borderRadius: '50%',
-        animation: 'spin 0.8s linear infinite',
+        width: '20px', height: '20px',
+        border: '1px solid var(--border)', borderTopColor: 'var(--accent)',
+        borderRadius: '50%', animation: 'spin 0.8s linear infinite',
       }} />
     </div>
   )
@@ -105,7 +113,7 @@ function SectionLoader() {
 export default function App() {
   return (
     <>
-      <Cursor />
+      <GlowCursor />
       <ScrollProgress />
       <Particles />
       <div className="noise-overlay" aria-hidden="true" />
