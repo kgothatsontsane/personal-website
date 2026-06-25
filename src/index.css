@@ -72,70 +72,6 @@ a, button, input, textarea { cursor: none; }
   will-change: transform;
 }
 
-/* ───────── Custom cursor ───────── */
-.cursor-dot {
-  position: fixed;
-  width: 12px;
-  height: 12px;
-  background: var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10002;
-  transform: translate(-50%, -50%);
-  transition: transform 0.08s ease, opacity 0.2s ease, width 0.2s ease, height 0.2s ease;
-  box-shadow: 0 0 15px rgba(255, 204, 0, 1), 0 0 30px rgba(255, 204, 0, 0.6), 0 0 60px rgba(255, 204, 0, 0.3);
-}
-
-.cursor-ring {
-  position: fixed;
-  width: 44px;
-  height: 44px;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 10002;
-  transform: translate(-50%, -50%);
-  transition: width 0.3s var(--ease-spring), height 0.3s var(--ease-spring), border-color 0.3s ease, opacity 0.2s ease;
-  opacity: 0.9;
-  box-shadow: 0 0 10px rgba(255, 204, 0, 0.3), inset 0 0 10px rgba(255, 204, 0, 0.1);
-}
-
-/* Crosshair lines */
-.cursor-dot::before,
-.cursor-dot::after {
-  content: '';
-  position: absolute;
-  background: var(--accent);
-  opacity: 0.6;
-}
-
-.cursor-dot::before {
-  width: 20px;
-  height: 1px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.cursor-dot::after {
-  width: 1px;
-  height: 20px;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.cursor-ring.hovering {
-  width: 48px;
-  height: 48px;
-  border-color: var(--fg);
-  opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-  .cursor-dot, .cursor-ring { display: none; }
-}
-
 /* ───────── Noise overlay ───────── */
 .noise-overlay {
   position: fixed;
@@ -285,6 +221,20 @@ a, button, input, textarea { cursor: none; }
   grid-template-columns: 3fr 2fr;
   position: relative;
   background: transparent;
+}
+
+.hero-full {
+  grid-template-columns: 1fr;
+}
+
+.hero-full .hero-content {
+  grid-column: 1 / -1;
+  padding: 6rem 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  max-width: 900px;
 }
 
 .hero-left {

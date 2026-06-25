@@ -14,7 +14,6 @@ const Stats = lazy(() => import('./components/Stats'))
 const Certifications = lazy(() => import('./components/Certifications'))
 const Timeline = lazy(() => import('./components/Timeline'))
 const Contact = lazy(() => import('./components/Contact'))
-const Testimonials = lazy(() => import('./components/Testimonials'))
 
 function GlowCursor() {
   const dotRef = useRef(null)
@@ -54,39 +53,19 @@ function GlowCursor() {
 
   return (
     <>
-      {/* Big ambient glow — follows with delay */}
       <div ref={glowRef} style={{
-        position: 'fixed',
-        width: '200px',
-        height: '200px',
-        borderRadius: '50%',
+        position: 'fixed', width: '200px', height: '200px', borderRadius: '50%',
         background: 'radial-gradient(circle, rgba(255,204,0,0.12) 0%, transparent 70%)',
-        pointerEvents: 'none',
-        zIndex: 10001,
-        transform: 'translate(-50%, -50%)',
+        pointerEvents: 'none', zIndex: 10001, transform: 'translate(-50%, -50%)',
       }} aria-hidden="true" />
-      {/* Ring */}
       <div ref={ringRef} style={{
-        position: 'fixed',
-        width: '40px',
-        height: '40px',
-        border: '1.5px solid rgba(255, 204, 0, 0.6)',
-        borderRadius: '50%',
-        pointerEvents: 'none',
-        zIndex: 10002,
-        transform: 'translate(-50%, -50%)',
-        boxShadow: '0 0 20px rgba(255, 204, 0, 0.2)',
+        position: 'fixed', width: '40px', height: '40px', border: '1.5px solid rgba(255,204,0,0.6)',
+        borderRadius: '50%', pointerEvents: 'none', zIndex: 10002, transform: 'translate(-50%, -50%)',
+        boxShadow: '0 0 20px rgba(255,204,0,0.2)',
       }} aria-hidden="true" />
-      {/* Center dot */}
       <div ref={dotRef} style={{
-        position: 'fixed',
-        width: '8px',
-        height: '8px',
-        background: '#ffcc00',
-        borderRadius: '50%',
-        pointerEvents: 'none',
-        zIndex: 10003,
-        transform: 'translate(-50%, -50%)',
+        position: 'fixed', width: '8px', height: '8px', background: '#ffcc00',
+        borderRadius: '50%', pointerEvents: 'none', zIndex: 10003, transform: 'translate(-50%, -50%)',
         boxShadow: '0 0 10px #ffcc00, 0 0 30px rgba(255,204,0,0.8), 0 0 60px rgba(255,204,0,0.5), 0 0 100px rgba(255,204,0,0.3)',
       }} aria-hidden="true" />
     </>
@@ -134,8 +113,6 @@ export default function App() {
           <Stats />
           <div className="section-divider" />
           <Certifications />
-          <div className="section-divider" />
-          <Testimonials />
           <div className="section-divider" />
           <Timeline />
           <div className="section-divider" />

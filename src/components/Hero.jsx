@@ -82,15 +82,15 @@ export default function Hero() {
 
       <motion.section
         id="hero"
-        className="hero"
+        className="hero hero-full"
         variants={heroVariants}
         initial="hidden"
         animate={showContent ? 'visible' : 'hidden'}
       >
         <div className="hero-edge" />
-        <div className="hero-left">
+        <div className="hero-content">
           <motion.div className="hero-label" variants={childVariants}>
-            — Developer Profile —
+            — Software Engineer —
           </motion.div>
           <motion.div className="hero-name" variants={childVariants}>
             {nameFirst}<br />
@@ -103,17 +103,13 @@ export default function Hero() {
             <span>•</span>
             <span>{personalInfo.location}</span>
             <span>•</span>
-            <span>{personalInfo.missionCount} Projects</span>
+            <span>{personalInfo.missionCount}+ Years Experience</span>
           </motion.div>
           <motion.div className="hero-cta" variants={childVariants}>
             <a className="btn-primary" href="#projects">View Projects →</a>
             <a className="btn-secondary" href="#contact">Contact</a>
           </motion.div>
         </div>
-        <motion.div className="hero-right" variants={childVariants}>
-          <div className="hero-portrait-placeholder">[ portrait ]</div>
-          <div className="hero-right-overlay" />
-        </motion.div>
         <div className="hero-edge-bottom" />
         <div className="hero-scroll-indicator">Scroll to navigate</div>
       </motion.section>

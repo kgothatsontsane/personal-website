@@ -20,11 +20,14 @@ function getLevel(pct) {
   return 0
 }
 
+const topSkills = specializations.slice(0, 6)
+const restSkills = specializations.slice(6)
+
 function RadarChart({ skills }) {
-  const size = 260
+  const size = 280
   const cx = size / 2
   const cy = size / 2
-  const maxR = 100
+  const maxR = 110
   const n = skills.length
   const angleStep = (2 * Math.PI) / n
   const rings = [25, 50, 75, 100]
@@ -35,11 +38,9 @@ function RadarChart({ skills }) {
   }
 
   const dataPoints = skills.map((s, i) => getPoint(i, (s.level / 100) * maxR))
-  const dataPath = dataPoints.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ') + ' Z'
 
   return (
     <svg viewBox={`0 0 ${size} ${size}`} style={{ width: '100%', maxWidth: '320px' }}>
-      {/* Rings */}
       {rings.map((r) => (
         <polygon
           key={r}
@@ -53,14 +54,10 @@ function RadarChart({ skills }) {
           opacity="0.5"
         />
       ))}
-
-      {/* Axes */}
       {skills.map((_, i) => {
         const p = getPoint(i, maxR)
         return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="var(--border)" strokeWidth="0.5" opacity="0.3" />
       })}
-
-      {/* Data polygon */}
       <polygon
         points={dataPoints.map(p => `${p.x},${p.y}`).join(' ')}
         fill="rgba(255, 204, 0, 0.08)"
@@ -68,26 +65,14 @@ function RadarChart({ skills }) {
         strokeWidth="1.5"
         strokeLinejoin="round"
       />
-
-      {/* Data points */}
       {dataPoints.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="3" fill="var(--accent)" stroke="var(--bg)" strokeWidth="1" />
+        <circle key={i} cx={p.x} cy={p.y} r="4" fill="var(--accent)" stroke="var(--bg)" strokeWidth="1.5" />
       ))}
-
-      {/* Labels */}
       {skills.map((s, i) => {
-        const p = getPoint(i, maxR + 20)
+        const p = getPoint(i, maxR + 22)
         return (
-          <text
-            key={i}
-            x={p.x}
-            y={p.y}
-            textAnchor="middle"
-            dominantBaseline="middle"
-            fill="var(--fg-secondary)"
-            fontSize="8"
-            fontFamily="var(--font-mono)"
-          >
+          <text key={i} x={p.x} y={p.y} textAnchor="middle" dominantBaseline="middle"
+            fill="var(--fg-secondary)" fontSize="9" fontFamily="var(--font-mono)">
             {s.name}
           </text>
         )
@@ -106,15 +91,12 @@ function CountUp({ target, suffix = '', delay = 0 }) {
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          let start = 0
-          const duration = 1500
           const startTime = Date.now() + delay
           const tick = () => {
             const now = Date.now()
             if (now < startTime) { requestAnimationFrame(tick); return }
-            const progress = Math.min((now - startTime) / duration, 1)
-            const eased = 1 - Math.pow(1 - progress, 3)
-            setCount(Math.round(eased * target))
+            const progress = Math.min((now - startTime) / 1500, 1)
+            setCount(Math.round((1 - Math.pow(1 - progress, 3)) * target))
             if (progress < 1) requestAnimationFrame(tick)
           }
           requestAnimationFrame(tick)
@@ -130,6 +112,42 @@ function CountUp({ target, suffix = '', delay = 0 }) {
   return <span ref={ref}>{count}{suffix}</span>
 }
 
+function SkillBar({ name, level, delay }) {
+  const [animated, setAnimated] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setAnimated(true), delay)
+          observer.unobserve(el)
+        }
+      },
+      { threshold: 0.5 }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [delay])
+
+  return (
+    <div ref={ref} style={{ marginBottom: '0.75rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: 'var(--fg-secondary)' }}>{name}</span>
+        <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--accent)' }}>{level}%</span>
+      </div>
+      <div style={{ height: '4px', background: 'var(--border)', borderRadius: '2px', overflow: 'hidden' }}>
+        <div style={{
+          height: '100%', background: 'var(--accent)', borderRadius: '2px',
+          width: animated ? `${level}%` : '0%', transition: 'width 1.2s var(--ease-out)',
+        }} />
+      </div>
+    </div>
+  )
+}
+
 export default function Stats() {
   return (
     <motion.section
@@ -142,47 +160,44 @@ export default function Stats() {
     >
       <motion.div className="section-label" variants={child}>// SPECIALIZATIONS</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Agent <span>Competencies</span>
+        Core <span>Competencies</span>
       </motion.h2>
 
-      <motion.div variants={child} style={{ display: 'flex', gap: '3rem', alignItems: 'center', flexWrap: 'wrap' }}>
-        <RadarChart skills={specializations} />
+      <motion.div variants={child} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        {/* Radar: top 6 */}
+        <div>
+          <RadarChart skills={topSkills} />
+        </div>
 
+        {/* Count-up grid: top 6 */}
         <div style={{ flex: 1, minWidth: '250px' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr',
-            gap: '1rem',
-          }}>
-            {specializations.map((s, i) => (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
+            {topSkills.map((s, i) => (
               <div key={s.name}>
-                <div style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.65rem',
-                  color: 'var(--fg-secondary)',
-                  marginBottom: '4px',
-                }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-secondary)', marginBottom: '4px' }}>
                   {s.name}
                 </div>
-                <div style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: '2rem',
-                  color: 'var(--accent)',
-                  lineHeight: 1,
-                }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--accent)', lineHeight: 1 }}>
                   <CountUp target={s.level} suffix="%" delay={i * 150} />
                 </div>
-                <div style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: '0.5rem',
-                  color: 'var(--fg-dim)',
-                  letterSpacing: '1px',
-                }}>
+                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--fg-dim)', letterSpacing: '1px' }}>
                   {levels[getLevel(s.level)]}
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Bar chart: remaining skills */}
+          {restSkills.length > 0 && (
+            <div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--fg-dim)', letterSpacing: '2px', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
+                Additional Skills
+              </div>
+              {restSkills.map((s, i) => (
+                <SkillBar key={s.name} name={s.name} level={s.level} delay={i * 100} />
+              ))}
+            </div>
+          )}
         </div>
       </motion.div>
     </motion.section>
