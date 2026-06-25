@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { personalInfo, loadingMessages } from '../data'
+import { personalInfo, specializations, certifications, loadingMessages } from '../data'
 
 export default function Hero() {
   const [loading, setLoading] = useState(true)
@@ -48,16 +48,22 @@ export default function Hero() {
 
   const heroVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.1, delayChildren: 0.15 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
   }
 
   const childVariants = {
-    hidden: { opacity: 0, y: 25 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
   }
 
   const nameFirst = personalInfo.name.split(' ')[0]
   const nameRest = personalInfo.name.split(' ').slice(1).join(' ')
+
+  const quickStats = [
+    { value: `${personalInfo.missionCount}+`, label: 'Years' },
+    { value: specializations.length, label: 'Skills' },
+    { value: certifications.length, label: 'Certs' },
+  ]
 
   return (
     <>
@@ -88,6 +94,17 @@ export default function Hero() {
         animate={showContent ? 'visible' : 'hidden'}
       >
         <div className="hero-edge" />
+        {/* Large monogram background */}
+        <motion.div
+          className="hero-monogram"
+          variants={{
+            hidden: { opacity: 0, scale: 0.9 },
+            visible: { opacity: 0.04, scale: 1, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } },
+          }}
+        >
+          KN
+        </motion.div>
+
         <div className="hero-content">
           <motion.div className="hero-label" variants={childVariants}>
             — Software Engineer —
@@ -105,6 +122,17 @@ export default function Hero() {
             <span>•</span>
             <span>{personalInfo.missionCount}+ Years Experience</span>
           </motion.div>
+
+          {/* Quick stats row */}
+          <motion.div className="hero-stats" variants={childVariants}>
+            {quickStats.map((s, i) => (
+              <div key={i} className="hero-stat">
+                <div className="hero-stat-value">{s.value}</div>
+                <div className="hero-stat-label">{s.label}</div>
+              </div>
+            ))}
+          </motion.div>
+
           <motion.div className="hero-cta" variants={childVariants}>
             <a className="btn-primary" href="#projects">View Projects →</a>
             <a className="btn-secondary" href="#contact">Contact</a>

@@ -12,10 +12,10 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
 }
 
-const promptText = 'kgothatso@portfol.io:~$ contact --encrypt'
+const promptText = 'kgothatso@portfol.io:~$ contact'
 const cmdText = 'kgothatso@portfol.io:~$ '
 
-function Typewriter({ text, speed = 20, delay = 0, onComplete }) {
+function Typewriter({ text, speed = 15, delay = 0, onComplete }) {
   const [displayed, setDisplayed] = useState('')
   const [started, setStarted] = useState(false)
 
@@ -46,6 +46,7 @@ function Typewriter({ text, speed = 20, delay = 0, onComplete }) {
 
 export default function Contact() {
   const [showForm, setShowForm] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
 
@@ -62,7 +63,8 @@ export default function Contact() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    alert('Message sent. (Demo — no backend connected.)')
+    setSubmitted(true)
+    setTimeout(() => setSubmitted(false), 3000)
   }
 
   return (
@@ -77,12 +79,12 @@ export default function Contact() {
     >
       <motion.div className="section-label" variants={child}>// SECURE CHANNEL</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Establish <span>Contact</span>
+        Get In <span>Touch</span>
       </motion.h2>
 
       <motion.div className="contact-terminal" variants={child}>
         <div className="contact-prompt">
-          <span>{inView ? <Typewriter text={promptText} speed={35} delay={300} onComplete={() => setShowForm(true)} /> : cmdText}</span>
+          <span>{inView ? <Typewriter text={promptText} speed={15} delay={200} onComplete={() => setShowForm(true)} /> : cmdText}</span>
           {!showForm && inView && <span className="contact-cursor" />}
         </div>
 
@@ -95,19 +97,19 @@ export default function Contact() {
             transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="contact-field">
-              <label htmlFor="name">Codename</label>
+              <label htmlFor="name">Name</label>
               <input id="name" type="text" placeholder="Your name" required />
             </div>
             <div className="contact-field">
-              <label htmlFor="email">Secure Address</label>
+              <label htmlFor="email">Email</label>
               <input id="email" type="email" placeholder="your@email.com" required />
             </div>
             <div className="contact-field">
-              <label htmlFor="message">Encrypted Message</label>
+              <label htmlFor="message">Message</label>
               <textarea id="message" placeholder="Type your message..." required />
             </div>
-            <button type="submit" className="contact-submit">
-              Transmit →
+            <button type="submit" className="contact-submit" disabled={submitted}>
+              {submitted ? '✓ Message Sent' : 'Send Message →'}
             </button>
           </motion.form>
         )}
