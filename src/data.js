@@ -7,8 +7,8 @@ export const personalInfo = {
   clearance: 'LEVEL 5',
   status: 'ACTIVE',
   bio: 'Full-stack engineer specializing in React ecosystems, Node.js backends, and cloud-native deployments. 8+ years shipping production software across fintech, e-commerce, and SaaS. I build interfaces that feel fast and systems that scale. Strong opinions, loosely held — always learning.',
-  heroImage: '/images/hero-portrait.jpg',
-  aboutImage: '/images/about-portrait.jpg',
+  heroImage: null,
+  aboutImage: null,
 }
 
 export const missions = [

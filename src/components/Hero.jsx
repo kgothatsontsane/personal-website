@@ -2,70 +2,6 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo, loadingMessages } from '../data'
 
-const photos = [
-  '/images/hero-portrait.jpg',
-  '/images/about-portrait.jpg',
-  '/images/project-1.jpg',
-  '/images/project-2.jpg',
-]
-
-function PhotoSlideshow() {
-  const [current, setCurrent] = useState(0)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrent(c => (c + 1) % photos.length)
-    }, 4000)
-    return () => clearInterval(timer)
-  }, [])
-
-  return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-      <AnimatePresence mode="sync">
-        <motion.img
-          key={current}
-          src={photos[current]}
-          alt="Kgothatso Ntsane"
-          initial={{ opacity: 0, scale: 1.05 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.98 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: 'absolute',
-            inset: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-          }}
-        />
-      </AnimatePresence>
-      {/* Photo indicators */}
-      <div style={{
-        position: 'absolute',
-        bottom: '1rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
-        display: 'flex',
-        gap: '6px',
-        zIndex: 2,
-      }}>
-        {photos.map((_, i) => (
-          <div
-            key={i}
-            style={{
-              width: i === current ? '20px' : '6px',
-              height: '6px',
-              borderRadius: '3px',
-              background: i === current ? 'var(--accent)' : 'rgba(255,255,255,0.3)',
-              transition: 'all 0.4s ease',
-            }}
-          />
-        ))}
-      </div>
-    </div>
-  )
-}
-
 export default function Hero() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
@@ -175,7 +111,7 @@ export default function Hero() {
           </motion.div>
         </div>
         <motion.div className="hero-right" variants={childVariants}>
-          <PhotoSlideshow />
+          <div className="hero-portrait-placeholder">[ portrait ]</div>
           <div className="hero-right-overlay" />
         </motion.div>
         <div className="hero-edge-bottom" />
