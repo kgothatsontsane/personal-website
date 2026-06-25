@@ -20,13 +20,52 @@ const codeSnippet = `const developer = {
   name: "${personalInfo.name}",
   role: "${personalInfo.tagline}",
   location: "${personalInfo.location}",
-  experience: "8+ years",
-  stack: ["React", "TypeScript", "Node.js"],
+  experience: "7+ years",
+  stack: ["React", "TypeScript", "Node.js", "Azure"],
   superpower: "Making complex things simple",
   status: () => "OPEN TO WORK",
 };`
 
 const codeLines = codeSnippet.split('\n')
+
+const techOrbit = [
+  { name: 'React', angle: 0, radius: 140 },
+  { name: 'TypeScript', angle: 45, radius: 150 },
+  { name: 'Node.js', angle: 90, radius: 135 },
+  { name: 'Azure', angle: 135, radius: 145 },
+  { name: 'MongoDB', angle: 180, radius: 140 },
+  { name: 'AWS', angle: 225, radius: 150 },
+  { name: 'Docker', angle: 270, radius: 135 },
+  { name: 'PostgreSQL', angle: 315, radius: 145 },
+]
+
+function TechOrbit() {
+  return (
+    <div className="tech-orbit">
+      <div className="tech-orbit-ring" />
+      <div className="tech-orbit-ring tech-orbit-ring-2" />
+      {techOrbit.map((t, i) => {
+        const rad = (t.angle * Math.PI) / 180
+        const x = Math.cos(rad) * t.radius
+        const y = Math.sin(rad) * t.radius
+        return (
+          <motion.div
+            key={t.name}
+            className="tech-orbit-item"
+            initial={{ opacity: 0, scale: 0 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+            style={{ transform: `translate(${x}px, ${y}px)` }}
+          >
+            {t.name}
+          </motion.div>
+        )
+      })}
+      <div className="tech-orbit-center">STACK</div>
+    </div>
+  )
+}
 
 function CodeBlock() {
   return (
@@ -114,12 +153,11 @@ export default function About() {
       </motion.h2>
 
       <div className="about-grid">
-        <motion.div
-          className="about-portrait-frame"
-          variants={photoReveal}
-        >
+        <motion.div className="about-portrait-frame" variants={photoReveal}>
           <span className="about-badge" style={{ transform: 'rotate(-2deg)', zIndex: 2 }}>CLASSIFIED</span>
-          <span className="hero-portrait-placeholder">[ portrait ]</span>
+          <div className="about-portrait-inner">
+            <TechOrbit />
+          </div>
         </motion.div>
 
         <motion.div variants={child}>

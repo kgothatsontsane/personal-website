@@ -2,12 +2,53 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo, specializations, certifications, loadingMessages } from '../data'
 
+const roles = [
+  'Full-Stack Developer',
+  'React Specialist',
+  'Cloud Architect',
+  'API Engineer',
+  'Problem Solver',
+]
+
+function TypingRole() {
+  const [roleIdx, setRoleIdx] = useState(0)
+  const [text, setText] = useState('')
+  const [deleting, setDeleting] = useState(false)
+
+  useEffect(() => {
+    const current = roles[roleIdx]
+    const timeout = setTimeout(() => {
+      if (!deleting) {
+        setText(current.slice(0, text.length + 1))
+        if (text.length + 1 === current.length) {
+          setTimeout(() => setDeleting(true), 2000)
+        }
+      } else {
+        setText(current.slice(0, text.length - 1))
+        if (text.length - 1 === 0) {
+          setDeleting(false)
+          setRoleIdx((roleIdx + 1) % roles.length)
+        }
+      }
+    }, deleting ? 40 : 80)
+    return () => clearTimeout(timeout)
+  }, [text, deleting, roleIdx])
+
+  return (
+    <span className="hero-typing">
+      {text}
+      <span className="contact-cursor" />
+    </span>
+  )
+}
+
 export default function Hero() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
   const [msgIndex, setMsgIndex] = useState(0)
   const [ready, setReady] = useState(false)
   const [showContent, setShowContent] = useState(false)
+  const [glitchDone, setGlitchDone] = useState(false)
   const intervalRef = useRef(null)
   const readyRef = useRef(false)
   const loadingRef = useRef(true)
@@ -36,7 +77,8 @@ export default function Hero() {
     if (!readyRef.current) return
     loadingRef.current = false
     setLoading(false)
-    setTimeout(() => setShowContent(true), 100)
+    setGlitchDone(true)
+    setTimeout(() => setShowContent(true), 300)
   }
 
   useEffect(() => {
@@ -94,7 +136,6 @@ export default function Hero() {
         animate={showContent ? 'visible' : 'hidden'}
       >
         <div className="hero-edge" />
-        {/* Large monogram background */}
         <motion.div
           className="hero-monogram"
           variants={{
@@ -116,14 +157,13 @@ export default function Hero() {
             </span>
           </motion.div>
           <motion.div className="hero-meta" variants={childVariants}>
-            <span>{personalInfo.tagline}</span>
+            <span className="hero-typing-wrap"><TypingRole /></span>
             <span>•</span>
             <span>{personalInfo.location}</span>
             <span>•</span>
-            <span>{personalInfo.missionCount}+ Years Experience</span>
+            <span>{personalInfo.missionCount}+ Years</span>
           </motion.div>
 
-          {/* Quick stats row */}
           <motion.div className="hero-stats" variants={childVariants}>
             {quickStats.map((s, i) => (
               <div key={i} className="hero-stat">

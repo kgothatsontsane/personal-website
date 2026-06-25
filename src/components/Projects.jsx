@@ -12,57 +12,47 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 }
 
-function TiltCard({ children, expanded, onToggle }) {
+function TiltCard({ children, className = '', style = {} }) {
   const ref = useRef(null)
-  const [style, setStyle] = useState({})
+  const [tilt, setTilt] = useState({})
 
   useEffect(() => {
     const el = ref.current
-    if (!el || expanded) return
-
+    if (!el) return
     const onMove = (e) => {
       const rect = el.getBoundingClientRect()
       const x = (e.clientX - rect.left) / rect.width - 0.5
       const y = (e.clientY - rect.top) / rect.height - 0.5
-      setStyle({
-        transform: `perspective(800px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg)`,
-      })
+      setTilt({ transform: `perspective(800px) rotateY(${x * 5}deg) rotateX(${-y * 5}deg)` })
     }
-
-    const onLeave = () => setStyle({ transform: 'perspective(800px) rotateY(0) rotateX(0)' })
-
+    const onLeave = () => setTilt({})
     el.addEventListener('mousemove', onMove)
     el.addEventListener('mouseleave', onLeave)
-    return () => {
-      el.removeEventListener('mousemove', onMove)
-      el.removeEventListener('mouseleave', onLeave)
-    }
-  }, [expanded])
+    return () => { el.removeEventListener('mousemove', onMove); el.removeEventListener('mouseleave', onLeave) }
+  }, [])
 
   return (
-    <div ref={ref} className="mission-card" style={{ ...style, transition: 'transform 0.2s ease-out' }}>
+    <div ref={ref} className={className} style={{ ...style, ...tilt, transition: 'transform 0.2s ease-out' }}>
       {children}
     </div>
   )
 }
 
-function MissionCard({ m }) {
+function MissionCard({ m, large = false }) {
   const [expanded, setExpanded] = useState(false)
 
   return (
-    <TiltCard expanded={expanded}>
-      <div className="mission-card-image">
-        <div className="mission-card-image-placeholder">[ project screenshot ]</div>
-      </div>
-      <div className="mission-tape" />
-      <div className="mission-watermark">C</div>
+    <TiltCard
+      className={`mission-card${large ? ' mission-card-large' : ''}`}
+      style={{ gridRow: large ? 'span 2' : undefined }}
+    >
       <div className="mission-header">
         <div className="mission-classified">
           <span className="mission-classified-badge" style={{ transform: `rotate(${-1 + Math.random() * 2}deg)` }}>TOP SECRET</span>
           <span className="mission-id">/// MISSION_{m.id}</span>
         </div>
         <div className="mission-clearance">
-          CLEARANCE: <span>LEVEL {m.difficulty + 1}</span>
+          LEVEL <span>{m.difficulty + 1}</span>
         </div>
       </div>
       <div className="mission-body">
@@ -73,7 +63,6 @@ function MissionCard({ m }) {
           </div>
           <div className="mission-budget">
             <div className="mission-budget-value">{m.budget}</div>
-            <div className="mission-budget-label">Budget</div>
           </div>
         </div>
         <div className="mission-brief">{m.description}</div>
@@ -84,10 +73,10 @@ function MissionCard({ m }) {
         </div>
         <div className="mission-footer">
           <div className="mission-status">
-            ▸ <span className="mission-status-dot">●</span> MISSION {m.status}
+            ▸ <span className="mission-status-dot">●</span> {m.status}
           </div>
           <button className="mission-cta" onClick={() => setExpanded(!expanded)}>
-            {expanded ? 'Close Brief −' : 'View Brief →'}
+            {expanded ? 'Close −' : 'Details →'}
           </button>
         </div>
 
@@ -112,21 +101,10 @@ function MissionCard({ m }) {
                 <div style={{ color: 'var(--accent)', marginBottom: '0.5rem', letterSpacing: '1px' }}>
                   ▸ CASE FILE — MISSION {m.id}
                 </div>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: 'var(--fg-dim)' }}>ROLE:</span> {m.role}
-                </div>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: 'var(--fg-dim)' }}>BUDGET:</span> {m.budget}
-                </div>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: 'var(--fg-dim)' }}>STATUS:</span> <span style={{ color: 'var(--accent)' }}>{m.status}</span>
-                </div>
-                <div style={{ marginBottom: '0.5rem' }}>
-                  <span style={{ color: 'var(--fg-dim)' }}>CLEARANCE:</span> LEVEL {m.difficulty + 1}
-                </div>
-                <div>
-                  <span style={{ color: 'var(--fg-dim)' }}>EQUIPMENT:</span> {m.equipment.join(' · ')}
-                </div>
+                <div><span style={{ color: 'var(--fg-dim)' }}>ROLE:</span> {m.role}</div>
+                <div><span style={{ color: 'var(--fg-dim)' }}>PERIOD:</span> {m.budget}</div>
+                <div><span style={{ color: 'var(--fg-dim)' }}>STATUS:</span> <span style={{ color: 'var(--accent)' }}>{m.status}</span></div>
+                <div><span style={{ color: 'var(--fg-dim)' }}>EQUIPMENT:</span> {m.equipment.join(' · ')}</div>
                 <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'var(--bg)', border: '1px solid var(--border)', fontSize: '0.6rem', color: 'var(--fg-dim)' }}>
                   This file is classified under directive 7.3.1. Unauthorized access is prohibited.
                 </div>
@@ -151,12 +129,12 @@ export default function Projects() {
     >
       <motion.div className="section-label" variants={child}>// MISSION DOSSIER</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Classified <span>Operations</span>
+        Project <span>Portfolio</span>
       </motion.h2>
 
-      <motion.div className="projects-grid" variants={child}>
-        {missions.map((m) => (
-          <MissionCard key={m.id} m={m} />
+      <motion.div className="projects-grid-bento" variants={child}>
+        {missions.map((m, i) => (
+          <MissionCard key={m.id} m={m} large={i === 0} />
         ))}
       </motion.div>
     </motion.section>
