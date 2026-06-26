@@ -152,7 +152,7 @@ export default function Hero() {
           </motion.div>
           <motion.div className="hero-name hero-name-xl" variants={childVariants}>
             {nameFirst}<br />
-            <span className="hero-name-accent glitch" data-text={nameRest}>
+            <span className="text-stroke-hero glitch" data-text={nameRest}>
               {nameRest}
             </span>
           </motion.div>

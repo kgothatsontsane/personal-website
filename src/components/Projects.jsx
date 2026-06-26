@@ -1,5 +1,5 @@
 import { useRef, useEffect, useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { missions } from '../data'
 
 const stagger = {
@@ -39,11 +39,9 @@ function TiltCard({ children, className = '', style = {} }) {
 }
 
 function MissionCard({ m, large = false }) {
-  const [expanded, setExpanded] = useState(false)
-
   return (
     <TiltCard
-      className={`mission-card${large ? ' mission-card-large' : ''}`}
+      className={`mission-card group${large ? ' mission-card-large' : ''}`}
       style={{ gridRow: large ? 'span 2' : undefined }}
     >
       <div className="mission-header">
@@ -65,53 +63,25 @@ function MissionCard({ m, large = false }) {
             <div className="mission-budget-value">{m.budget}</div>
           </div>
         </div>
-        <div className="mission-brief">{m.description}</div>
-        <div className="mission-equipment">
-          {m.equipment.map(t => (
-            <span key={t} className="mission-tag">{t}</span>
-          ))}
+
+        {/* Expandable description — CSS grid row transition on hover */}
+        <div className="mission-expand-wrap">
+          <div className="mission-expand-inner">
+            <div className="mission-brief">{m.description}</div>
+            <div className="mission-equipment">
+              {m.equipment.map(t => (
+                <span key={t} className="mission-tag">{t}</span>
+              ))}
+            </div>
+          </div>
         </div>
+
         <div className="mission-footer">
           <div className="mission-status">
             ▸ <span className="mission-status-dot">●</span> {m.status}
           </div>
-          <button className="mission-cta" onClick={() => setExpanded(!expanded)}>
-            {expanded ? 'Close −' : 'Details →'}
-          </button>
+          <div className="mission-cta-hint">Hover to reveal →</div>
         </div>
-
-        <AnimatePresence>
-          {expanded && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              style={{ overflow: 'hidden' }}
-            >
-              <div style={{
-                marginTop: '1rem',
-                paddingTop: '1rem',
-                borderTop: '1px dashed var(--border)',
-                fontFamily: 'var(--font-mono)',
-                fontSize: '0.65rem',
-                lineHeight: 1.8,
-                color: 'var(--fg-secondary)',
-              }}>
-                <div style={{ color: 'var(--accent)', marginBottom: '0.5rem', letterSpacing: '1px' }}>
-                  ▸ CASE FILE — MISSION {m.id}
-                </div>
-                <div><span style={{ color: 'var(--fg-dim)' }}>ROLE:</span> {m.role}</div>
-                <div><span style={{ color: 'var(--fg-dim)' }}>PERIOD:</span> {m.budget}</div>
-                <div><span style={{ color: 'var(--fg-dim)' }}>STATUS:</span> <span style={{ color: 'var(--accent)' }}>{m.status}</span></div>
-                <div><span style={{ color: 'var(--fg-dim)' }}>EQUIPMENT:</span> {m.equipment.join(' · ')}</div>
-                <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'var(--bg)', border: '1px solid var(--border)', fontSize: '0.6rem', color: 'var(--fg-dim)' }}>
-                  This file is classified under directive 7.3.1. Unauthorized access is prohibited.
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </div>
     </TiltCard>
   )

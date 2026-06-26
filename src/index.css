@@ -2077,3 +2077,171 @@ textarea:focus-visible {
   color: var(--accent);
   background: var(--accent-dim);
 }
+
+/* ───────── Stroked Text (qwabi pattern) ───────── */
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--accent);
+}
+
+.text-stroke-hero {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--accent);
+  position: relative;
+  display: inline-block;
+}
+
+[data-theme="light"] .text-stroke-hero {
+  -webkit-text-stroke-color: var(--accent);
+}
+
+/* ───────── Manifesto Section ───────── */
+.manifesto {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rem 2rem;
+  overflow: hidden;
+  background: var(--bg-elevated);
+}
+
+.manifesto-bg {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  font-family: var(--font-display);
+  font-size: clamp(4rem, 12vw, 12rem);
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  opacity: 0.3;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.manifesto-content {
+  position: relative;
+  z-index: 1;
+  max-width: 700px;
+  text-align: center;
+}
+
+.manifesto-label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  color: var(--fg-dim);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+
+.manifesto-quote {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  line-height: 1.15;
+  color: var(--fg);
+  margin-bottom: 1.5rem;
+}
+
+.manifesto-sub {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--fg-muted);
+  line-height: 1.8;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+/* ───────── Scroll Indicator ───────── */
+.scroll-indicator {
+  position: fixed;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.scroll-indicator-line {
+  width: 1px;
+  height: 60px;
+  background: var(--border);
+}
+
+.scroll-indicator-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(255, 204, 0, 0.5);
+}
+
+@media (max-width: 768px) {
+  .scroll-indicator { display: none; }
+}
+
+/* ───────── Section Color Banding ───────── */
+.section-band-dark {
+  background: var(--bg);
+}
+
+.section-band-elevated {
+  background: var(--bg-elevated);
+}
+
+.section-band-card {
+  background: var(--bg-card);
+}
+
+/* ───────── Expand-on-Hover Projects ───────── */
+.mission-expand-wrap {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s var(--ease-out);
+  opacity: 0;
+}
+
+.mission-card:hover .mission-expand-wrap {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.mission-expand-inner {
+  overflow: hidden;
+}
+
+.mission-cta-hint {
+  font-family: var(--font-mono);
+  font-size: 0.5rem;
+  color: var(--fg-dim);
+  letter-spacing: 1px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.mission-card:hover .mission-cta-hint {
+  opacity: 1;
+}
+
+/* ───────── Numbered Section Labels ───────── */
+.section-number {
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--border);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  opacity: 0.4;
+}

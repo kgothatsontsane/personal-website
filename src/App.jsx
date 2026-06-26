@@ -11,6 +11,8 @@ import CommandPalette from './components/CommandPalette'
 import SectionDivider from './components/SectionDivider'
 import LearningMarquee from './components/LearningMarquee'
 import MissionStats from './components/MissionStats'
+import Manifesto from './components/Manifesto'
+import ScrollIndicator from './components/ScrollIndicator'
 import ConfettiCanvas from './components/ConfettiCanvas'
 import Footer from './components/Footer'
 
@@ -143,7 +145,9 @@ export default function App() {
       <BackToTop />
       <main>
         <Hero />
+        <ScrollIndicator />
         <MissionStats />
+        <Manifesto />
         <Suspense fallback={<SectionLoader />}>
           <SectionDivider />
           <About />
