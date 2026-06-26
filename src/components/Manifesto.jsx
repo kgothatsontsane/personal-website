@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { personalInfo } from '../data'
 
 const child = {
   hidden: { opacity: 0, y: 20 },
@@ -29,14 +30,13 @@ export default function Manifesto() {
           // PHILOSOPHY
         </motion.div>
         <motion.blockquote className="manifesto-quote" variants={child}>
-          I build software that <span className="text-stroke">works</span>,<br />
-          scales when it matters,<br />
-          and doesn't need a rewrite<br />
-          six months later.
+          I don't build <span className="text-stroke">websites</span>.<br />
+          I build systems that<br />
+          outlast the hype cycle.
         </motion.blockquote>
         <motion.p className="manifesto-sub" variants={child}>
-          7+ years of shipping production systems across fintech, e-commerce, and enterprise.
-          From React frontends to Azure cloud architectures — I turn complex problems into clean, reliable solutions.
+          {personalInfo.missionCount}+ years of shipping production software. From startup MVPs to enterprise platforms.
+          I write code that other engineers can read, deploy, and sleep through the night after.
         </motion.p>
       </div>
     </motion.section>

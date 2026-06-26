@@ -29,9 +29,9 @@ export default function Certifications() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <motion.div className="section-label" variants={child}>// CLEARANCE DOCUMENTS</motion.div>
+      <motion.div className="section-label" variants={child}>// CREDENTIALS</motion.div>
       <motion.h2 className="section-title" variants={child} style={{ fontSize: '3rem', marginBottom: '2rem' }}>
-        Certifications <span>& Licenses</span>
+        Certified <span>& Verified</span>
       </motion.h2>
 
       <motion.div variants={child} style={{

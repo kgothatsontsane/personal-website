@@ -147,9 +147,9 @@ export default function About() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// PROFILE</motion.div>
+      <motion.div className="section-label" variants={child}>// ABOUT</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        About <span>{personalInfo.name.split(' ')[0]}</span>
+        The <span>Engineer</span>
       </motion.h2>
 
       <div className="about-grid">

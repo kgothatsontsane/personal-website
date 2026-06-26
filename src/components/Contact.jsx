@@ -77,9 +77,9 @@ export default function Contact() {
       viewport={{ once: true, amount: 0.1 }}
       ref={ref}
     >
-      <motion.div className="section-label" variants={child}>// SECURE CHANNEL</motion.div>
+      <motion.div className="section-label" variants={child}>// GET IN TOUCH</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Get In <span>Touch</span>
+        Let's <span>Talk</span>
       </motion.h2>
 
       <motion.div className="contact-terminal" variants={child}>

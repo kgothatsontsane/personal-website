@@ -97,9 +97,9 @@ export default function Projects() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// MISSION DOSSIER</motion.div>
+      <motion.div className="section-label" variants={child}>// PORTFOLIO</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Project <span>Portfolio</span>
+        Selected <span>Work</span>
       </motion.h2>
 
       <motion.div className="projects-grid-bento" variants={child}>

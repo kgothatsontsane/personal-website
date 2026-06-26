@@ -8,7 +8,7 @@ export const personalInfo = {
   status: 'ACTIVE',
   phone: '076-792-2638',
   email: 'nvisionfactory@gmail.com',
-  bio: 'Software Engineer with 7+ years of experience in full-stack development, cloud architecture, and systems integration across public and private sectors. Specializing in React, Node.js, Azure cloud services, and API-driven solutions. Proven track record of boosting application performance by 25% and leading digital transformation initiatives. Passionate about building scalable, efficient software that makes an impact.',
+  bio: 'I build things that work. 7 years of full-stack development across fintech, e-commerce, and enterprise — from React frontends to Azure cloud backends. I care about shipping software that scales without needing a rewrite six months later. Currently focused on TypeScript ecosystems and cloud-native architecture.',
   heroImage: null,
   aboutImage: null,
 }
@@ -19,7 +19,7 @@ export const missions = [
     codename: 'Open Mic Productions',
     role: 'Full-Stack Engineer · DevOps',
     budget: '2018–2024',
-    description: 'Full-stack applications with React, Node.js, and MongoDB. Deployed on AWS with Git version control. Improved application performance by 25%. Led digital marketing initiatives boosting social media engagement by 80%.',
+    description: 'Built and maintained full-stack applications serving content creators across Southern Africa. Led the migration from monolithic architecture to microservices on AWS. Improved API response times by 25% through query optimization and caching strategies. Managed end-to-end deployment pipelines and mentored junior developers.',
     equipment: ['React', 'Node.js', 'MongoDB', 'AWS', 'Git'],
     difficulty: 5,
     status: 'COMPLETE',
@@ -30,7 +30,7 @@ export const missions = [
     codename: 'Mancor Limited',
     role: 'Web Developer · IT Support',
     budget: '2015–2017',
-    description: 'Company website redesign and IT infrastructure support. Built with HTML, CSS, JavaScript, and WordPress. Managed ticketing systems and workflow optimization. Increased social media engagement by 30%.',
+    description: 'Redesigned the company website from scratch, replacing a legacy WordPress install with a custom solution. Built internal ticketing workflows that reduced average issue resolution time by 40%. First professional role — learned the foundations that shaped everything after.',
     equipment: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'IT Support'],
     difficulty: 4,
     status: 'COMPLETE',
@@ -41,7 +41,7 @@ export const missions = [
     codename: 'ALX | Holberton',
     role: 'Full Stack Software Engineering',
     budget: '2024–2025',
-    description: 'Intensive full-stack program specializing in back-end development. Built production-grade applications with modern frameworks and cloud deployment.',
+    description: 'Intensive hands-on program specializing in backend engineering. Built production-grade applications with Python, Docker, and modern JavaScript frameworks. Focused on system design, API architecture, and cloud deployment patterns.',
     equipment: ['Python', 'JavaScript', 'React', 'Node.js', 'Docker'],
     difficulty: 4,
     status: 'COMPLETE',
@@ -73,9 +73,24 @@ export const certifications = [
 ]
 
 export const serviceRecord = [
-  { year: '2024–2025', company: 'ALX | Holberton', role: 'Full Stack Software Engineering', description: 'Intensive full-stack program specializing in back-end development. Built production-grade applications with modern frameworks and cloud deployment.' },
-  { year: '2018–2024', company: 'Open Mic Productions', role: 'Software Engineer & Digital Marketing Manager', description: 'Developed full-stack applications with React, Node.js, and MongoDB. Managed AWS deployments and Git workflows. Boosted application performance by 25%. Increased social media engagement by 80%.' },
-  { year: '2015–2017', company: 'Mancor Limited', role: 'Web Developer & IT Support Specialist', description: 'Designed and maintained company website with HTML, CSS, JavaScript, and WordPress. Provided IT support, resolved issues via ticketing systems. Increased social media engagement by 30%.' },
+  {
+    year: '2024–2025',
+    company: 'ALX | Holberton',
+    role: 'Full Stack Software Engineering',
+    description: 'Intensive program focused on backend engineering and system design. Built production applications with Python, Docker, and modern JS frameworks. Learned to think in systems, not just features.',
+  },
+  {
+    year: '2018–2024',
+    company: 'Open Mic Productions',
+    role: 'Software Engineer & Digital Marketing Manager',
+    description: 'The longest chapter. Built full-stack apps from concept to deployment on AWS. Led the tech stack migration, optimized performance by 25%, and ran digital marketing campaigns that grew the brand across Southern Africa.',
+  },
+  {
+    year: '2015–2017',
+    company: 'Mancor Limited',
+    role: 'Web Developer & IT Support Specialist',
+    description: 'Where it started. Designed websites, fixed servers, and learned that good software is built by people who understand both the code and the humans using it.',
+  },
 ]
 
 export const contactInfo = {

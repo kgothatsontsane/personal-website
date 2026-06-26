@@ -148,7 +148,7 @@ export default function Hero() {
 
         <div className="hero-content">
           <motion.div className="hero-label" variants={childVariants}>
-            — Software Engineer —
+            — {personalInfo.tagline} —
           </motion.div>
           <motion.div className="hero-name hero-name-xl" variants={childVariants}>
             {nameFirst}<br />

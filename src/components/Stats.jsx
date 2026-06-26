@@ -192,9 +192,9 @@ export default function Stats() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <div className="section-label">// SPECIALIZATIONS</div>
+      <div className="section-label">// SKILLSET</div>
       <h2 className="section-title">
-        Core <span>Competencies</span>
+        What I <span>Work With</span>
       </h2>
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
