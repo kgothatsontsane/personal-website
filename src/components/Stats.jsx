@@ -2,16 +2,6 @@ import { useState, useRef, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { specializations } from '../data'
 
-const stagger = {
-  hidden: { opacity: 0 },
-  visible: { transition: { staggerChildren: 0.08 } },
-}
-
-const child = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
-}
-
 const levels = ['NOVICE', 'OPERATIVE', 'SPECIALIST', 'ELITE']
 function getLevel(pct) {
   if (pct >= 90) return 3
@@ -24,6 +14,7 @@ const topSkills = specializations.slice(0, 6)
 const restSkills = specializations.slice(6)
 
 function RadarChart({ skills }) {
+  const [hovered, setHovered] = useState(null)
   const size = 280
   const cx = size / 2
   const cy = size / 2
@@ -40,44 +31,88 @@ function RadarChart({ skills }) {
   const dataPoints = skills.map((s, i) => getPoint(i, (s.level / 100) * maxR))
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} style={{ width: '100%', maxWidth: '320px' }}>
-      {rings.map((r) => (
+    <div style={{ position: 'relative' }}>
+      <svg viewBox={`0 0 ${size} ${size}`} style={{ width: '100%', maxWidth: '320px' }}>
+        {rings.map((r) => (
+          <polygon
+            key={r}
+            points={Array.from({ length: n }, (_, i) => {
+              const p = getPoint(i, r)
+              return `${p.x},${p.y}`
+            }).join(' ')}
+            fill="none"
+            stroke="var(--border)"
+            strokeWidth="0.5"
+            opacity="0.5"
+          />
+        ))}
+        {skills.map((_, i) => {
+          const p = getPoint(i, maxR)
+          return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="var(--border)" strokeWidth="0.5" opacity="0.3" />
+        })}
         <polygon
-          key={r}
-          points={Array.from({ length: n }, (_, i) => {
-            const p = getPoint(i, r)
-            return `${p.x},${p.y}`
-          }).join(' ')}
-          fill="none"
-          stroke="var(--border)"
-          strokeWidth="0.5"
-          opacity="0.5"
+          points={dataPoints.map(p => `${p.x},${p.y}`).join(' ')}
+          fill="rgba(255, 204, 0, 0.08)"
+          stroke="var(--accent)"
+          strokeWidth="1.5"
+          strokeLinejoin="round"
         />
-      ))}
-      {skills.map((_, i) => {
-        const p = getPoint(i, maxR)
-        return <line key={i} x1={cx} y1={cy} x2={p.x} y2={p.y} stroke="var(--border)" strokeWidth="0.5" opacity="0.3" />
-      })}
-      <polygon
-        points={dataPoints.map(p => `${p.x},${p.y}`).join(' ')}
-        fill="rgba(255, 204, 0, 0.08)"
-        stroke="var(--accent)"
-        strokeWidth="1.5"
-        strokeLinejoin="round"
-      />
-      {dataPoints.map((p, i) => (
-        <circle key={i} cx={p.x} cy={p.y} r="4" fill="var(--accent)" stroke="var(--bg)" strokeWidth="1.5" />
-      ))}
-      {skills.map((s, i) => {
-        const p = getPoint(i, maxR + 22)
-        return (
-          <text key={i} x={p.x} y={p.y} textAnchor="middle" dominantBaseline="middle"
-            fill="var(--fg-secondary)" fontSize="9" fontFamily="var(--font-mono)">
-            {s.name}
-          </text>
-        )
-      })}
-    </svg>
+        {dataPoints.map((p, i) => (
+          <circle
+            key={i}
+            cx={p.x}
+            cy={p.y}
+            r={hovered === i ? 6 : 4}
+            fill={hovered === i ? 'var(--accent)' : 'var(--accent)'}
+            stroke="var(--bg)"
+            strokeWidth="1.5"
+            style={{ cursor: 'pointer', transition: 'r 0.2s ease' }}
+            onMouseEnter={() => setHovered(i)}
+            onMouseLeave={() => setHovered(null)}
+          />
+        ))}
+        {skills.map((s, i) => {
+          const p = getPoint(i, maxR + 22)
+          return (
+            <text
+              key={i}
+              x={p.x}
+              y={p.y}
+              textAnchor="middle"
+              dominantBaseline="middle"
+              fill={hovered === i ? 'var(--accent)' : 'var(--fg-secondary)'}
+              fontSize="9"
+              fontFamily="var(--font-mono)"
+              style={{ cursor: 'pointer', transition: 'fill 0.2s ease' }}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              {s.name}
+            </text>
+          )
+        })}
+      </svg>
+
+      {/* Tooltip */}
+      {hovered !== null && (
+        <div className="radar-tooltip" style={{
+          position: 'absolute',
+          bottom: '-2rem',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.65rem',
+          color: 'var(--accent)',
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border)',
+          padding: '4px 10px',
+          whiteSpace: 'nowrap',
+          zIndex: 10,
+        }}>
+          {skills[hovered].name}: {skills[hovered].level}% — {levels[getLevel(skills[hovered].level)]}
+        </div>
+      )}
+    </div>
   )
 }
 
@@ -153,23 +188,20 @@ export default function Stats() {
     <motion.section
       id="stats"
       className="section"
-      variants={stagger}
       initial={false}
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// SPECIALIZATIONS</motion.div>
-      <motion.h2 className="section-title" variants={child}>
+      <div className="section-label">// SPECIALIZATIONS</div>
+      <h2 className="section-title">
         Core <span>Competencies</span>
-      </motion.h2>
+      </h2>
 
-      <motion.div variants={child} style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        {/* Radar: top 6 */}
+      <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
         <div>
           <RadarChart skills={topSkills} />
         </div>
 
-        {/* Count-up grid: top 6 */}
         <div style={{ flex: 1, minWidth: '250px' }}>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
             {topSkills.map((s, i) => (
@@ -187,7 +219,6 @@ export default function Stats() {
             ))}
           </div>
 
-          {/* Bar chart: remaining skills */}
           {restSkills.length > 0 && (
             <div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--fg-dim)', letterSpacing: '2px', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
@@ -199,7 +230,7 @@ export default function Stats() {
             </div>
           )}
         </div>
-      </motion.div>
+      </div>
     </motion.section>
   )
 }

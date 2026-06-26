@@ -12,6 +12,7 @@ import ThemeToggle from './components/ThemeToggle'
 import SectionDivider from './components/SectionDivider'
 import LearningMarquee from './components/LearningMarquee'
 import MissionStats from './components/MissionStats'
+import ConfettiCanvas from './components/ConfettiCanvas'
 import Footer from './components/Footer'
 
 const About = lazy(() => import('./components/About'))
@@ -103,6 +104,7 @@ export default function App() {
       <ScrollProgress />
       <Particles />
       <CodeBackground />
+      <ConfettiCanvas />
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
       <Nav />
