@@ -11,8 +11,7 @@ const sections = [
   { id: 'contact', label: 'Contact', shortcut: 'E' },
 ]
 
-export default function CommandPalette() {
-  const [open, setOpen] = useState(false)
+export default function CommandPalette({ open, setOpen }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef(null)
 
@@ -31,7 +30,7 @@ export default function CommandPalette() {
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [])
+  }, [setOpen])
 
   useEffect(() => {
     if (open) {
@@ -46,76 +45,61 @@ export default function CommandPalette() {
   }
 
   return (
-    <>
-      {/* Trigger button */}
-      <button
-        className="cmd-trigger"
-        onClick={() => setOpen(true)}
-        aria-label="Open command palette"
-      >
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
-          <circle cx="6" cy="6" r="5" />
-          <line x1="10" y1="10" x2="13" y2="13" />
-        </svg>
-        <span>⌘K</span>
-      </button>
-
-      <AnimatePresence>
-        {open && (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          className="cmd-overlay"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15 }}
+          onClick={() => setOpen(false)}
+        >
           <motion.div
-            className="cmd-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            onClick={() => setOpen(false)}
+            className="cmd-panel"
+            initial={{ opacity: 0, scale: 0.95, y: -10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: -10 }}
+            transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
+            onClick={(e) => e.stopPropagation()}
           >
-            <motion.div
-              className="cmd-panel"
-              initial={{ opacity: 0, scale: 0.95, y: -10 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -10 }}
-              transition={{ duration: 0.15, ease: [0.16, 1, 0.3, 1] }}
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="cmd-input-wrap">
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--fg-dim)" strokeWidth="1.5">
-                  <circle cx="6" cy="6" r="5" />
-                  <line x1="10" y1="10" x2="13" y2="13" />
-                </svg>
-                <input
-                  ref={inputRef}
-                  className="cmd-input"
-                  placeholder="Navigate to..."
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && filtered.length > 0) {
-                      navigate(filtered[0].id)
-                    }
-                  }}
-                />
-                <span className="cmd-hint">ESC</span>
-              </div>
-              <div className="cmd-results">
-                {filtered.map((s) => (
-                  <button
-                    key={s.id}
-                    className="cmd-result"
-                    onClick={() => navigate(s.id)}
-                  >
-                    <span className="cmd-result-label">{s.label}</span>
-                    <span className="cmd-result-shortcut">{s.shortcut}</span>
-                  </button>
-                ))}
-                {filtered.length === 0 && (
-                  <div className="cmd-empty">No results found</div>
-                )}
-              </div>
-            </motion.div>
+            <div className="cmd-input-wrap">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="var(--fg-dim)" strokeWidth="1.5">
+                <circle cx="6" cy="6" r="5" />
+                <line x1="10" y1="10" x2="13" y2="13" />
+              </svg>
+              <input
+                ref={inputRef}
+                className="cmd-input"
+                placeholder="Navigate to..."
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && filtered.length > 0) {
+                    navigate(filtered[0].id)
+                  }
+                }}
+              />
+              <span className="cmd-hint">ESC</span>
+            </div>
+            <div className="cmd-results">
+              {filtered.map((s) => (
+                <button
+                  key={s.id}
+                  className="cmd-result"
+                  onClick={() => navigate(s.id)}
+                >
+                  <span className="cmd-result-label">{s.label}</span>
+                  <span className="cmd-result-shortcut">{s.shortcut}</span>
+                </button>
+              ))}
+              {filtered.length === 0 && (
+                <div className="cmd-empty">No results found</div>
+              )}
+            </div>
           </motion.div>
-        )}
-      </AnimatePresence>
-    </>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }

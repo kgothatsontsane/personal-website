@@ -8,7 +8,6 @@ import Minimap from './components/Minimap'
 import Wasted from './components/Wasted'
 import BackToTop from './components/BackToTop'
 import CommandPalette from './components/CommandPalette'
-import ThemeToggle from './components/ThemeToggle'
 import SectionDivider from './components/SectionDivider'
 import LearningMarquee from './components/LearningMarquee'
 import MissionStats from './components/MissionStats'
@@ -44,18 +43,12 @@ function GlowCursor() {
     place(ring, mx, my)
     place(glow, mx, my)
 
-    const onMove = (e) => {
-      mx = e.clientX
-      my = e.clientY
-      place(dot, mx, my)
-    }
-
+    const onMove = (e) => { mx = e.clientX; my = e.clientY; place(dot, mx, my) }
     const onOver = (e) => {
       const tag = e.target.tagName
       const isInteractive = tag === 'A' || tag === 'BUTTON' || tag === 'INPUT' || tag === 'TEXTAREA' || e.target.closest('a, button, [role="button"]')
       setHovering(!!isInteractive)
     }
-
     const onDown = () => setClicking(true)
     const onUp = () => setClicking(false)
 
@@ -132,6 +125,8 @@ function SectionLoader() {
 }
 
 export default function App() {
+  const [searchOpen, setSearchOpen] = useState(false)
+
   return (
     <>
       <GlowCursor />
@@ -141,9 +136,8 @@ export default function App() {
       <ConfettiCanvas />
       <div className="noise-overlay" aria-hidden="true" />
       <div className="scanlines" aria-hidden="true" />
-      <Nav />
-      <CommandPalette />
-      <ThemeToggle />
+      <Nav onSearchOpen={() => setSearchOpen(true)} />
+      <CommandPalette open={searchOpen} setOpen={setSearchOpen} />
       <Minimap />
       <Wasted />
       <BackToTop />
