@@ -647,10 +647,38 @@ a, button, input, textarea { cursor: none; }
   letter-spacing: 2px;
   color: var(--fg);
   text-decoration: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  overflow: hidden;
 }
 
-.nav-logo span {
+.nav-logo-k {
   color: var(--accent);
+  font-size: 1.5rem;
+  transition: transform 0.3s var(--ease-spring);
+}
+
+.nav-logo:hover .nav-logo-k {
+  transform: scale(1.15);
+}
+
+.nav-logo-text {
+  color: var(--fg);
+}
+
+.nav-logo-dot {
+  color: var(--accent);
+}
+
+.nav-logo-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width 0.1s linear;
 }
 
 .nav-links {
@@ -867,8 +895,8 @@ a, button, input, textarea { cursor: none; }
 }
 
 .mission-card:hover {
-  border-color: rgba(255, 204, 0, 0.3);
-  box-shadow: 0 0 30px rgba(255, 204, 0, 0.06), 0 20px 60px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255, 204, 0, 0.5);
+  box-shadow: 0 0 40px rgba(255, 204, 0, 0.12), 0 20px 60px rgba(0, 0, 0, 0.3), inset 0 0 30px rgba(255, 204, 0, 0.03);
 }
 
 .mission-card-image {

@@ -7,10 +7,13 @@ export default function Nav() {
   const [active, setActive] = useState('hero')
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scrollPct, setScrollPct] = useState(0)
 
   useEffect(() => {
     const onScroll = () => {
       setScrolled(window.scrollY > 50)
+      const docH = document.documentElement.scrollHeight - window.innerHeight
+      setScrollPct(docH > 0 ? (window.scrollY / docH) * 100 : 0)
       const offsets = sections.map(id => {
         const el = document.getElementById(id)
         return { id, top: el?.offsetTop ?? 0, height: el?.offsetHeight ?? 0 }
@@ -35,7 +38,10 @@ export default function Nav() {
   return (
     <nav className={`nav${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
       <a className="nav-logo" href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero') }}>
-        KGOTHATSO<span>.</span>
+        <span className="nav-logo-k">K</span>
+        <span className="nav-logo-text">GOTHATSO</span>
+        <span className="nav-logo-dot">.</span>
+        <div className="nav-logo-progress" style={{ width: `${scrollPct}%` }} />
       </a>
       <button
         className={`nav-burger${menuOpen ? ' open' : ''}`}
