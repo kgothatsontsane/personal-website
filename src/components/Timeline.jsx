@@ -30,7 +30,6 @@ export default function Timeline() {
       viewport={{ once: true, amount: 0.1 }}
       ref={containerRef}
     >
-      <motion.div className="section-label" variants={child}>// EXPERIENCE</motion.div>
       <motion.h2 className="section-title" variants={child}>
         Where I've <span>Worked</span>
       </motion.h2>

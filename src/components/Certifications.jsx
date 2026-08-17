@@ -29,7 +29,6 @@ export default function Certifications() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <motion.div className="section-label" variants={child}>// CREDENTIALS</motion.div>
       <motion.h2 className="section-title" variants={child} style={{ fontSize: '3rem', marginBottom: '2rem' }}>
         Certified <span>& Verified</span>
       </motion.h2>
@@ -90,7 +89,7 @@ export default function Certifications() {
                 color: 'var(--fg-dim)',
                 letterSpacing: '0.5px',
               }}>
-                {cert.issuer} · {cert.year}
+                {cert.issuer} / {cert.year}
               </div>
             </div>
             <div style={{

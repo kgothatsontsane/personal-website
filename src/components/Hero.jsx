@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { personalInfo, specializations, certifications, loadingMessages } from '../data'
+import { personalInfo, specializations, certifications, missions, loadingMessages } from '../data'
 
 const roles = [
   'Full-Stack Developer',
-  'React Specialist',
-  'Cloud Architect',
+  'AI Integrator',
+  'Systems Architect',
   'API Engineer',
   'Problem Solver',
 ]
@@ -101,11 +101,12 @@ export default function Hero() {
   const nameFirst = personalInfo.name.split(' ')[0]
   const nameRest = personalInfo.name.split(' ').slice(1).join(' ')
 
-  const quickStats = [
-    { value: `${personalInfo.missionCount}+`, label: 'Years' },
-    { value: specializations.length, label: 'Skills' },
-    { value: certifications.length, label: 'Certs' },
-  ]
+const heroStats = [
+  { value: missions.length, label: 'Projects Completed' },
+  { value: specializations.length, label: 'Skills Mastered' },
+  { value: certifications.length, label: 'Certifications' },
+  { value: 7, suffix: '+', label: 'Years Experience' },
+]
 
   return (
     <>
@@ -148,41 +149,31 @@ export default function Hero() {
 
         <div className="hero-content">
           <motion.div className="hero-label" variants={childVariants}>
-            — {personalInfo.tagline} —
+            {personalInfo.tagline}
           </motion.div>
-          <motion.div className="hero-name hero-name-xl" variants={childVariants}>
-            {nameFirst}<br />
-            <span className="text-stroke-hero glitch" data-text={nameRest}>
-              {nameRest}
-            </span>
+          <motion.div className="hero-name-block" variants={childVariants}>
+            <div className="hero-name hero-name-first">{nameFirst}</div>
+            <div className="hero-name hero-name-last">
+              <span className="text-stroke-hero" data-text={nameRest}>
+                {nameRest}
+              </span>
+            </div>
           </motion.div>
           <motion.div className="hero-meta" variants={childVariants}>
-            <span className="hero-typing-wrap"><TypingRole /></span>
-            <span>•</span>
-            <span>{personalInfo.location}</span>
-            <span>•</span>
-            <span>{personalInfo.missionCount}+ Years</span>
-          </motion.div>
-
-          <motion.div className="hero-stats" variants={childVariants}>
-            {quickStats.map((s, i) => (
-              <div key={i} className="hero-stat">
-                <div className="hero-stat-value">{s.value}</div>
-                <div className="hero-stat-label">{s.label}</div>
-              </div>
-            ))}
+            <div className="hero-meta-line"><span className="hero-typing-wrap"><TypingRole /></span></div>
+            <div className="hero-meta-line">{personalInfo.location}</div>
+            <div className="hero-meta-line">{personalInfo.missionCount}+ Years of Experience</div>
           </motion.div>
 
           <motion.div className="hero-cta" variants={childVariants}>
-            <a className="btn-primary" href="#projects">View Projects →</a>
+            <a className="btn-primary" href="#projects">View Projects</a>
             <a className="btn-secondary" href="#contact">Contact</a>
             <a
-              className="btn-secondary"
+              className="hero-cv-link"
               href="/Kgothatso Ntsane Resume.pdf"
               download
-              style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}
             >
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M6 1v8M3 6l3 3 3-3M2 10h8" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
               Download CV
@@ -190,7 +181,6 @@ export default function Hero() {
           </motion.div>
         </div>
         <div className="hero-edge-bottom" />
-        <div className="hero-scroll-indicator">Scroll to navigate</div>
       </motion.section>
     </>
   )

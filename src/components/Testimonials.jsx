@@ -4,7 +4,7 @@ const testimonials = [
   {
     name: 'Sarah Chen',
     role: 'CTO, TechCorp',
-    text: 'Delivered the platform 2 weeks ahead of schedule. The code quality was exceptional — clean, well-tested, and easy to maintain.',
+    text: 'Delivered the platform 2 weeks ahead of schedule. The code quality was exceptional: clean, well-tested, and easy to maintain.',
     clearance: 'LEVEL 5',
   },
   {
@@ -41,7 +41,7 @@ export default function Testimonials() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// FIELD REPORTS</motion.div>
+      <motion.div className="section-label" variants={child}>// TESTIMONIALS</motion.div>
       <motion.h2 className="section-title" variants={child}>
         Mission <span>Evaluations</span>
       </motion.h2>

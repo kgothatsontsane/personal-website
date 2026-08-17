@@ -22,7 +22,7 @@ const tagVariants = {
 export default function LearningMarquee() {
   return (
     <div className="marquee-section">
-      <div className="marquee-label">// STAYING SHARP</div>
+
       <div className="marquee-track">
         <motion.div
           className="marquee-content"

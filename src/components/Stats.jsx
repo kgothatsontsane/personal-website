@@ -15,10 +15,10 @@ const restSkills = specializations.slice(6)
 
 function RadarChart({ skills }) {
   const [hovered, setHovered] = useState(null)
-  const size = 280
+  const size = 380
   const cx = size / 2
   const cy = size / 2
-  const maxR = 110
+  const maxR = 150
   const n = skills.length
   const angleStep = (2 * Math.PI) / n
   const rings = [25, 50, 75, 100]
@@ -32,7 +32,7 @@ function RadarChart({ skills }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      <svg viewBox={`0 0 ${size} ${size}`} style={{ width: '100%', maxWidth: '320px' }}>
+      <svg viewBox={`-30 -10 ${size + 60} ${size + 20}`} style={{ width: '100%', maxWidth: '520px', overflow: 'visible' }}>
         {rings.map((r) => (
           <polygon
             key={r}
@@ -73,12 +73,17 @@ function RadarChart({ skills }) {
         ))}
         {skills.map((s, i) => {
           const p = getPoint(i, maxR + 22)
+          const angle = i * angleStep - Math.PI / 2
+          const cosA = Math.cos(angle)
+          let anchor = 'middle'
+          if (cosA > 0.3) anchor = 'start'
+          else if (cosA < -0.3) anchor = 'end'
           return (
             <text
               key={i}
-              x={p.x}
+              x={p.x + (cosA > 0.3 ? 4 : cosA < -0.3 ? -4 : 0)}
               y={p.y}
-              textAnchor="middle"
+              textAnchor={anchor}
               dominantBaseline="middle"
               fill={hovered === i ? 'var(--accent)' : 'var(--fg-secondary)'}
               fontSize="9"
@@ -109,7 +114,7 @@ function RadarChart({ skills }) {
           whiteSpace: 'nowrap',
           zIndex: 10,
         }}>
-          {skills[hovered].name}: {skills[hovered].level}% — {levels[getLevel(skills[hovered].level)]}
+          {skills[hovered].name}: {skills[hovered].level}% / {levels[getLevel(skills[hovered].level)]}
         </div>
       )}
     </div>
@@ -198,7 +203,7 @@ export default function Stats() {
       </h2>
 
       <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div>
+        <div style={{ flex: '0 0 50%', minWidth: '320px' }}>
           <RadarChart skills={topSkills} />
         </div>
 

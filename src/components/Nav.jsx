@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-const sections = ['hero', 'about', 'projects', 'stats', 'certifications', 'timeline', 'contact']
+const sections = ['hero', 'philosophy', 'about', 'projects', 'stats', 'certifications', 'timeline', 'contact']
 
 export default function Nav({ onSearchOpen }) {
   const [active, setActive] = useState('hero')

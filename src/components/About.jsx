@@ -11,61 +11,17 @@ const child = {
   visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
 }
 
-const photoReveal = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 } },
-}
-
 const codeSnippet = `const developer = {
   name: "${personalInfo.name}",
   role: "${personalInfo.tagline}",
   location: "${personalInfo.location}",
   experience: "7+ years",
-  stack: ["React", "TypeScript", "Node.js", "Azure"],
+  stack: ["Frontend", "Backend", "Cloud", "AI"],
   superpower: "Making complex things simple",
   status: () => "OPEN TO WORK",
 };`
 
 const codeLines = codeSnippet.split('\n')
-
-const techOrbit = [
-  { name: 'React', angle: 0, radius: 140 },
-  { name: 'TypeScript', angle: 45, radius: 150 },
-  { name: 'Node.js', angle: 90, radius: 135 },
-  { name: 'Azure', angle: 135, radius: 145 },
-  { name: 'MongoDB', angle: 180, radius: 140 },
-  { name: 'AWS', angle: 225, radius: 150 },
-  { name: 'Docker', angle: 270, radius: 135 },
-  { name: 'PostgreSQL', angle: 315, radius: 145 },
-]
-
-function TechOrbit() {
-  return (
-    <div className="tech-orbit">
-      <div className="tech-orbit-ring" />
-      <div className="tech-orbit-ring tech-orbit-ring-2" />
-      {techOrbit.map((t, i) => {
-        const rad = (t.angle * Math.PI) / 180
-        const x = Math.cos(rad) * t.radius
-        const y = Math.sin(rad) * t.radius
-        return (
-          <motion.div
-            key={t.name}
-            className="tech-orbit-item"
-            initial={{ opacity: 0, scale: 0 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: i * 0.08, duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-            style={{ transform: `translate(${x}px, ${y}px)` }}
-          >
-            {t.name}
-          </motion.div>
-        )
-      })}
-      <div className="tech-orbit-center">STACK</div>
-    </div>
-  )
-}
 
 function CodeBlock() {
   return (
@@ -147,16 +103,32 @@ export default function About() {
       whileInView="visible"
       viewport={{ once: true, amount: 0.1 }}
     >
-      <motion.div className="section-label" variants={child}>// ABOUT</motion.div>
       <motion.h2 className="section-title" variants={child}>
         The <span>Engineer</span>
       </motion.h2>
 
       <div className="about-grid">
-        <motion.div className="about-portrait-frame" variants={photoReveal}>
-          <span className="about-badge" style={{ transform: 'rotate(-2deg)', zIndex: 2 }}>CLASSIFIED</span>
+        <motion.div className="about-portrait-frame" variants={child}>
           <div className="about-portrait-inner">
-            <TechOrbit />
+            <div className="about-portrait-pattern" />
+            <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>
+            <div className="about-portrait-id">
+              <div className="about-portrait-id-row">
+                <span>NAME</span>
+                <span>{personalInfo.name}</span>
+              </div>
+              <div className="about-portrait-id-row">
+                <span>CLEARANCE</span>
+                <span>{personalInfo.clearance}</span>
+              </div>
+              <div className="about-portrait-id-row">
+                <span>STATUS</span>
+                <span className="about-portrait-status">
+                  <span className="about-portrait-dot" />
+                  {personalInfo.status}
+                </span>
+              </div>
+            </div>
           </div>
         </motion.div>
 
@@ -167,14 +139,6 @@ export default function About() {
             <div className="about-stat">
               <div className="about-stat-label">Location</div>
               <div className="about-stat-value">{personalInfo.location}</div>
-            </div>
-            <div className="about-stat">
-              <div className="about-stat-label">Clearance</div>
-              <div className="about-stat-value">{personalInfo.clearance}</div>
-            </div>
-            <div className="about-stat">
-              <div className="about-stat-label">Status</div>
-              <div className="about-stat-value">{personalInfo.status}</div>
             </div>
             <div className="about-stat">
               <div className="about-stat-label">Specialty</div>

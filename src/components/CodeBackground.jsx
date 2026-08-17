@@ -13,7 +13,6 @@ const codeLines = [
   '}',
   '',
   'import { motion } from "framer-motion";',
-  'import { Canvas } from "@react-three/fiber";',
   '',
   'async function deploy() {',
   '  await build();',
@@ -35,40 +34,40 @@ const codeLines = [
 ]
 
 export default function CodeBackground() {
-  const canvasRef = useRef(null)
+  const ref = useRef(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
+    const c = ref.current
+    if (!c) return
+    const ctx = c.getContext('2d')
     let animId
 
     const resize = () => {
-      canvas.width = window.innerWidth
-      canvas.height = window.innerHeight
+      c.width = window.innerWidth
+      c.height = window.innerHeight
     }
     resize()
     window.addEventListener('resize', resize)
 
     const lines = codeLines.map((text, i) => ({
       text,
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
       speed: Math.random() * 0.15 + 0.05,
       opacity: Math.random() * 0.06 + 0.02,
       size: Math.random() * 3 + 9,
     }))
 
     const draw = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height)
+      ctx.clearRect(0, 0, c.width, c.height)
       for (const l of lines) {
         ctx.font = `${l.size}px "JetBrains Mono", monospace`
         ctx.fillStyle = `rgba(255, 204, 0, ${l.opacity})`
         ctx.fillText(l.text, l.x, l.y)
         l.y += l.speed
-        if (l.y > canvas.height + 20) {
+        if (l.y > c.height + 20) {
           l.y = -20
-          l.x = Math.random() * canvas.width
+          l.x = Math.random() * c.width
           l.text = codeLines[Math.floor(Math.random() * codeLines.length)]
         }
       }
@@ -84,7 +83,7 @@ export default function CodeBackground() {
 
   return (
     <canvas
-      ref={canvasRef}
+      ref={ref}
       style={{
         position: 'fixed',
         inset: 0,

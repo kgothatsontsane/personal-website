@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 const sections = [
   { id: 'hero', label: 'Home', shortcut: 'H' },
+  { id: 'philosophy', label: 'Philosophy', shortcut: 'P' },
   { id: 'about', label: 'About', shortcut: 'A' },
   { id: 'projects', label: 'Projects', shortcut: 'P' },
   { id: 'stats', label: 'Skills', shortcut: 'S' },

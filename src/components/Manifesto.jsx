@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { personalInfo } from '../data'
+import { personalInfo, missions, specializations, certifications } from '../data'
 
 const child = {
   hidden: { opacity: 0, y: 20 },
@@ -11,33 +11,63 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 }
 
+const stats = [
+  { value: missions.length, label: 'Projects Completed' },
+  { value: specializations.length, label: 'Skills Mastered' },
+  { value: certifications.length, label: 'Certifications' },
+  { value: 7, suffix: '+', label: 'Years of Experience' },
+  { value: 3, label: 'Roles Held' },
+  { value: 'Open', label: 'Availability' },
+]
+
+const principles = [
+  { num: '01', title: 'Systems over features', body: 'Every line of code is a liability. I write less, so the codebase carries more.' },
+  { num: '02', title: 'Ship to learn', body: 'The fastest way to know if it works is to put it in front of real users. Then iterate.' },
+  { num: '03', title: 'Readability wins', body: 'Code is read 10x more than it is written. Optimise for the next engineer, not the compiler.' },
+  { num: '04', title: 'Compounding craft', body: 'Good systems get cheaper to extend over time. Bad systems compound technical debt.' },
+]
+
 export default function Manifesto() {
   return (
     <motion.section
+      id="philosophy"
       className="manifesto"
       variants={stagger}
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, amount: 0.3 }}
+      initial="visible"
     >
       <div className="manifesto-bg">
         <span>THINK</span>
         <span>BUILD</span>
         <span>SHIP</span>
       </div>
-      <div className="manifesto-content">
-        <motion.div className="manifesto-label" variants={child}>
-          // PHILOSOPHY
-        </motion.div>
-        <motion.blockquote className="manifesto-quote" variants={child}>
-          I don't build <span className="text-stroke">websites</span>.<br />
-          I build systems that<br />
-          outlast the hype cycle.
-        </motion.blockquote>
-        <motion.p className="manifesto-sub" variants={child}>
-          {personalInfo.missionCount}+ years of shipping production software. From startup MVPs to enterprise platforms.
-          I write code that other engineers can read, deploy, and sleep through the night after.
-        </motion.p>
+
+      <div className="manifesto-inner">
+        <div className="manifesto-hero">
+          <motion.h2 className="manifesto-quote" variants={child}>
+            I don't write <span className="text-stroke">code</span>.<br />
+            I build systems<br />
+            that <span className="text-fill">compound</span>.
+          </motion.h2>
+
+          <motion.div className="manifesto-stats" variants={child}>
+            {stats.map((s, i) => (
+              <div key={i} className="manifesto-stat">
+                <div className="manifesto-stat-value">{s.value}{s.suffix || ''}</div>
+                <div className="manifesto-stat-label">{s.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+        <div className="manifesto-grid">
+          {principles.map((p) => (
+            <motion.div key={p.num} className="manifesto-principle" variants={child}>
+              <div className="manifesto-principle-num">{p.num}</div>
+              <div className="manifesto-principle-title">{p.title}</div>
+              <div className="manifesto-principle-body">{p.body}</div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </motion.section>
   )
