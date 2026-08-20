@@ -69,19 +69,25 @@ export default function Minimap() {
       position: 'fixed',
       bottom: '1.5rem',
       left: 'calc(1.5rem + 52px)',
+      right: '1.5rem',
       zIndex: 8999,
-      width: '260px',
-      maxWidth: 'calc(100vw - 7rem)',
+      background: 'rgba(10, 10, 15, 0.94)',
+      border: '1px solid rgba(255, 204, 0, 0.3)',
+      borderLeft: 'none',
+      backdropFilter: 'blur(10px)',
+      boxShadow: '0 4px 24px rgba(0, 0, 0, 0.5)',
+      padding: '8px 14px 10px',
+      borderRadius: '0 4px 4px 0',
     }}>
       <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'baseline',
-        marginBottom: '4px',
+        marginBottom: '6px',
       }}>
         <span style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.45rem',
+          fontSize: '0.55rem',
           color: 'var(--accent)',
           letterSpacing: '2px',
         }}>
@@ -89,7 +95,7 @@ export default function Minimap() {
         </span>
         <span style={{
           fontFamily: 'var(--font-mono)',
-          fontSize: '0.45rem',
+          fontSize: '0.5rem',
           color: 'var(--fg-dim)',
           letterSpacing: '1px',
         }}>
@@ -98,12 +104,11 @@ export default function Minimap() {
       </div>
       <div style={{
         position: 'relative',
-        height: '12px',
-        background: 'rgba(10, 10, 15, 0.9)',
+        height: '14px',
+        background: 'rgba(255, 255, 255, 0.06)',
         border: '1px solid rgba(255, 204, 0, 0.25)',
-        borderRadius: '4px',
+        borderRadius: '2px',
         overflow: 'hidden',
-        backdropFilter: 'blur(8px)',
       }}>
         <div style={{
           position: 'absolute',
@@ -111,8 +116,8 @@ export default function Minimap() {
           left: 0,
           height: '100%',
           width: `${progress * 100}%`,
-          background: 'linear-gradient(90deg, rgba(255,204,0,0.4), var(--accent))',
-          boxShadow: '0 0 12px rgba(255,204,0,0.3)',
+          background: 'linear-gradient(90deg, rgba(255,204,0,0.5), var(--accent))',
+          boxShadow: '0 0 14px rgba(255,204,0,0.4)',
           transition: 'width 0.1s linear',
         }} />
         {sections.map((s) => {
@@ -130,13 +135,13 @@ export default function Minimap() {
                 top: '50%',
                 left: `${pos}%`,
                 transform: 'translate(-50%, -50%)',
-                width: '6px',
-                height: '6px',
+                width: '8px',
+                height: '8px',
                 borderRadius: '50%',
                 padding: 0,
-                background: isActive ? 'var(--accent)' : 'transparent',
-                border: `1px solid ${isActive ? 'var(--accent)' : 'rgba(255,204,0,0.4)'}`,
-                boxShadow: isActive ? '0 0 8px rgba(255,204,0,0.6)' : 'none',
+                background: isActive ? 'var(--accent)' : 'rgba(10, 10, 15, 0.9)',
+                border: `1px solid ${isActive ? 'var(--accent)' : 'rgba(255,204,0,0.5)'}`,
+                boxShadow: isActive ? '0 0 10px rgba(255,204,0,0.8)' : '0 0 4px rgba(0,0,0,0.6)',
                 cursor: 'pointer',
                 transition: 'all 0.3s ease',
                 zIndex: 2,

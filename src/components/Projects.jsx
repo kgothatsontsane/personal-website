@@ -46,7 +46,7 @@ function MissionCard({ m, large = false }) {
     >
       <div className="mission-header">
         <div className="mission-classified">
-          <span className="mission-classified-badge" style={{ transform: `rotate(${-1 + Math.random() * 2}deg)` }}>TOP SECRET</span>
+          <span className="mission-classified-badge" style={{ transform: `rotate(${-1 + Math.random() * 2}deg)` }}>TOP SECRET // REDACTED</span>
           <span className="mission-id">/// MISSION_{m.id}</span>
         </div>
         <div className="mission-clearance">
@@ -67,7 +67,7 @@ function MissionCard({ m, large = false }) {
         {/* Expandable description — CSS grid row transition on hover */}
         <div className="mission-expand-wrap">
           <div className="mission-expand-inner">
-            <div className="mission-brief">{m.description}</div>
+            <div className="mission-brief"><span className="mission-brief-text">{m.description}</span></div>
             <div className="mission-equipment">
               {m.equipment.map(t => (
                 <span key={t} className="mission-tag">{t}</span>
@@ -80,7 +80,7 @@ function MissionCard({ m, large = false }) {
           <div className="mission-status">
             ▸ <span className="mission-status-dot">●</span> {m.status}
           </div>
-          <div className="mission-cta-hint">Hover to reveal →</div>
+          <div className="mission-cta-hint">Hover to unredact →</div>
         </div>
       </div>
     </TiltCard>
