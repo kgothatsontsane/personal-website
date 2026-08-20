@@ -46,7 +46,7 @@ function MissionCard({ m, large = false }) {
     >
       <div className="mission-header">
         <div className="mission-classified">
-          <span className="mission-classified-badge" style={{ transform: `rotate(${-1 + Math.random() * 2}deg)` }}>TOP SECRET // REDACTED</span>
+          <span className="mission-classified-badge" style={{ transform: `rotate(${[-1, 1, -0.5, 1.5][Number(m.id) % 4]}deg)` }}>TOP SECRET // REDACTED</span>
           <span className="mission-id">/// MISSION_{m.id}</span>
         </div>
         <div className="mission-clearance">

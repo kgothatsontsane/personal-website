@@ -12,9 +12,9 @@ from practice. Each new loop engineering project should copy this file.
 
 ## Observations
 
-<!--
-Template:
-- **What happened:** ...
-- **Move/cost:** ...
-- **Change to make:** ...
--->
+- **What happened:** Math.random() used for badge rotation re-rolled on every TiltCard mousemove rerender, causing stamp jitter.
+- **Move/cost:** Verification (evaluator caught render-time randomness).
+- **Change to make:** Deterministic values keyed by data id, never Math.random() in JSX render output.
+- **What happened:** Hover-only interactions are dead on touch devices.
+- **Move/cost:** Verification.
+- **Change to make:** Always pair hover reveals with a mobile media-query fallback that forces content visible.
