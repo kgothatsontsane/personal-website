@@ -39,7 +39,7 @@ function TiltCard({ children, className = '', style = {} }) {
 }
 
 function MissionCard({ m, large = false }) {
-  return (
+  const CardInner = (
     <TiltCard
       className={`mission-card group${large ? ' mission-card-large' : ''}`}
       style={{ gridRow: large ? 'span 2' : undefined }}
@@ -47,7 +47,7 @@ function MissionCard({ m, large = false }) {
       <div className="mission-header">
         <div className="mission-classified">
           <span className="mission-classified-badge" style={{ transform: `rotate(${[-1, 1, -0.5, 1.5][Number(m.id) % 4]}deg)` }}>TOP SECRET // REDACTED</span>
-          <span className="mission-id">/// MISSION_{m.id}</span>
+          <span className="mission-id">/// PROJECT_{m.id}</span>
         </div>
         <div className="mission-clearance">
           LEVEL <span>{m.difficulty + 1}</span>
@@ -64,7 +64,6 @@ function MissionCard({ m, large = false }) {
           </div>
         </div>
 
-        {/* Expandable description — CSS grid row transition on hover */}
         <div className="mission-expand-wrap">
           <div className="mission-expand-inner">
             <div className="mission-brief"><span className="mission-brief-text">{m.description}</span></div>
@@ -80,11 +79,17 @@ function MissionCard({ m, large = false }) {
           <div className="mission-status">
             ▸ <span className="mission-status-dot">●</span> {m.status}
           </div>
-          <div className="mission-cta-hint">Hover to unredact →</div>
+          <div className="mission-cta-hint">{m.href ? 'Hover to unredact · Click to open →' : 'Hover to unredact →'}</div>
         </div>
       </div>
     </TiltCard>
   )
+
+  return m.href ? (
+    <a href={m.href} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', color: 'inherit', display: 'block' }} aria-label={`Open ${m.codename}`}>
+      {CardInner}
+    </a>
+  ) : CardInner
 }
 
 export default function Projects() {

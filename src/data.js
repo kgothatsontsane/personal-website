@@ -13,41 +13,34 @@ export const personalInfo = {
   aboutImage: null,
 }
 
-export const missions = [
+export const projects = [
   {
     id: '001',
-    codename: 'Open Mic Productions',
-    role: 'Full-Stack Engineer / DevOps',
-    budget: '2018-2024',
-    description: 'Built and maintained full-stack applications serving content creators across Southern Africa. Led the migration from monolithic architecture to microservices on AWS. Improved API response times by 25% through query optimization and caching strategies. Managed end-to-end deployment pipelines and mentored junior developers.',
-    equipment: ['React', 'Node.js', 'MongoDB', 'AWS', 'Git'],
+    codename: 'Insight',
+    role: 'AI-Powered Insider Threat Detection',
+    budget: '2026',
+    href: 'https://insight.kgothatso.me',
+    description: 'Explainable AI for insider threat detection — part of UP DigiFors (COS720). Stacking ensemble (RF + XGBoost + LightGBM + CatBoost via logistic regression meta-learner), FGSM/PGD adversarial training, SHAP + LIME dual explainability, and MITRE ATT&CK technique mapping with forensic-ready audit trails.',
+    equipment: ['Python', 'XGBoost', 'LightGBM', 'SHAP', 'LIME', 'React'],
     difficulty: 5,
-    status: 'COMPLETE',
+    status: 'LIVE',
     image: null,
   },
   {
     id: '002',
-    codename: 'Mancor Limited',
-    role: 'Web Developer / IT Support',
-    budget: '2015-2017',
-    description: 'Redesigned the company website from scratch, replacing a legacy WordPress install with a custom solution. Built internal ticketing workflows that reduced average issue resolution time by 40%. First professional role. Learned the foundations that shaped everything after.',
-    equipment: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'IT Support'],
-    difficulty: 4,
-    status: 'COMPLETE',
-    image: null,
-  },
-  {
-    id: '003',
-    codename: 'ALX / Holberton',
-    role: 'Full Stack Software Engineering',
-    budget: '2024-2025',
-    description: 'Intensive hands-on program specializing in backend engineering. Built production-grade applications with Python, Docker, and modern JavaScript frameworks. Focused on system design, API architecture, and cloud deployment patterns.',
-    equipment: ['Python', 'JavaScript', 'React', 'Node.js', 'Docker'],
-    difficulty: 4,
-    status: 'COMPLETE',
+    codename: 'CyberLaw Finder',
+    role: 'AI-Powered Cybercrime Law Search',
+    budget: '2026',
+    href: 'https://cyberlaw.kgothatso.me',
+    description: 'Semantic search for cybercrime statutes across South Africa, USA, and Germany/EU — COS783 Digital Forensics. Sentence-transformers NLP finds relevant laws from plain-language incident descriptions, even without keyword overlap. 96 statutes indexed, 3 jurisdictions.',
+    equipment: ['Next.js', 'Python', 'NLP', 'sentence-transformers', 'AI Search'],
+    difficulty: 5,
+    status: 'LIVE',
     image: null,
   },
 ]
+
+export const missions = projects
 
 export const specializations = [
   { name: 'Frontend Architecture', level: 95 },
@@ -101,12 +94,12 @@ export const skillGroups = {
     label: 'AI Systems',
     short: 'AI',
     skills: [
+      { name: 'Loop Engineering', level: 90 },
+      { name: 'Agentic Systems', level: 88 },
       { name: 'AI Integration', level: 85 },
       { name: 'LLM Architecture', level: 82 },
       { name: 'Prompt Engineering', level: 88 },
       { name: 'Generative AI', level: 84 },
-      { name: 'Applied ML', level: 78 },
-      { name: 'AI Tooling / Ops', level: 80 },
     ],
   },
 }
