@@ -115,6 +115,17 @@ export default function About() {
 
       <div className="about-grid">
         <motion.div className="about-portrait-frame" variants={child}>
+          {personalInfo.aboutImage && (
+            <img
+              src={personalInfo.aboutImage}
+              alt="Workspace — Kgothatso Ntsane"
+              width="800"
+              height="600"
+              loading="lazy"
+              decoding="async"
+              style={{ width: '100%', height: '220px', objectFit: 'cover', display: 'block', borderBottom: '1px solid var(--border)' }}
+            />
+          )}
           <div className="about-portrait-inner">
             <div className="about-portrait-pattern" />
             <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>

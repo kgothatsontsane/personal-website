@@ -53,6 +53,19 @@ function MissionCard({ m, large = false }) {
           LEVEL <span>{m.difficulty + 1}</span>
         </div>
       </div>
+      {m.image && (
+        <div className="mission-card-image">
+          <img
+            src={m.image}
+            alt={`${m.codename} — ${m.role}`}
+            width="800"
+            height="450"
+            loading="lazy"
+            decoding="async"
+            style={{ width: '100%', height: '180px', objectFit: 'cover', display: 'block' }}
+          />
+        </div>
+      )}
       <div className="mission-body">
         <div className="mission-head">
           <div>

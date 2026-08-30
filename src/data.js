@@ -10,7 +10,7 @@ export const personalInfo = {
   email: 'nvisionfactory@gmail.com',
   bio: 'I build things that work. 7 years shipping production software across fintech, e-commerce, and enterprise. From interfaces to infrastructure. I care about systems that scale without needing a rewrite. Currently focused on AI-augmented development, type-safe architectures, and shipping faster than the next quarterly review.',
   heroImage: null,
-  aboutImage: null,
+  aboutImage: '/images/about.jpg',
 }
 
 export const projects = [
@@ -24,7 +24,7 @@ export const projects = [
     equipment: ['Python', 'XGBoost', 'LightGBM', 'SHAP', 'LIME', 'React'],
     difficulty: 5,
     status: 'LIVE',
-    image: null,
+    image: '/images/insight.jpg',
   },
   {
     id: '002',
@@ -36,7 +36,7 @@ export const projects = [
     equipment: ['Next.js', 'Python', 'NLP', 'sentence-transformers', 'AI Search'],
     difficulty: 5,
     status: 'LIVE',
-    image: null,
+    image: '/images/cyberlaw.jpg',
   },
 ]
 
