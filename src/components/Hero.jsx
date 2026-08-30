@@ -66,10 +66,6 @@ export default function Hero() {
       clearInterval(intervalRef.current)
       setReady(true)
       readyRef.current = true
-      const timer = setTimeout(() => {
-        if (readyRef.current && loadingRef.current) doTransition()
-      }, 220)
-      return () => clearTimeout(timer)
     }
   }, [progress])
 
