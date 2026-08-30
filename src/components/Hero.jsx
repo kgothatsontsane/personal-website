@@ -140,9 +140,10 @@ const heroStats = [
           height="800"
           fetchPriority="high"
           decoding="async"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', opacity: 0.04, pointerEvents: 'none', filter: 'grayscale(0.3)' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', opacity: 0.16, pointerEvents: 'none', filter: 'contrast(1.12) brightness(1.06) saturate(1.08)', imageRendering: '-webkit-optimize-contrast' }}
           aria-hidden="true"
         />
+        <div className="hero-sparkle" aria-hidden="true" />
         <motion.div
           className="hero-monogram"
           variants={{

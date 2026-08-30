@@ -16,7 +16,7 @@ const codeSnippet = `const developer = {
   role: "${personalInfo.tagline}",
   location: "${personalInfo.location}",
   experience: "7+ years",
-  stack: ["Security", "Frontend", "Backend", "Cloud", "AI"],
+  stack: ["Security", "FullStack", "Cloud", "AI"],
   superpower: "Hardening the happy path",
   status: () => "OPEN TO WORK",
 };`
@@ -123,10 +123,11 @@ export default function About() {
               height="600"
               loading="lazy"
               decoding="async"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%' }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', filter: 'contrast(1.1) brightness(1.04) saturate(1.06)', imageRendering: '-webkit-optimize-contrast' }}
             />
           )}
-          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,10,15,0.15) 0%, rgba(10,10,15,0.55) 60%, rgba(10,10,15,0.85) 100%)', zIndex: 1 }} aria-hidden="true" />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,10,15,0.08) 0%, rgba(10,10,15,0.42) 55%, rgba(10,10,15,0.78) 100%)', zIndex: 1 }} aria-hidden="true" />
+          <div className="dossier-sparkle" aria-hidden="true" />
           <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '1rem' }}>
             <div className="about-portrait-pattern" style={{ opacity: 0.08 }} />
             <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>
