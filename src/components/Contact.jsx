@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
-import { contactInfo, personalInfo } from '../data'
+import { contactInfo } from '../data'
 
 const stagger = {
   hidden: { opacity: 0 },
@@ -42,22 +42,80 @@ const timelines = [
   { value: 'flex', label: 'Flexible' },
 ]
 
+const RATE_LIMIT_MS = 60_000
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+function sanitize(v) {
+  return v.replace(/[<>]/g, '').trim().slice(0, 2000)
+}
+
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false)
+  const [error, setError] = useState('')
   const [form, setForm] = useState({
-    name: '', email: '', company: '', type: '', budget: '', timeline: '', message: ''
+    name: '', email: '', company: '', type: '', budget: '', timeline: '', message: '', website: ''
   })
+  const lastSubmitRef = useRef(0)
 
   const handleChange = (e) => {
     setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    if (error) setError('')
   }
 
   const handleSubmit = (e) => {
     e.preventDefault()
+    setError('')
+
+    // Honeypot — bots fill hidden field
+    if (form.website) {
+      setSubmitted(true)
+      setTimeout(() => setSubmitted(false), 4000)
+      return
+    }
+
+    // Rate limit — 1 per 60s
+    const now = Date.now()
+    const last = Number(localStorage.getItem('contact_last') || 0)
+    if (now - last < RATE_LIMIT_MS || now - lastSubmitRef.current < RATE_LIMIT_MS) {
+      setError('Please wait a minute before sending another message.')
+      return
+    }
+
+    const name = sanitize(form.name)
+    const email = form.email.trim()
+    const message = sanitize(form.message)
+
+    if (name.length < 2) { setError('Please enter your full name.'); return }
+    if (!EMAIL_RE.test(email)) { setError('Please enter a valid email address.'); return }
+    if (message.length < 10) { setError('Please add a bit more detail (at least 10 characters).'); return }
+
+    // Build mailto — works with Zoho/Gmail, no backend needed
+    // TODO: replace with fetch to Zoho/Resend/Formspree when hire@kgothatso.me is live
+    const to = contactInfo.email // nvisionfactory@gmail.com → swap to hire@kgothatso.me after Zoho
+    const subject = `Portfolio inquiry: ${form.type || 'General'} — ${name}`
+    const bodyLines = [
+      `Name: ${name}`,
+      `Email: ${email}`,
+      form.company ? `Company: ${sanitize(form.company)}` : null,
+      form.type ? `Project type: ${form.type}` : null,
+      form.budget ? `Budget: ${form.budget}` : null,
+      form.timeline ? `Timeline: ${form.timeline}` : null,
+      '',
+      message,
+    ].filter(Boolean)
+    const body = bodyLines.join('\n')
+    const mailto = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+
+    lastSubmitRef.current = now
+    localStorage.setItem('contact_last', String(now))
+
+    // Open mail client
+    window.location.href = mailto
+
     setSubmitted(true)
     setTimeout(() => {
       setSubmitted(false)
-      setForm({ name: '', email: '', company: '', type: '', budget: '', timeline: '', message: '' })
+      setForm({ name: '', email: '', company: '', type: '', budget: '', timeline: '', message: '', website: '' })
     }, 4000)
   }
 
@@ -113,21 +171,27 @@ export default function Contact() {
 
         <motion.div className="contact-right" variants={child}>
           <div className="contact-terminal">
-            <form className="contact-form" onSubmit={handleSubmit}>
+            <form className="contact-form" onSubmit={handleSubmit} noValidate>
+              {/* Honeypot — hidden from users, visible to bots */}
+              <div aria-hidden="true" style={{ position: 'absolute', left: '-5000px', top: 'auto', width: 1, height: 1, overflow: 'hidden' }}>
+                <label htmlFor="website">Website</label>
+                <input id="website" name="website" type="text" tabIndex={-1} autoComplete="off" value={form.website} onChange={handleChange} />
+              </div>
+
               <div className="contact-grid">
                 <div className="contact-field">
                   <label htmlFor="name">Name <span className="contact-req">*</span></label>
-                  <input id="name" name="name" type="text" placeholder="Your full name" value={form.name} onChange={handleChange} required />
+                  <input id="name" name="name" type="text" placeholder="Your full name" value={form.name} onChange={handleChange} required autoComplete="name" maxLength={100} />
                 </div>
                 <div className="contact-field">
                   <label htmlFor="email">Email <span className="contact-req">*</span></label>
-                  <input id="email" name="email" type="email" placeholder="you@company.com" value={form.email} onChange={handleChange} required />
+                  <input id="email" name="email" type="email" placeholder="you@company.com" value={form.email} onChange={handleChange} required autoComplete="email" maxLength={150} inputMode="email" />
                 </div>
               </div>
 
               <div className="contact-field">
                 <label htmlFor="company">Company / Organisation</label>
-                <input id="company" name="company" type="text" placeholder="Optional" value={form.company} onChange={handleChange} />
+                <input id="company" name="company" type="text" placeholder="Optional" value={form.company} onChange={handleChange} autoComplete="organization" maxLength={120} />
               </div>
 
               <div className="contact-grid">
@@ -154,12 +218,17 @@ export default function Contact() {
 
               <div className="contact-field">
                 <label htmlFor="message">Message <span className="contact-req">*</span></label>
-                <textarea id="message" name="message" placeholder="Tell me about the project, the problem, the timeline, and what success looks like." rows={5} value={form.message} onChange={handleChange} required />
+                <textarea id="message" name="message" placeholder="Tell me about the project, the problem, the timeline, and what success looks like." rows={5} value={form.message} onChange={handleChange} required maxLength={2000} />
               </div>
 
-              <button type="submit" className="contact-submit" disabled={submitted}>
-                {submitted ? '✓ Message Sent — I\'ll respond within 24h' : 'Send Message'}
+              {error && <div role="alert" style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', color: '#ff5555', border: '1px solid rgba(255,85,85,0.3)', padding: '8px 10px', borderRadius: '4px' }}>{error}</div>}
+
+              <button type="submit" className="contact-submit" disabled={submitted} aria-live="polite">
+                {submitted ? '✓ Opening email client — I\'ll respond within 24h' : 'Send Message'}
               </button>
+              <p style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--fg-dim)', marginTop: '8px', lineHeight: 1.5 }}>
+                No backend — opens your email client to {contactInfo.email}. Add hire@kgothatso.me after Zoho setup.
+              </p>
             </form>
           </div>
         </motion.div>
