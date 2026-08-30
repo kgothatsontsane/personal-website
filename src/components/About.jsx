@@ -114,22 +114,23 @@ export default function About() {
       </motion.h2>
 
       <div className="about-grid">
-        <motion.div className="about-portrait-frame" variants={child}>
+        <motion.div className="about-portrait-frame" variants={child} style={{ position: 'relative', overflow: 'hidden', minHeight: '340px' }}>
           {personalInfo.aboutImage && (
             <img
               src={personalInfo.aboutImage}
-              alt="Workspace — Kgothatso Ntsane"
+              alt=""
               width="800"
               height="600"
               loading="lazy"
               decoding="async"
-              style={{ width: '100%', height: '220px', objectFit: 'cover', display: 'block', borderBottom: '1px solid var(--border)' }}
+              aria-hidden="true"
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.14, filter: 'grayscale(0.2) contrast(1.05)' }}
             />
           )}
-          <div className="about-portrait-inner">
-            <div className="about-portrait-pattern" />
+          <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 1 }}>
+            <div className="about-portrait-pattern" style={{ opacity: 0.12 }} />
             <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>
-            <div className="about-portrait-id">
+            <div className="about-portrait-id" style={{ opacity: 0, pointerEvents: 'none', userSelect: 'none' }} aria-hidden="true">
               <div className="about-portrait-id-row">
                 <span>NAME</span>
                 <span>{personalInfo.name}</span>
@@ -164,6 +165,26 @@ export default function About() {
           </div>
 
           <CodeBlock />
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginTop: '1.25rem' }}>
+            {[
+              { src: '/images/gallery-1005.jpg', alt: 'City panorama — Johannesburg' },
+              { src: '/images/gallery-1006.jpg', alt: 'Portrait — smiling' },
+              { src: '/images/gallery-1017.jpg', alt: 'Mandela statue — Union Buildings' },
+            ].map(img => (
+              <img
+                key={img.src}
+                src={img.src}
+                alt={img.alt}
+                width="400"
+                height="500"
+                loading="lazy"
+                decoding="async"
+                style={{ width: '100%', height: '100px', objectFit: 'cover', display: 'block', border: '1px solid var(--border)', borderRadius: '4px', filter: 'grayscale(0.15)' }}
+              />
+            ))}
+          </div>
+          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--fg-dim)', letterSpacing: '1px', marginTop: '0.4rem', textAlign: 'right' }}>Union Buildings · Pretoria — personal · Ntsakosi Snaps</div>
         </motion.div>
       </div>
     </motion.section>

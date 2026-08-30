@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 const sections = ['hero', 'philosophy', 'about', 'projects', 'stats', 'certifications', 'timeline', 'contact']
 
@@ -8,20 +8,12 @@ export default function Nav({ onSearchOpen }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollPct, setScrollPct] = useState(0)
   const [dark, setDark] = useState(true)
-  const offsetsRef = useRef([])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
   }, [dark])
 
   useEffect(() => {
-    const cache = () => {
-      offsetsRef.current = sections.map(id => {
-        const el = document.getElementById(id)
-        return { id, top: el?.offsetTop ?? 0, height: el?.offsetHeight ?? 0 }
-      })
-    }
-    cache()
     let ticking = false
     let lastActive = 'hero'
     let lastScrolled = false
@@ -40,21 +32,22 @@ export default function Nav({ onSearchOpen }) {
         const pct = docH > 0 ? (y / docH) * 100 : 0
         if (Math.abs(pct - lastPct) > 0.5) { lastPct = pct; setScrollPct(pct) }
 
+        // read live offsets — lazy sections (About/Projects) not in DOM on mount, so don't cache
         const mid = y + window.innerHeight / 3
-        for (const s of offsetsRef.current) {
-          if (mid >= s.top && mid < s.top + s.height) {
-            if (s.id !== lastActive) { lastActive = s.id; setActive(s.id) }
+        for (const id of sections) {
+          const el = document.getElementById(id)
+          if (!el) continue
+          const top = el.offsetTop
+          const h = el.offsetHeight
+          if (mid >= top && mid < top + h) {
+            if (id !== lastActive) { lastActive = id; setActive(id) }
             break
           }
         }
       })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', cache)
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', cache)
-    }
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   const scrollTo = (id) => {

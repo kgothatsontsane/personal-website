@@ -117,7 +117,7 @@ export const certifications = [
 export const serviceRecord = [
   {
     year: '2024 — 2025',
-    company: 'ALX / Holberton',
+    company: 'Nazwo Digital Information',
     role: 'Full Stack Software Engineering — Backend Focus',
     location: 'Remote · Johannesburg',
     description: 'Intensive, hands-on engineering program. Built production-grade apps with Python, Docker, and modern JavaScript. Deep dive into system design, API architecture, and cloud deployment. Learned to think in systems, not just features.',
@@ -137,7 +137,7 @@ export const serviceRecord = [
   },
   {
     year: '2015 — 2017',
-    company: 'Mancor Limited',
+    company: 'SubboeNet (Pty) Ltd.',
     role: 'Web Developer / IT Support Specialist',
     location: 'Johannesburg',
     description: 'Where it started. Rebuilt the company site from legacy WordPress to a custom stack, built internal ticketing workflows (−40% resolution time), and learned that good software is people + code.',

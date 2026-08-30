@@ -134,13 +134,13 @@ const heroStats = [
       >
         <div className="hero-edge" />
         <img
-          src="/images/hero.jpg"
+          src="/images/hero-portrait.jpg"
           alt=""
           width="1200"
           height="800"
           fetchPriority="high"
           decoding="async"
-          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.08, pointerEvents: 'none' }}
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%', opacity: 0.04, pointerEvents: 'none', filter: 'grayscale(0.3)' }}
           aria-hidden="true"
         />
         <motion.div
