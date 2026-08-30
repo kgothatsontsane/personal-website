@@ -9,8 +9,8 @@ export const personalInfo = {
   phone: '076-792-2638',
   email: 'nvisionfactory@gmail.com',
   bio: 'I build things that work. 7 years shipping production software across fintech, e-commerce, and enterprise. From interfaces to infrastructure. I care about systems that scale without needing a rewrite. Currently focused on AI-augmented development, type-safe architectures, and shipping faster than the next quarterly review.',
-  heroImage: null,
-  aboutImage: '/images/about.jpg',
+  heroImage: '/images/hero.jpg',
+  aboutImage: '/images/portrait.jpg',
 }
 
 export const projects = [
