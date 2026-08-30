@@ -16,8 +16,8 @@ const codeSnippet = `const developer = {
   role: "${personalInfo.tagline}",
   location: "${personalInfo.location}",
   experience: "7+ years",
-  stack: ["Frontend", "Backend", "Cloud", "AI"],
-  superpower: "Making complex things simple",
+  stack: ["Security", "Frontend", "Backend", "Cloud", "AI"],
+  superpower: "Hardening the happy path",
   status: () => "OPEN TO WORK",
 };`
 
@@ -26,7 +26,7 @@ const codeLines = codeSnippet.split('\n')
 function CodeBlock() {
   return (
     <div style={{
-      marginTop: '1.5rem',
+      marginTop: '0.75rem',
       background: '#0c0c14',
       border: '1px solid var(--border)',
       borderRadius: '4px',
@@ -113,8 +113,8 @@ export default function About() {
         The <span>Engineer</span>
       </motion.h2>
 
-      <div className="about-grid">
-        <motion.div className="about-portrait-frame" variants={child} style={{ position: 'relative', overflow: 'hidden', minHeight: '340px' }}>
+      <div className="about-grid" style={{ alignItems: 'stretch' }}>
+        <motion.div className="about-portrait-frame" variants={child} style={{ position: 'relative', overflow: 'hidden', alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
           {personalInfo.aboutImage && (
             <img
               src={personalInfo.aboutImage}
@@ -127,7 +127,7 @@ export default function About() {
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.14, filter: 'grayscale(0.2) contrast(1.05)' }}
             />
           )}
-          <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
             <div className="about-portrait-pattern" style={{ opacity: 0.12 }} />
             <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>
             <div className="about-portrait-id" style={{ opacity: 0, pointerEvents: 'none', userSelect: 'none' }} aria-hidden="true">
@@ -165,26 +165,6 @@ export default function About() {
           </div>
 
           <CodeBlock />
-
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '0.5rem', marginTop: '1.25rem' }}>
-            {[
-              { src: '/images/gallery-1005.jpg', alt: 'City panorama — Johannesburg' },
-              { src: '/images/gallery-1006.jpg', alt: 'Portrait — smiling' },
-              { src: '/images/gallery-1017.jpg', alt: 'Mandela statue — Union Buildings' },
-            ].map(img => (
-              <img
-                key={img.src}
-                src={img.src}
-                alt={img.alt}
-                width="400"
-                height="500"
-                loading="lazy"
-                decoding="async"
-                style={{ width: '100%', height: '100px', objectFit: 'cover', display: 'block', border: '1px solid var(--border)', borderRadius: '4px', filter: 'grayscale(0.15)' }}
-              />
-            ))}
-          </div>
-          <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--fg-dim)', letterSpacing: '1px', marginTop: '0.4rem', textAlign: 'right' }}>Union Buildings · Pretoria — personal · Ntsakosi Snaps</div>
         </motion.div>
       </div>
     </motion.section>
