@@ -10,7 +10,7 @@ function getLevel(pct) {
   return 0
 }
 
-const groupKeys = ['engineering', 'cybersecurity', 'systems']
+const groupKeys = ['engineering', 'cybersecurity', 'ai', 'systems']
 
 function RadarChart({ skills }) {
   const [hovered, setHovered] = useState(null)
@@ -286,6 +286,11 @@ export default function Stats() {
             {active === 'systems' && (
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--border)', paddingLeft: '0.75rem' }}>
                 Cloud-native, infra as code, and the boring work that keeps things up.
+              </div>
+            )}
+            {active === 'ai' && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--accent)', paddingLeft: '0.75rem' }}>
+                AI-augmented delivery — LLMs, tooling, and the systems that make models useful in prod.
               </div>
             )}
           </div>

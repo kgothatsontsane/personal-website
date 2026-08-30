@@ -97,6 +97,18 @@ export const skillGroups = {
       { name: 'Technical Leadership', level: 85 },
     ],
   },
+  ai: {
+    label: 'AI Systems',
+    short: 'AI',
+    skills: [
+      { name: 'AI Integration', level: 85 },
+      { name: 'LLM Architecture', level: 82 },
+      { name: 'Prompt Engineering', level: 88 },
+      { name: 'Generative AI', level: 84 },
+      { name: 'Applied ML', level: 78 },
+      { name: 'AI Tooling / Ops', level: 80 },
+    ],
+  },
 }
 
 export const certifications = [
