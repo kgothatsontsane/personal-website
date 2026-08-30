@@ -116,22 +116,34 @@ export const certifications = [
 
 export const serviceRecord = [
   {
-    year: '2024-2025',
+    year: '2024 — 2025',
     company: 'ALX / Holberton',
-    role: 'Full Stack Software Engineering',
-    description: 'Intensive program focused on backend engineering and system design. Built production applications with Python, Docker, and modern JS frameworks. Learned to think in systems, not just features.',
+    role: 'Full Stack Software Engineering — Backend Focus',
+    location: 'Remote · Johannesburg',
+    description: 'Intensive, hands-on engineering program. Built production-grade apps with Python, Docker, and modern JavaScript. Deep dive into system design, API architecture, and cloud deployment. Learned to think in systems, not just features.',
+    highlights: ['Shipped 5+ production apps', 'System design & API architecture', 'Docker & cloud deploy'],
+    stack: ['Python', 'JavaScript', 'React', 'Node.js', 'Docker', 'PostgreSQL'],
+    status: 'COMPLETE',
   },
   {
-    year: '2018-2024',
+    year: '2018 — 2024',
     company: 'Open Mic Productions',
-    role: 'Software Engineer / Digital Marketing Manager',
-    description: 'The longest chapter. Built full-stack apps from concept to deployment on AWS. Led the tech stack migration, optimized performance by 25%, and ran digital marketing campaigns that grew the brand across Southern Africa.',
+    role: 'Full-Stack Engineer / DevOps',
+    location: 'Southern Africa · AWS',
+    description: 'The longest chapter. Built and maintained full-stack apps serving creators across Southern Africa. Led monolith → microservices on AWS, cut API response times 25% via query optimization + caching, and owned end-to-end pipelines while mentoring juniors.',
+    highlights: ['Monolith → microservices on AWS', 'API latency −25%', 'Mentored junior engineers'],
+    stack: ['React', 'Node.js', 'MongoDB', 'AWS', 'Git', 'CI/CD'],
+    status: 'COMPLETE',
   },
   {
-    year: '2015-2017',
+    year: '2015 — 2017',
     company: 'Mancor Limited',
     role: 'Web Developer / IT Support Specialist',
-    description: 'Where it started. Designed websites, fixed servers, and learned that good software is built by people who understand both the code and the humans using it.',
+    location: 'Johannesburg',
+    description: 'Where it started. Rebuilt the company site from legacy WordPress to a custom stack, built internal ticketing workflows (−40% resolution time), and learned that good software is people + code.',
+    highlights: ['Custom site rebuild', 'Ticketing workflows −40%', 'Foundations for everything after'],
+    stack: ['HTML', 'CSS', 'JavaScript', 'WordPress', 'IT Support'],
+    status: 'COMPLETE',
   },
 ]
 
