@@ -133,6 +133,16 @@ const heroStats = [
         animate={showContent ? 'visible' : 'hidden'}
       >
         <div className="hero-edge" />
+        <img
+          src="/images/hero.jpg"
+          alt=""
+          width="1200"
+          height="800"
+          fetchPriority="high"
+          decoding="async"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.08, pointerEvents: 'none' }}
+          aria-hidden="true"
+        />
         <motion.div
           className="hero-monogram"
           variants={{
