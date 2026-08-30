@@ -2786,3 +2786,110 @@ textarea:focus-visible {
   margin-bottom: 0.5rem;
   opacity: 0.4;
 }
+
+/* ───────── Mobile + Performance Optimizations ───────── */
+/* Content-visibility for offscreen sections — huge LCP/paint win */
+.section, .section-band-dark, .section-band-elevated, .contact-section {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 800px;
+}
+.hero, .manifesto, .footer-enhanced {
+  content-visibility: visible;
+  contain-intrinsic-size: auto none;
+}
+
+/* Prevent iOS zoom on form fields */
+input, select, textarea { font-size: 16px; }
+@media (min-width: 769px) {
+  input, select, textarea { font-size: 0.85rem; }
+}
+
+@media (max-width: 768px) {
+  /* Hero: tighter, prevent overflow */
+  .hero-full { min-height: 100svh; }
+  .hero-full .hero-content { padding: 5rem 1.25rem 2rem; }
+  .hero-name { font-size: clamp(3rem, 18vw, 4.5rem) !important; line-height: 0.9; }
+  .hero-name-xl { font-size: clamp(3.5rem, 20vw, 5rem) !important; }
+  .hero-label { font-size: 0.6rem; }
+  .hero-meta { font-size: 0.7rem; gap: 0.2rem; }
+  .hero-cta { flex-wrap: wrap; gap: 0.6rem; }
+  .btn-primary, .btn-secondary { padding: 0.9rem 1.5rem; font-size: 0.75rem; min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
+  .hero-cv-link { min-height: 44px; display: inline-flex; align-items: center; }
+
+  /* Manifesto: stack */
+  .manifesto { padding: 4rem 1.25rem 3rem; min-height: auto; }
+  .manifesto-hero { grid-template-columns: 1fr; gap: 2rem; }
+  .manifesto-quote { font-size: clamp(2rem, 10vw, 3.2rem); }
+  .manifesto-stats { grid-template-columns: 1fr 1fr; max-width: 100%; }
+  .manifesto-stat { min-height: 70px; padding: 0.6rem 0.7rem; }
+  .manifesto-stat-value { font-size: 1.3rem; }
+  .manifesto-grid { grid-template-columns: 1fr; gap: 1.5rem; }
+
+  /* About */
+  .section { padding: 4rem 1.25rem; }
+  .about-grid { gap: 1.5rem; }
+  .about-title, .section-title { font-size: clamp(2rem, 8vw, 2.8rem); }
+
+  /* Projects: bento collapses, touch target */
+  .projects-grid-bento { grid-template-columns: 1fr; gap: 1rem; }
+  .mission-card-large { grid-row: auto; }
+  .mission-card { min-height: 44px; }
+
+  /* Stats: radar + bars stack, no overflow */
+  .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+  .stats-flex { flex-direction: column !important; gap: 2rem !important; }
+  .radar-wrap { min-width: 0 !important; flex: none !important; width: 100%; }
+
+  /* Timeline: horizontal scroll with snap, cards full-bleed */
+  .timeline-h-track { gap: 1rem; padding-bottom: 0.5rem; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .timeline-h-card { min-width: 85vw; scroll-snap-align: start; }
+
+  /* Contact: single column, prevent zoom, 44px targets */
+  .contact-layout { grid-template-columns: 1fr; gap: 2rem; }
+  .contact-grid { grid-template-columns: 1fr; }
+  .contact-field input, .contact-field select, .contact-field textarea { min-height: 44px; }
+  .contact-submit { min-height: 48px; width: 100%; }
+  .contact-option { min-height: 44px; }
+
+  /* Footer: stack */
+  .footer-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+  .footer-links { justify-content: center; flex-wrap: wrap; }
+  .footer-stat { min-width: 60px; }
+
+  /* Minimap: compact, avoid covering content */
+  /* keep visible but slimmer — still inline with BackToTop */
+  div[style*="SECTION RADAR"] { font-size: 0.45rem !important; }
+
+  /* Nav: ensure tappable */
+  .nav { padding: 0.75rem 1rem; }
+  .nav-pill { min-width: 44px; min-height: 44px; }
+  .nav-burger { min-width: 44px; min-height: 44px; }
+  .nav-link { min-height: 44px; display: inline-flex; align-items: center; }
+
+  /* Marquee: reduce to single row on mobile to save paint */
+  .marquee-tag { font-size: 0.7rem; padding: 4px 10px; }
+
+  /* Prevent fixed minimap from covering last section */
+  main { padding-bottom: 5rem; }
+
+  /* Hide heavy fixed layers already done for noise/scanlines, also reduce motion */
+  .section-title span { display: inline; }
+}
+
+@media (max-width: 480px) {
+  .hero-cta { flex-direction: column; align-items: stretch; }
+  .hero-cta a { width: 100%; text-align: center; }
+  .manifesto-stats { grid-template-columns: 1fr 1fr; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  /* Minimap: hide label on tiny screens, keep bar */
+  /* BackToTop + Minimap share bottom row — ensure no overlap on 320px */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

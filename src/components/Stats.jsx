@@ -202,8 +202,8 @@ export default function Stats() {
         What I <span>Work With</span>
       </h2>
 
-      <div style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div style={{ flex: '0 0 50%', minWidth: '320px' }}>
+      <div className="stats-flex" style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
+        <div className="radar-wrap" style={{ flex: '0 0 50%', minWidth: '320px' }}>
           <RadarChart skills={topSkills} />
         </div>
 
