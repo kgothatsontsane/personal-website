@@ -5,7 +5,17 @@ export default function BackToTop() {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
-    const onScroll = () => setShow(window.scrollY > 600)
+    let ticking = false
+    let last = false
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        ticking = false
+        const next = window.scrollY > 600
+        if (next !== last) { last = next; setShow(next) }
+      })
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
@@ -19,6 +29,7 @@ export default function BackToTop() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: 20 }}
+          transition={{ duration: 0.2 }}
           onClick={scrollUp}
           aria-label="Back to top"
           style={{
@@ -38,15 +49,7 @@ export default function BackToTop() {
             alignItems: 'center',
             justifyContent: 'center',
             backdropFilter: 'blur(8px)',
-            transition: 'border-color 0.3s ease, box-shadow 0.3s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(255, 204, 0, 0.6)'
-            e.currentTarget.style.boxShadow = '0 0 15px rgba(255, 204, 0, 0.15)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = 'rgba(255, 204, 0, 0.3)'
-            e.currentTarget.style.boxShadow = 'none'
+            willChange: 'transform, opacity',
           }}
         >
           ↑

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const sections = ['hero', 'philosophy', 'about', 'projects', 'stats', 'certifications', 'timeline', 'contact']
 
@@ -8,30 +8,53 @@ export default function Nav({ onSearchOpen }) {
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollPct, setScrollPct] = useState(0)
   const [dark, setDark] = useState(true)
+  const offsetsRef = useRef([])
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
   }, [dark])
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 50)
-      const docH = document.documentElement.scrollHeight - window.innerHeight
-      setScrollPct(docH > 0 ? (window.scrollY / docH) * 100 : 0)
-      const offsets = sections.map(id => {
+    const cache = () => {
+      offsetsRef.current = sections.map(id => {
         const el = document.getElementById(id)
         return { id, top: el?.offsetTop ?? 0, height: el?.offsetHeight ?? 0 }
       })
-      const mid = window.scrollY + window.innerHeight / 3
-      for (const s of offsets) {
-        if (mid >= s.top && mid < s.top + s.height) {
-          setActive(s.id)
-          break
+    }
+    cache()
+    let ticking = false
+    let lastActive = 'hero'
+    let lastScrolled = false
+    let lastPct = -1
+
+    const onScroll = () => {
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        ticking = false
+        const y = window.scrollY
+        const isScrolled = y > 50
+        if (isScrolled !== lastScrolled) { lastScrolled = isScrolled; setScrolled(isScrolled) }
+
+        const docH = document.documentElement.scrollHeight - window.innerHeight
+        const pct = docH > 0 ? (y / docH) * 100 : 0
+        if (Math.abs(pct - lastPct) > 0.5) { lastPct = pct; setScrollPct(pct) }
+
+        const mid = y + window.innerHeight / 3
+        for (const s of offsetsRef.current) {
+          if (mid >= s.top && mid < s.top + s.height) {
+            if (s.id !== lastActive) { lastActive = s.id; setActive(s.id) }
+            break
+          }
         }
-      }
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
-    return () => window.removeEventListener('scroll', onScroll)
+    window.addEventListener('resize', cache)
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      window.removeEventListener('resize', cache)
+    }
   }, [])
 
   const scrollTo = (id) => {

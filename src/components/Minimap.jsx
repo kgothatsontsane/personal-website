@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 const sections = [
   { id: 'hero', label: 'HQ' },
@@ -16,43 +16,61 @@ export default function Minimap() {
   const [visible, setVisible] = useState(false)
   const [progress, setProgress] = useState(0)
   const [offsets, setOffsets] = useState({})
+  const cacheRef = useRef({ tops: {}, max: 1 })
 
   useEffect(() => {
-    const compute = () => {
-      const doc = document.documentElement
-      const max = doc.scrollHeight - window.innerHeight
-      setProgress(max > 0 ? Math.min(1, window.scrollY / max) : 0)
-
-      const mid = window.scrollY + window.innerHeight / 3
+    const cache = () => {
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight)
+      const tops = {}
       for (const s of sections) {
         const el = document.getElementById(s.id)
-        if (!el) continue
-        const top = el.offsetTop
-        const h = el.offsetHeight
-        if (mid >= top && mid < top + h) {
-          setActive(s.id)
-          break
-        }
+        if (el) tops[s.id] = el.offsetTop / max
       }
-
-      const offs = {}
-      for (const s of sections) {
-        const el = document.getElementById(s.id)
-        if (el) offs[s.id] = max > 0 ? el.offsetTop / max : 0
-      }
-      setOffsets(offs)
+      cacheRef.current = { tops, max }
+      setOffsets(tops)
     }
+    cache()
 
-    compute()
+    let ticking = false
+    let lastActive = 'hero'
+    let lastVis = false
+    let lastProg = -1
+
     const onScroll = () => {
-      setVisible(window.scrollY > 300)
-      compute()
+      if (ticking) return
+      ticking = true
+      requestAnimationFrame(() => {
+        ticking = false
+        const y = window.scrollY
+        const vis = y > 300
+        if (vis !== lastVis) { lastVis = vis; setVisible(vis) }
+
+        const { max, tops } = cacheRef.current
+        const prog = Math.min(1, y / max)
+        if (Math.abs(prog - lastProg) > 0.005) { lastProg = prog; setProgress(prog) }
+
+        const mid = y + window.innerHeight / 3
+        for (const s of sections) {
+          const el = document.getElementById(s.id)
+          if (!el) continue
+          const top = el.offsetTop
+          const h = el.offsetHeight
+          if (mid >= top && mid < top + h) {
+            if (s.id !== lastActive) { lastActive = s.id; setActive(s.id) }
+            break
+          }
+        }
+        void tops
+      })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
-    window.addEventListener('resize', compute)
+    window.addEventListener('resize', cache)
+    // re-cache after fonts/lazy sections load
+    const t = setTimeout(cache, 800)
     return () => {
       window.removeEventListener('scroll', onScroll)
-      window.removeEventListener('resize', compute)
+      window.removeEventListener('resize', cache)
+      clearTimeout(t)
     }
   }, [])
 
@@ -118,7 +136,7 @@ export default function Minimap() {
           width: `${progress * 100}%`,
           background: 'linear-gradient(90deg, rgba(255,204,0,0.5), var(--accent))',
           boxShadow: '0 0 14px rgba(255,204,0,0.4)',
-          transition: 'width 0.1s linear',
+          willChange: 'width',
         }} />
         {sections.map((s) => {
           const raw = (offsets[s.id] ?? 0) * 100
@@ -143,7 +161,6 @@ export default function Minimap() {
                 border: `1px solid ${isActive ? 'var(--accent)' : 'rgba(255,204,0,0.5)'}`,
                 boxShadow: isActive ? '0 0 10px rgba(255,204,0,0.8)' : '0 0 4px rgba(0,0,0,0.6)',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease',
                 zIndex: 2,
               }}
             />

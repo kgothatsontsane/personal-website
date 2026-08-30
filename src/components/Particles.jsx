@@ -1,17 +1,24 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 export default function Particles() {
   const canvasRef = useRef(null)
+  const [enabled, setEnabled] = useState(true)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setEnabled(false); return }
+    if (window.innerWidth < 768) { setEnabled(false); return }
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
     let animId
 
     const chars = '01{}[]<>/=;:const let var function return import export class async await'.split('')
+    const count = window.innerWidth < 1024 ? 8 : 15
     const particles = []
-    const PARTICLE_COUNT = 15
 
     const resize = () => {
       canvas.width = window.innerWidth
@@ -20,33 +27,22 @@ export default function Particles() {
     resize()
     window.addEventListener('resize', resize)
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < count; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
         char: chars[Math.floor(Math.random() * chars.length)],
-        speed: Math.random() * 0.5 + 0.15,
-        opacity: Math.random() * 0.25 + 0.08,
-        size: Math.random() * 14 + 10,
+        speed: Math.random() * 0.4 + 0.12,
+        opacity: Math.random() * 0.2 + 0.06,
+        size: Math.random() * 12 + 10,
       })
     }
 
-    let paused = document.hidden
-    const onVis = () => {
-      if (document.hidden) { paused = true; cancelAnimationFrame(animId) }
-      else if (paused) { paused = false; animId = requestAnimationFrame(draw) }
-    }
-    document.addEventListener('visibilitychange', onVis)
-    let inView = true
-    const io = new IntersectionObserver(([e]) => {
-      inView = e.isIntersecting
-      if (!inView) { cancelAnimationFrame(animId); paused = true }
-      else if (!document.hidden && paused) { paused = false; animId = requestAnimationFrame(draw) }
-    }, { threshold: 0 })
-    io.observe(canvas)
-
-    const draw = () => {
-      if (document.hidden || !inView) { paused = true; return }
+    let last = 0
+    const draw = (now) => {
+      if (document.hidden) { animId = requestAnimationFrame(draw); return }
+      if (now - last < 33) { animId = requestAnimationFrame(draw); return } // ~30fps
+      last = now
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const p of particles) {
         ctx.font = `${p.size}px "JetBrains Mono", monospace`
@@ -61,15 +57,18 @@ export default function Particles() {
       }
       animId = requestAnimationFrame(draw)
     }
-    if (!paused && inView) animId = requestAnimationFrame(draw)
+    animId = requestAnimationFrame(draw)
+    const onVis = () => { if (!document.hidden) { last = 0; animId = requestAnimationFrame(draw) } }
+    document.addEventListener('visibilitychange', onVis)
 
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', onVis)
-      io.disconnect()
     }
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <canvas
@@ -79,7 +78,8 @@ export default function Particles() {
         inset: 0,
         zIndex: 1,
         pointerEvents: 'none',
-        opacity: 0.8,
+        opacity: 0.6,
+        willChange: 'transform',
       }}
     />
   )

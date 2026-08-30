@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const codeLines = [
   'const app = createApp();',
@@ -35,8 +35,15 @@ const codeLines = [
 
 export default function CodeBackground() {
   const ref = useRef(null)
+  const [enabled, setEnabled] = useState(true)
 
   useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setEnabled(false); return }
+    if (window.innerWidth < 768) { setEnabled(false); return }
+  }, [])
+
+  useEffect(() => {
+    if (!enabled) return
     const c = ref.current
     if (!c) return
     const ctx = c.getContext('2d')
@@ -49,31 +56,20 @@ export default function CodeBackground() {
     resize()
     window.addEventListener('resize', resize)
 
-    const lines = codeLines.map((text, i) => ({
+    const lines = codeLines.map((text) => ({
       text,
       x: Math.random() * c.width,
       y: Math.random() * c.height,
-      speed: Math.random() * 0.15 + 0.05,
-      opacity: Math.random() * 0.06 + 0.02,
+      speed: Math.random() * 0.12 + 0.04,
+      opacity: Math.random() * 0.05 + 0.015,
       size: Math.random() * 3 + 9,
     }))
 
-    let paused = document.hidden
-    const onVis = () => {
-      if (document.hidden) { paused = true; cancelAnimationFrame(animId) }
-      else if (paused) { paused = false; animId = requestAnimationFrame(draw) }
-    }
-    document.addEventListener('visibilitychange', onVis)
-    let inView = true
-    const io = new IntersectionObserver(([e]) => {
-      inView = e.isIntersecting
-      if (!inView) { cancelAnimationFrame(animId); paused = true }
-      else if (!document.hidden && paused) { paused = false; animId = requestAnimationFrame(draw) }
-    }, { threshold: 0 })
-    io.observe(c)
-
-    const draw = () => {
-      if (document.hidden || !inView) { paused = true; return }
+    let last = 0
+    const draw = (now) => {
+      if (document.hidden) { animId = requestAnimationFrame(draw); return }
+      if (now - last < 50) { animId = requestAnimationFrame(draw); return } // ~20fps
+      last = now
       ctx.clearRect(0, 0, c.width, c.height)
       for (const l of lines) {
         ctx.font = `${l.size}px "JetBrains Mono", monospace`
@@ -88,15 +84,18 @@ export default function CodeBackground() {
       }
       animId = requestAnimationFrame(draw)
     }
-    if (!paused && inView) animId = requestAnimationFrame(draw)
+    animId = requestAnimationFrame(draw)
+    const onVis = () => { if (!document.hidden) { last = 0; animId = requestAnimationFrame(draw) } }
+    document.addEventListener('visibilitychange', onVis)
 
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
       document.removeEventListener('visibilitychange', onVis)
-      io.disconnect()
     }
-  }, [])
+  }, [enabled])
+
+  if (!enabled) return null
 
   return (
     <canvas
@@ -106,7 +105,8 @@ export default function CodeBackground() {
         inset: 0,
         zIndex: 0,
         pointerEvents: 'none',
-        opacity: 0.7,
+        opacity: 0.5,
+        willChange: 'transform',
       }}
       aria-hidden="true"
     />
