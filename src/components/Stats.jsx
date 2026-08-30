@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { motion } from 'framer-motion'
-import { specializations } from '../data'
+import { motion, AnimatePresence } from 'framer-motion'
+import { skillGroups } from '../data'
 
 const levels = ['NOVICE', 'OPERATIVE', 'SPECIALIST', 'ELITE']
 function getLevel(pct) {
@@ -10,8 +10,7 @@ function getLevel(pct) {
   return 0
 }
 
-const topSkills = specializations.slice(0, 6)
-const restSkills = specializations.slice(6)
+const groupKeys = ['engineering', 'cybersecurity', 'systems']
 
 function RadarChart({ skills }) {
   const [hovered, setHovered] = useState(null)
@@ -98,7 +97,6 @@ function RadarChart({ skills }) {
         })}
       </svg>
 
-      {/* Tooltip */}
       {hovered !== null && (
         <div className="radar-tooltip" style={{
           position: 'absolute',
@@ -121,7 +119,7 @@ function RadarChart({ skills }) {
   )
 }
 
-function CountUp({ target, suffix = '', delay = 0 }) {
+function CountUp({ target, suffix = '', delay = 0, trigger }) {
   const [count, setCount] = useState(0)
   const ref = useRef(null)
 
@@ -147,7 +145,10 @@ function CountUp({ target, suffix = '', delay = 0 }) {
     )
     observer.observe(el)
     return () => observer.disconnect()
-  }, [target, delay])
+  }, [target, delay, trigger])
+
+  // reset when group changes
+  useEffect(() => { setCount(0) }, [trigger])
 
   return <span ref={ref}>{count}{suffix}</span>
 }
@@ -189,6 +190,10 @@ function SkillBar({ name, level, delay }) {
 }
 
 export default function Stats() {
+  const [active, setActive] = useState('engineering')
+  const group = skillGroups[active]
+  const skills = group.skills
+
   return (
     <motion.section
       id="stats"
@@ -202,40 +207,90 @@ export default function Stats() {
         What I <span>Work With</span>
       </h2>
 
-      <div className="stats-flex" style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}>
-        <div className="radar-wrap" style={{ flex: '0 0 50%', minWidth: '320px' }}>
-          <RadarChart skills={topSkills} />
-        </div>
+      {/* Tabs */}
+      <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }} role="tablist" aria-label="Skill categories">
+        {groupKeys.map(key => {
+          const g = skillGroups[key]
+          const isActive = active === key
+          return (
+            <button
+              key={key}
+              role="tab"
+              aria-selected={isActive}
+              onClick={() => setActive(key)}
+              style={{
+                fontFamily: 'var(--font-mono)',
+                fontSize: '0.65rem',
+                letterSpacing: '1.5px',
+                textTransform: 'uppercase',
+                padding: '8px 14px',
+                border: `1px solid ${isActive ? 'var(--accent)' : 'var(--border)'}`,
+                background: isActive ? 'rgba(255,204,0,0.08)' : 'transparent',
+                color: isActive ? 'var(--accent)' : 'var(--fg-muted)',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+                borderRadius: '4px',
+                minHeight: '36px',
+              }}
+            >
+              {g.label} · {g.short}
+            </button>
+          )
+        })}
+      </div>
 
-        <div style={{ flex: 1, minWidth: '250px' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '2rem' }}>
-            {topSkills.map((s, i) => (
-              <div key={s.name}>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-secondary)', marginBottom: '4px' }}>
-                  {s.name}
-                </div>
-                <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--accent)', lineHeight: 1 }}>
-                  <CountUp target={s.level} suffix="%" delay={i * 150} />
-                </div>
-                <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--fg-dim)', letterSpacing: '1px' }}>
-                  {levels[getLevel(s.level)]}
-                </div>
-              </div>
-            ))}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={active}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          className="stats-flex"
+          style={{ display: 'flex', gap: '3rem', alignItems: 'flex-start', flexWrap: 'wrap' }}
+        >
+          <div className="radar-wrap" style={{ flex: '0 0 50%', minWidth: '320px' }}>
+            <RadarChart skills={skills} />
           </div>
 
-          {restSkills.length > 0 && (
-            <div>
-              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--fg-dim)', letterSpacing: '2px', marginBottom: '0.75rem', textTransform: 'uppercase' }}>
-                Additional Skills
-              </div>
-              {restSkills.map((s, i) => (
-                <SkillBar key={s.name} name={s.name} level={s.level} delay={i * 100} />
+          <div style={{ flex: 1, minWidth: '250px' }}>
+            <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.55rem', color: 'var(--fg-dim)', letterSpacing: '2px', marginBottom: '1rem', textTransform: 'uppercase' }}>
+              {group.label} — {skills.length} skills
+            </div>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1.5rem' }}>
+              {skills.map((s, i) => (
+                <div key={s.name}>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-secondary)', marginBottom: '4px' }}>
+                    {s.name}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-display)', fontSize: '2rem', color: 'var(--accent)', lineHeight: 1 }}>
+                    <CountUp target={s.level} suffix="%" delay={i * 80} trigger={active} />
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.5rem', color: 'var(--fg-dim)', letterSpacing: '1px' }}>
+                    {levels[getLevel(s.level)]}
+                  </div>
+                </div>
               ))}
             </div>
-          )}
-        </div>
-      </div>
+
+            {active === 'cybersecurity' && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--accent)', paddingLeft: '0.75rem' }}>
+                Certified: Google Cybersecurity Professional. Focus on network defense, threat intel, and risk-based hardening.
+              </div>
+            )}
+            {active === 'engineering' && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--border)', paddingLeft: '0.75rem' }}>
+                Ship type-safe systems. Frontend to API — the stack that compounds.
+              </div>
+            )}
+            {active === 'systems' && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--border)', paddingLeft: '0.75rem' }}>
+                Cloud-native, infra as code, and the boring work that keeps things up.
+              </div>
+            )}
+          </div>
+        </motion.div>
+      </AnimatePresence>
     </motion.section>
   )
 }

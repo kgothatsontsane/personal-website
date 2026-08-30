@@ -62,6 +62,43 @@ export const specializations = [
   { name: 'Technical Leadership', level: 85 },
 ]
 
+export const skillGroups = {
+  engineering: {
+    label: 'Engineering',
+    short: 'ENG',
+    skills: [
+      { name: 'Frontend Architecture', level: 95 },
+      { name: 'Type-Safe Systems', level: 92 },
+      { name: 'API Engineering', level: 88 },
+      { name: 'UI & Design Systems', level: 90 },
+      { name: 'Data Modelling', level: 82 },
+      { name: 'AI Integration', level: 85 },
+    ],
+  },
+  cybersecurity: {
+    label: 'Cybersecurity',
+    short: 'SEC',
+    skills: [
+      { name: 'Network Security', level: 88 },
+      { name: 'Threat Analysis', level: 85 },
+      { name: 'Vuln. Management', level: 84 },
+      { name: 'Incident Response', level: 80 },
+      { name: 'Security Frameworks', level: 86 },
+      { name: 'Risk Assessment', level: 82 },
+    ],
+  },
+  systems: {
+    label: 'Systems',
+    short: 'SYS',
+    skills: [
+      { name: 'Cloud & DevOps', level: 78 },
+      { name: 'Database Design', level: 80 },
+      { name: 'Infrastructure', level: 75 },
+      { name: 'Technical Leadership', level: 85 },
+    ],
+  },
+}
+
 export const certifications = [
   { name: 'Google Cybersecurity Professional Certificate', issuer: 'Google', year: '2026' },
   { name: 'Microsoft Azure Developer Associate (AZ-204)', issuer: 'Microsoft', year: '2026' },
