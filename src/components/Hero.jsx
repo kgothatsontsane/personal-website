@@ -170,7 +170,7 @@ const heroStats = [
             <a className="btn-secondary" href="#contact">Contact</a>
             <a
               className="hero-cv-link"
-              href="/Kgothatso Ntsane Resume.pdf"
+              href="/kgothatso-ntsane-resume.pdf"
               download
             >
               <svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">

@@ -94,7 +94,7 @@ export default function Contact() {
                 </div>
               </a>
             )}
-            <a className="contact-option" href="/Kgothatso Ntsane Resume.pdf" download>
+            <a className="contact-option" href="/kgothatso-ntsane-resume.pdf" download>
               <span className="contact-option-num">03</span>
               <div className="contact-option-text">
                 <div className="contact-option-title">Download CV</div>

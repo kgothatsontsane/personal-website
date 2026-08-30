@@ -58,7 +58,22 @@ export default function CodeBackground() {
       size: Math.random() * 3 + 9,
     }))
 
+    let paused = document.hidden
+    const onVis = () => {
+      if (document.hidden) { paused = true; cancelAnimationFrame(animId) }
+      else if (paused) { paused = false; animId = requestAnimationFrame(draw) }
+    }
+    document.addEventListener('visibilitychange', onVis)
+    let inView = true
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting
+      if (!inView) { cancelAnimationFrame(animId); paused = true }
+      else if (!document.hidden && paused) { paused = false; animId = requestAnimationFrame(draw) }
+    }, { threshold: 0 })
+    io.observe(c)
+
     const draw = () => {
+      if (document.hidden || !inView) { paused = true; return }
       ctx.clearRect(0, 0, c.width, c.height)
       for (const l of lines) {
         ctx.font = `${l.size}px "JetBrains Mono", monospace`
@@ -73,11 +88,13 @@ export default function CodeBackground() {
       }
       animId = requestAnimationFrame(draw)
     }
-    draw()
+    if (!paused && inView) animId = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
+      document.removeEventListener('visibilitychange', onVis)
+      io.disconnect()
     }
   }, [])
 

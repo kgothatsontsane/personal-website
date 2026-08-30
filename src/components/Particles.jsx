@@ -31,7 +31,22 @@ export default function Particles() {
       })
     }
 
+    let paused = document.hidden
+    const onVis = () => {
+      if (document.hidden) { paused = true; cancelAnimationFrame(animId) }
+      else if (paused) { paused = false; animId = requestAnimationFrame(draw) }
+    }
+    document.addEventListener('visibilitychange', onVis)
+    let inView = true
+    const io = new IntersectionObserver(([e]) => {
+      inView = e.isIntersecting
+      if (!inView) { cancelAnimationFrame(animId); paused = true }
+      else if (!document.hidden && paused) { paused = false; animId = requestAnimationFrame(draw) }
+    }, { threshold: 0 })
+    io.observe(canvas)
+
     const draw = () => {
+      if (document.hidden || !inView) { paused = true; return }
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       for (const p of particles) {
         ctx.font = `${p.size}px "JetBrains Mono", monospace`
@@ -46,11 +61,13 @@ export default function Particles() {
       }
       animId = requestAnimationFrame(draw)
     }
-    draw()
+    if (!paused && inView) animId = requestAnimationFrame(draw)
 
     return () => {
       cancelAnimationFrame(animId)
       window.removeEventListener('resize', resize)
+      document.removeEventListener('visibilitychange', onVis)
+      io.disconnect()
     }
   }, [])
 

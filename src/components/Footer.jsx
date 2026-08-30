@@ -39,7 +39,7 @@ export default function Footer() {
           {contactInfo.github && (
             <a href={`https://${contactInfo.github}`} target="_blank" rel="noopener noreferrer" className="footer-link">GitHub</a>
           )}
-          <a href="/Kgothatso Ntsane Resume.pdf" download className="footer-link">CV</a>
+          <a href="/kgothatso-ntsane-resume.pdf" download className="footer-link">CV</a>
         </div>
       </div>
 
