@@ -74,17 +74,23 @@ function CodeBlock() {
               {i + 1}
             </span>
             <span>
-              {line
-                .replace(/"([^"]+)"/g, '<span style="color:#ffcc00">"$1"</span>')
-                .replace(/\b(const|let|var|return|function)\b/g, '<span style="color:#c678dd">$1</span>')
-                .split(/(<span[^>]*>.*?<\/span>)/)
-                .map((part, j) => {
-                  if (part.startsWith('<span')) {
-                    return <span key={j} dangerouslySetInnerHTML={{ __html: part }} />
-                  }
-                  return <span key={j}>{part}</span>
-                })
-              }
+              {(() => {
+                const tokens = []
+                let last = 0
+                const re = /("[^"]*")|\b(const|let|var|return|function)\b/g
+                let m
+                while ((m = re.exec(line)) !== null) {
+                  if (m.index > last) tokens.push({ text: line.slice(last, m.index), color: null })
+                  if (m[1]) tokens.push({ text: m[1], color: '#ffcc00' })
+                  else if (m[2]) tokens.push({ text: m[2], color: '#c678dd' })
+                  last = re.lastIndex
+                }
+                if (last < line.length) tokens.push({ text: line.slice(last), color: null })
+                if (tokens.length === 0) tokens.push({ text: line, color: null })
+                return tokens.map((t, j) =>
+                  t.color ? <span key={j} style={{ color: t.color }}>{t.text}</span> : <span key={j}>{t.text}</span>
+                )
+              })()}
             </span>
           </div>
         ))}
