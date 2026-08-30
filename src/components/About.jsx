@@ -114,23 +114,23 @@ export default function About() {
       </motion.h2>
 
       <div className="about-grid" style={{ alignItems: 'stretch' }}>
-        <motion.div className="about-portrait-frame" variants={child} style={{ position: 'relative', overflow: 'hidden', alignSelf: 'stretch', display: 'flex', flexDirection: 'column' }}>
+        <motion.div className="about-portrait-frame" variants={child} style={{ position: 'relative', overflow: 'hidden', alignSelf: 'stretch', display: 'flex', flexDirection: 'column', minHeight: '380px' }}>
           {personalInfo.aboutImage && (
             <img
               src={personalInfo.aboutImage}
-              alt=""
+              alt="Kgothatso Ntsane — portrait"
               width="800"
               height="600"
               loading="lazy"
               decoding="async"
-              aria-hidden="true"
-              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.14, filter: 'grayscale(0.2) contrast(1.05)' }}
+              style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 22%' }}
             />
           )}
-          <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 1, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-            <div className="about-portrait-pattern" style={{ opacity: 0.12 }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(10,10,15,0.15) 0%, rgba(10,10,15,0.55) 60%, rgba(10,10,15,0.85) 100%)', zIndex: 1 }} aria-hidden="true" />
+          <div className="about-portrait-inner" style={{ position: 'relative', zIndex: 2, flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'flex-end', paddingBottom: '1rem' }}>
+            <div className="about-portrait-pattern" style={{ opacity: 0.08 }} />
             <span className="about-badge" style={{ transform: 'rotate(-2deg)' }}>DOSSIER</span>
-            <div className="about-portrait-id" style={{ opacity: 0, pointerEvents: 'none', userSelect: 'none' }} aria-hidden="true">
+            <div className="about-portrait-id" style={{ background: 'rgba(10,10,15,0.72)', backdropFilter: 'blur(6px)', border: '1px solid rgba(255,255,255,0.08)', padding: '0.75rem' }}>
               <div className="about-portrait-id-row">
                 <span>NAME</span>
                 <span>{personalInfo.name}</span>
