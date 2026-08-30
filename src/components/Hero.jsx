@@ -55,9 +55,9 @@ export default function Hero() {
 
   useEffect(() => {
     intervalRef.current = setInterval(() => {
-      setProgress(p => Math.min(p + Math.random() * 20 + 8, 100))
+      setProgress(p => Math.min(p + Math.random() * 24 + 12, 100))
       setMsgIndex(i => (i + 1) % loadingMessages.length)
-    }, 250)
+    }, 160)
     return () => clearInterval(intervalRef.current)
   }, [])
 
@@ -68,7 +68,7 @@ export default function Hero() {
       readyRef.current = true
       const timer = setTimeout(() => {
         if (readyRef.current && loadingRef.current) doTransition()
-      }, 800)
+      }, 220)
       return () => clearTimeout(timer)
     }
   }, [progress])
@@ -78,7 +78,7 @@ export default function Hero() {
     loadingRef.current = false
     setLoading(false)
     setGlitchDone(true)
-    setTimeout(() => setShowContent(true), 300)
+    setTimeout(() => setShowContent(true), 80)
   }
 
   useEffect(() => {
@@ -90,12 +90,12 @@ export default function Hero() {
 
   const heroVariants = {
     hidden: { opacity: 0 },
-    visible: { opacity: 1, transition: { staggerChildren: 0.08, delayChildren: 0.1 } },
+    visible: { opacity: 1, transition: { staggerChildren: 0.04, delayChildren: 0.02 } },
   }
 
   const childVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } },
+    hidden: { opacity: 0, y: 12 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.32, ease: [0.16, 1, 0.3, 1] } },
   }
 
   const nameFirst = personalInfo.name.split(' ')[0]

@@ -24,8 +24,8 @@ const Contact = lazy(() => import('./components/Contact'))
 
 function ScrollProgress() {
   const { scrollYProgress } = useScroll()
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 })
-  return <motion.div className="scroll-progress" style={{ scaleX }} aria-hidden="true" />
+  const scaleX = useSpring(scrollYProgress, { stiffness: 300, damping: 32, restDelta: 0.001 })
+  return <motion.div className="scroll-progress" style={{ scaleX, willChange: 'transform' }} aria-hidden="true" />
 }
 
 function SectionLoader() {
