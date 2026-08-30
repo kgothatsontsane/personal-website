@@ -23,7 +23,12 @@ const stats = [
 const principles = [
   { num: '01', title: 'Systems over features', body: 'Every line of code is a liability. I write less, so the codebase carries more.' },
   { num: '02', title: 'Ship to learn', body: 'The fastest way to know if it works is to put it in front of real users. Then iterate.' },
-  { num: '03', title: 'Readability wins', body: 'Code is read 10x more than it is written. Optimise for the next engineer, not the compiler.' },
+  {
+    num: '03',
+    title: 'Readability wins',
+    body: 'Code is read 10x more than it is written. Optimise for the next engineer, not the compiler.',
+    note: 'In generic programming, the balance flips — you optimise for the compiler and type system to generate the right code. Abstraction earns its keep there.',
+  },
   { num: '04', title: 'Compounding craft', body: 'Good systems get cheaper to extend over time. Bad systems compound technical debt.' },
 ]
 
@@ -63,7 +68,15 @@ export default function Manifesto() {
           {principles.map((p) => (
             <motion.div key={p.num} className="manifesto-principle" variants={child}>
               <div className="manifesto-principle-num">{p.num}</div>
-              <div className="manifesto-principle-title">{p.title}</div>
+              <div className="manifesto-principle-title">
+                {p.title}
+                {p.note && (
+                  <span className="manifesto-note-wrap" tabIndex={0} aria-label="More info">
+                    <span className="manifesto-note-trigger">ⓘ</span>
+                    <span className="manifesto-note-popover" role="tooltip">{p.note}</span>
+                  </span>
+                )}
+              </div>
               <div className="manifesto-principle-body">{p.body}</div>
             </motion.div>
           ))}

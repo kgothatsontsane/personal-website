@@ -2669,6 +2669,79 @@ textarea:focus-visible {
   color: var(--fg);
   letter-spacing: 0.5px;
   margin-bottom: 0.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.manifesto-note-wrap {
+  position: relative;
+  display: inline-flex;
+  outline: none;
+}
+
+.manifesto-note-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  color: var(--fg-dim);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.manifesto-note-wrap:hover .manifesto-note-trigger,
+.manifesto-note-wrap:focus-within .manifesto-note-trigger {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: rgba(255, 204, 0, 0.08);
+}
+
+.manifesto-note-popover {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  transform: translateX(-50%) translateY(4px);
+  width: 280px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--accent);
+  color: var(--fg-secondary);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  line-height: 1.6;
+  letter-spacing: 0.3px;
+  padding: 10px 12px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  z-index: 10;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+  text-transform: none;
+}
+
+.manifesto-note-popover::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 6px solid transparent;
+  border-top-color: var(--bg-card);
+  filter: drop-shadow(0 1px 0 var(--border));
+}
+
+.manifesto-note-wrap:hover .manifesto-note-popover,
+.manifesto-note-wrap:focus-within .manifesto-note-popover {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+  pointer-events: auto;
 }
 
 .manifesto-principle-body {

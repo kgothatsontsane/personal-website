@@ -61,11 +61,11 @@ export const skillGroups = {
     short: 'ENG',
     skills: [
       { name: 'Frontend Architecture', level: 95 },
+      { name: 'Generic Programming', level: 92 },
       { name: 'Type-Safe Systems', level: 92 },
       { name: 'API Engineering', level: 88 },
       { name: 'UI & Design Systems', level: 90 },
       { name: 'Data Modelling', level: 82 },
-      { name: 'AI Integration', level: 85 },
     ],
   },
   cybersecurity: {
