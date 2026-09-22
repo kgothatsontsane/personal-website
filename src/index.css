@@ -1091,7 +1091,7 @@ body {
 .about-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 3rem;
+  gap: 4rem;
   align-items: start;
 }
 

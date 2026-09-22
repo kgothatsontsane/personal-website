@@ -14,7 +14,9 @@ const stagger = {
 const nowRows = [
   { k: 'BASED', v: personalInfo.location },
   { k: 'FOCUS', v: personalInfo.specialties },
-  { k: 'CURRENTLY', v: 'BScHons @ UP — shipping Insight & CyberLaw Finder' },
+  { k: 'EXPERIENCE', v: '7+ years across 3 roles' },
+  { k: 'EDUCATION', v: 'BScHons Computer Science — UP, 2026' },
+  { k: 'INDUSTRIES', v: 'Media & entertainment, e-commerce, enterprise' },
 ]
 
 const principles = [
