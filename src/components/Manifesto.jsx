@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { personalInfo, missions, specializations, certifications } from '../data'
+import { personalInfo } from '../data'
 
 const child = {
   hidden: { opacity: 0, y: 20 },
@@ -11,13 +11,10 @@ const stagger = {
   visible: { transition: { staggerChildren: 0.1 } },
 }
 
-const stats = [
-  { value: missions.length, label: 'Projects Completed' },
-  { value: specializations.length, label: 'Skills Mastered' },
-  { value: certifications.length, label: 'Certifications' },
-  { value: 7, suffix: '+', label: 'Years of Experience' },
-  { value: 3, label: 'Roles Held' },
-  { value: 'Open', label: 'Availability' },
+const nowRows = [
+  { k: 'BASED', v: personalInfo.location },
+  { k: 'FOCUS', v: personalInfo.specialties },
+  { k: 'CURRENTLY', v: 'BScHons @ UP — shipping Insight & CyberLaw Finder' },
 ]
 
 const principles = [
@@ -54,11 +51,11 @@ export default function Manifesto() {
             that <span className="text-fill">compound</span>.
           </motion.h2>
 
-          <motion.div className="manifesto-stats" variants={child}>
-            {stats.map((s, i) => (
-              <div key={i} className="manifesto-stat">
-                <div className="manifesto-stat-value">{s.value}{s.suffix || ''}</div>
-                <div className="manifesto-stat-label">{s.label}</div>
+          <motion.div className="manifesto-now" variants={child}>
+            {nowRows.map((r) => (
+              <div key={r.k} className="manifesto-now-row">
+                <span className="manifesto-now-key">{r.k}</span>
+                <span className="manifesto-now-val">{r.v}</span>
               </div>
             ))}
           </motion.div>

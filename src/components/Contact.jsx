@@ -132,7 +132,7 @@ export default function Contact() {
             Let's <span>Talk</span>
           </h2>
           <p className="contact-intro">
-            Open for contract work, full-time roles, and consulting. Tell me about the problem you're solving — I'll tell you if I can help.
+            Tell me about the problem you're solving — I'll tell you if I can help.
           </p>
 
           <div className="contact-options">

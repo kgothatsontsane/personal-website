@@ -42,6 +42,15 @@ function TypingRole() {
   )
 }
 
+const LOADER_TITLES = [
+  { at: 0, text: 'ESTABLISHING SECURE CONNECTION' },
+  { at: 26, text: 'AUTHENTICATING SESSION' },
+  { at: 44, text: 'FETCHING PORTFOLIO ASSETS' },
+  { at: 66, text: 'WARMING RENDER PIPELINE' },
+  { at: 84, text: 'VERIFYING INTEGRITY' },
+  { at: 97, text: 'SECURE CHANNEL READY' },
+]
+
 const BOOT_STAGES = [
   { at: 0, text: 'resolving kgothatso.me … 200 OK' },
   { at: 10, text: 'handshake TLS 1.3 … cipher negotiated' },
@@ -127,6 +136,8 @@ export default function Hero() {
   const nameFirst = personalInfo.name.split(' ')[0]
   const nameRest = personalInfo.name.split(' ').slice(1).join(' ')
 
+  const loaderTitle = [...LOADER_TITLES].reverse().find((t) => progress >= t.at)?.text ?? LOADER_TITLES[0].text
+
 const heroStats = [
   { value: missions.length, label: 'Projects Completed' },
   { value: specializations.length, label: 'Skills Mastered' },
@@ -144,11 +155,18 @@ const heroStats = [
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.4 } }}
           >
-            <div className="loading-text">ESTABLISHING SECURE CONNECTION</div>
+            <motion.div
+              key={loaderTitle}
+              className="loading-text"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.25 } }}
+            >
+              {loaderTitle}
+            </motion.div>
             <div className="loading-bar-track">
               <div className="loading-bar-fill" style={{ width: `${progress}%` }} />
             </div>
-            <div className="loading-pct">{String(Math.floor(progress)).padStart(3, '0')}%</div>
+            <div className="loading-pct">{Math.floor(progress)}%</div>
             <div className="loading-messages" aria-live="polite">
               {log.map((line, i) => (
                 <div key={`${i}-${line}`} className={i === log.length - 1 ? 'loading-log-line' : 'loading-log-line dim'}>

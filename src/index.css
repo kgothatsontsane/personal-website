@@ -2712,39 +2712,41 @@ textarea:focus-visible {
   letter-spacing: -0.02em;
 }
 
-.manifesto-stats {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 0.5rem;
-  max-width: 420px;
-  width: 100%;
-}
-
-.manifesto-stat {
-  text-align: left;
-  padding: 0.75rem 0.9rem;
-  border: 1px solid var(--border);
-  background: rgba(255, 204, 0, 0.02);
+.manifesto-now {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  min-height: 80px;
+  gap: 0;
+  max-width: 420px;
+  width: 100%;
+  border: 1px solid var(--border);
+  background: rgba(255, 204, 0, 0.02);
 }
 
-.manifesto-stat-value {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  color: var(--accent);
-  line-height: 1;
+.manifesto-now-row {
+  display: flex;
+  gap: 1rem;
+  align-items: baseline;
+  padding: 0.7rem 0.9rem;
 }
 
-.manifesto-stat-label {
+.manifesto-now-row + .manifesto-now-row {
+  border-top: 1px solid var(--border);
+}
+
+.manifesto-now-key {
   font-family: var(--font-mono);
   font-size: 0.6rem;
-  color: var(--fg-muted);
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  margin-top: 0.35rem;
+  color: var(--accent);
+  letter-spacing: 1.5px;
+  flex-shrink: 0;
+  width: 5.5rem;
+}
+
+.manifesto-now-val {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--fg-secondary);
+  line-height: 1.6;
 }
 
 .manifesto-grid {
@@ -3000,9 +3002,7 @@ input, select, textarea { font-size: 16px; }
   .manifesto { padding: 4rem 1.25rem 3rem; min-height: auto; }
   .manifesto-hero { grid-template-columns: 1fr; gap: 2rem; }
   .manifesto-quote { font-size: clamp(2rem, 10vw, 3.2rem); }
-  .manifesto-stats { grid-template-columns: 1fr 1fr; max-width: 100%; }
-  .manifesto-stat { min-height: 70px; padding: 0.6rem 0.7rem; }
-  .manifesto-stat-value { font-size: 1.3rem; }
+  .manifesto-now { max-width: 100%; }
   .manifesto-grid { grid-template-columns: 1fr; gap: 1.5rem; }
 
   /* About */
@@ -3059,7 +3059,7 @@ input, select, textarea { font-size: 16px; }
 @media (max-width: 480px) {
   .hero-cta { flex-direction: column; align-items: stretch; }
   .hero-cta a { width: 100%; text-align: center; }
-  .manifesto-stats { grid-template-columns: 1fr 1fr; }
+  .manifesto-now-row { padding: 0.6rem 0.7rem; }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   /* Minimap: hide label on tiny screens, keep bar */
   /* BackToTop + Minimap share bottom row — ensure no overlap on 320px */
