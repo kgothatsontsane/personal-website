@@ -11,7 +11,7 @@ export default function Footer() {
           <div className="footer-logo">
             KGOTHATSO<span className="footer-logo-dot">.</span>
           </div>
-          <p className="footer-tagline">Software Engineer / Johannesburg, SA</p>
+          <p className="footer-tagline">Software Engineer / Pretoria, SA</p>
         </div>
 
         {/* Middle: quick stats */}

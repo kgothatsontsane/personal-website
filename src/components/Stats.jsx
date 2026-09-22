@@ -10,7 +10,7 @@ function getLevel(pct) {
   return 0
 }
 
-const groupKeys = ['engineering', 'cybersecurity', 'ai', 'systems']
+const groupKeys = ['engineering', 'cybersecurity', 'ai', 'systems', 'meta']
 
 function RadarChart({ skills }) {
   const [hovered, setHovered] = useState(null)
@@ -21,6 +21,7 @@ function RadarChart({ skills }) {
   const n = skills.length
   const angleStep = (2 * Math.PI) / n
   const rings = [25, 50, 75, 100]
+  const sidePad = n > 6 ? 80 : 30 // ponytail: wider labels on 8-axis radar need room
 
   const getPoint = (i, r) => {
     const angle = i * angleStep - Math.PI / 2
@@ -31,7 +32,7 @@ function RadarChart({ skills }) {
 
   return (
     <div style={{ position: 'relative' }}>
-      <svg viewBox={`-30 -10 ${size + 60} ${size + 20}`} style={{ width: '100%', maxWidth: '520px', overflow: 'visible' }}>
+      <svg viewBox={`-${sidePad} -10 ${size + sidePad * 2} ${size + 20}`} style={{ width: '100%', maxWidth: '520px', overflow: 'visible' }}>
         {rings.map((r) => (
           <polygon
             key={r}
@@ -291,6 +292,11 @@ export default function Stats() {
             {active === 'ai' && (
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--accent)', paddingLeft: '0.75rem' }}>
                 AI-augmented delivery — LLMs, tooling, and the systems that make models useful in prod.
+              </div>
+            )}
+            {active === 'meta' && (
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: '0.65rem', color: 'var(--fg-muted)', lineHeight: 1.6, borderLeft: '2px solid var(--accent)', paddingLeft: '0.75rem' }}>
+                ALX Foundations — the 8 meta-skills behind the technical ones. How I work, not just what I know.
               </div>
             )}
           </div>

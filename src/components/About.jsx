@@ -137,10 +137,6 @@ export default function About() {
                 <span>{personalInfo.name}</span>
               </div>
               <div className="about-portrait-id-row">
-                <span>CLEARANCE</span>
-                <span>{personalInfo.clearance}</span>
-              </div>
-              <div className="about-portrait-id-row">
                 <span>STATUS</span>
                 <span className="about-portrait-status">
                   <span className="about-portrait-dot" />

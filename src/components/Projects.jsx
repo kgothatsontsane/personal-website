@@ -49,9 +49,6 @@ function MissionCard({ m, large = false }) {
           <span className="mission-classified-badge" style={{ transform: `rotate(${[-1, 1, -0.5, 1.5][Number(m.id) % 4]}deg)` }}>TOP SECRET // REDACTED</span>
           <span className="mission-id">/// PROJECT_{m.id}</span>
         </div>
-        <div className="mission-clearance">
-          LEVEL <span>{m.difficulty + 1}</span>
-        </div>
       </div>
       {m.image && (
         <div className="mission-card-image">
@@ -117,7 +114,7 @@ export default function Projects() {
     >
       <motion.div className="section-label" variants={child}>// PORTFOLIO</motion.div>
       <motion.h2 className="section-title" variants={child}>
-        Selected <span>Work</span>
+        Selected <span>Projects</span>
       </motion.h2>
 
       <motion.div className="projects-grid-bento" variants={child}>

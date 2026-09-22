@@ -1,9 +1,9 @@
 import { motion } from 'framer-motion'
 
 const skills = [
-  'React', 'TypeScript', 'Node.js', 'Azure', 'AWS', 'MongoDB',
-  'PostgreSQL', 'Docker', 'Git', 'REST APIs', 'GraphQL', 'CI/CD',
-  'Agile', 'Figma', 'Tailwind', 'Next.js',
+  'React', 'TypeScript', 'JavaScript', 'Node.js', 'Express.js', 'Next.js', 'Python',
+  'Azure', 'AWS', 'MongoDB', 'PostgreSQL', 'Redis', 'Docker', 'Terraform', 'Linux',
+  'Git', 'REST APIs', 'GraphQL', 'CI/CD', 'Agile', 'Figma', 'Tailwind',
 ]
 
 const marqueeVariants = {

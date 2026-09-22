@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { personalInfo, specializations, certifications, missions, loadingMessages } from '../data'
+import { personalInfo, specializations, certifications, missions } from '../data'
 
 const roles = [
   'Full-Stack Developer',
@@ -42,38 +42,68 @@ function TypingRole() {
   )
 }
 
+const BOOT_STAGES = [
+  { at: 0, text: 'resolving kgothatso.me … 200 OK' },
+  { at: 10, text: 'handshake TLS 1.3 … cipher negotiated' },
+  { at: 26, text: 'authenticating session … token OK' },
+  { at: 44, text: 'fetching portfolio assets … 12 modules' },
+  { at: 66, text: 'warming render pipeline … 60fps' },
+  { at: 84, text: 'verifying integrity … checksum match' },
+  { at: 97, text: 'secure channel established' },
+]
+
 export default function Hero() {
   const [loading, setLoading] = useState(true)
   const [progress, setProgress] = useState(0)
-  const [msgIndex, setMsgIndex] = useState(0)
+  const [log, setLog] = useState([])
   const [ready, setReady] = useState(false)
   const [showContent, setShowContent] = useState(false)
-  const [glitchDone, setGlitchDone] = useState(false)
   const intervalRef = useRef(null)
   const readyRef = useRef(false)
   const loadingRef = useRef(true)
+  const stalledRef = useRef(false)
 
+  // Phased boot sequence — stages unlock as progress crosses thresholds,
+  // increments ease off near the end, with one occasional mid-sequence stall.
   useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      setProgress(p => Math.min(p + Math.random() * 24 + 12, 100))
-      setMsgIndex(i => (i + 1) % loadingMessages.length)
-    }, 160)
-    return () => clearInterval(intervalRef.current)
-  }, [])
+    const t0 = Date.now()
+    const stamp = () => ((Date.now() - t0) / 1000).toFixed(2).padStart(5, '0')
+    const push = (text) => setLog((prev) => [...prev.slice(-3), `[${stamp()}] ${text}`])
+    let p = 0
+    let stage = 1
+    push(BOOT_STAGES[0].text)
 
-  useEffect(() => {
-    if (progress >= 100) {
-      clearInterval(intervalRef.current)
-      setReady(true)
-      readyRef.current = true
+    const tick = () => {
+      if (!loadingRef.current) return
+      // occasional stall in the 80s — packet loss, retry
+      if (p > 80 && p < 94 && !stalledRef.current && Math.random() < 0.22) {
+        stalledRef.current = true
+        push('packet loss … retrying')
+        intervalRef.current = setTimeout(tick, 650 + Math.random() * 400)
+        return
+      }
+      const inc = (3 + Math.random() * 7) * (1 - p / 200)
+      p = Math.min(p + inc, 100)
+      setProgress(p)
+      while (stage < BOOT_STAGES.length && p >= BOOT_STAGES[stage].at) {
+        push(BOOT_STAGES[stage].text)
+        stage += 1
+      }
+      if (p >= 100) {
+        setReady(true)
+        readyRef.current = true
+        return
+      }
+      intervalRef.current = setTimeout(tick, 80 + Math.random() * 140)
     }
-  }, [progress])
+    intervalRef.current = setTimeout(tick, 350)
+    return () => clearTimeout(intervalRef.current)
+  }, [])
 
   const doTransition = () => {
     if (!readyRef.current) return
     loadingRef.current = false
     setLoading(false)
-    setGlitchDone(true)
     setTimeout(() => setShowContent(true), 80)
   }
 
@@ -114,12 +144,18 @@ const heroStats = [
             initial={{ opacity: 1 }}
             exit={{ opacity: 0, transition: { duration: 0.4 } }}
           >
-            <div className="loading-spinner" />
             <div className="loading-text">ESTABLISHING SECURE CONNECTION</div>
             <div className="loading-bar-track">
               <div className="loading-bar-fill" style={{ width: `${progress}%` }} />
             </div>
-            <div className="loading-messages">{loadingMessages[msgIndex]}</div>
+            <div className="loading-pct">{String(Math.floor(progress)).padStart(3, '0')}%</div>
+            <div className="loading-messages" aria-live="polite">
+              {log.map((line, i) => (
+                <div key={`${i}-${line}`} className={i === log.length - 1 ? 'loading-log-line' : 'loading-log-line dim'}>
+                  <span className="loading-log-ok">✓</span> {line}
+                </div>
+              ))}
+            </div>
             {ready && <div className="loading-prompt">▸ PRESS ANY KEY TO CONTINUE</div>}
           </motion.div>
         )}
