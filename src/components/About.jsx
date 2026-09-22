@@ -59,7 +59,7 @@ function CodeBlock() {
         fontSize: '0.7rem',
         lineHeight: 1.7,
         overflowX: 'auto',
-        color: 'var(--fg-secondary)',
+        color: '#c9c9d4', // ponytail: block bg is always near-black, so fixed light text in both themes
       }}>
         {codeLines.map((line, i) => (
           <div key={i} style={{ display: 'flex' }}>
