@@ -46,7 +46,6 @@ function MissionCard({ m, large = false }) {
     >
       <div className="mission-header">
         <div className="mission-classified">
-          <span className="mission-classified-badge" style={{ transform: `rotate(${[-1, 1, -0.5, 1.5][Number(m.id) % 4]}deg)` }}>TOP SECRET // REDACTED</span>
           <span className="mission-id">/// PROJECT_{m.id}</span>
         </div>
       </div>
@@ -89,7 +88,7 @@ function MissionCard({ m, large = false }) {
           <div className="mission-status">
             ▸ <span className="mission-status-dot">●</span> {m.status}
           </div>
-          <div className="mission-cta-hint">{m.href ? 'Hover to unredact · Click to open →' : 'Hover to unredact →'}</div>
+          <div className="mission-cta-hint">{m.href ? 'Hover to reveal · Click to open →' : 'Hover to reveal →'}</div>
         </div>
       </div>
     </TiltCard>

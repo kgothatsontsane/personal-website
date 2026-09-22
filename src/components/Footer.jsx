@@ -1,4 +1,4 @@
-import { contactInfo, specializations, certifications, serviceRecord } from '../data'
+import { contactInfo } from '../data'
 
 export default function Footer() {
   const year = new Date().getFullYear()
@@ -12,22 +12,6 @@ export default function Footer() {
             KGOTHATSO<span className="footer-logo-dot">.</span>
           </div>
           <p className="footer-tagline">Software Engineer / Pretoria, SA</p>
-        </div>
-
-        {/* Middle: quick stats */}
-        <div className="footer-stats">
-          <div className="footer-stat">
-            <span className="footer-stat-value">{serviceRecord.length}</span>
-            <span className="footer-stat-label">Roles</span>
-          </div>
-          <div className="footer-stat">
-            <span className="footer-stat-value">{specializations.length}</span>
-            <span className="footer-stat-label">Skills</span>
-          </div>
-          <div className="footer-stat">
-            <span className="footer-stat-value">{certifications.length}</span>
-            <span className="footer-stat-label">Certs</span>
-          </div>
         </div>
 
         {/* Right: links */}

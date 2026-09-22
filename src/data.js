@@ -7,7 +7,7 @@ export const personalInfo = {
   status: 'ACTIVE',
   phone: '082-844-7650',
   email: 'nvisionfactory@gmail.com',
-  bio: 'Self-taught developer turned software engineer. I build things that work. 7 years shipping production software across media and entertainment, e-commerce, and enterprise — from interfaces to infrastructure, secured by design, for clients including property developers, urban planners, property valuers, the mining industry, architects, and engineers. I threat-model before I code, and build systems designed to scale cleanly and stand up to real-world attack. Currently focused on AI-augmented and security-hardened development, type-safe and generic architectures, and shipping faster — and safer — than the next quarterly review. Comfortable owning work end-to-end solo or delivering inside a team.',
+  bio: 'Self-taught developer turned software engineer. I take pride in building things that work. 7 years shipping production software across media and entertainment, e-commerce, and enterprise — from interfaces to infrastructure, secured by design, for clients including property developers, urban planners, property valuers, the mining industry, architects, and engineers. I threat-model before I code, and build systems designed to scale cleanly and stand up to real-world attack. Currently focused on AI-augmented and security-hardened development, type-safe and generic architectures, and shipping faster — and safer — than the next quarterly review. Comfortable owning work end-to-end solo or delivering inside a team.',
   heroImage: '/images/hero.jpg',
   aboutImage: '/images/portrait.jpg',
 }

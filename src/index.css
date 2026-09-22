@@ -27,9 +27,9 @@
   --fg-secondary: #444;
   --fg-muted: #777;
   --fg-dim: #999;
-  --accent: #cc0000;
-  --accent-dim: rgba(204, 0, 0, 0.1);
-  --accent-glow: rgba(204, 0, 0, 0.05);
+  --accent: #005fcc;
+  --accent-dim: rgba(0, 95, 204, 0.12);
+  --accent-glow: rgba(0, 95, 204, 0.06);
   --border: #d0d0c8;
   --border-light: #bbb8b0;
 }
@@ -45,7 +45,7 @@
 [data-theme="light"] .nav-link { color: #666; }
 [data-theme="light"] .nav-link:hover,
 [data-theme="light"] .nav-link.active { color: #1a1a1a; }
-[data-theme="light"] .nav-logo-k { color: #cc0000; }
+[data-theme="light"] .nav-logo-k { color: #005fcc; }
 [data-theme="light"] .nav-logo-text { color: #1a1a1a; }
 [data-theme="light"] .nav-pill { background: rgba(0, 0, 0, 0.04); border-color: #d0d0c8; }
 [data-theme="light"] .nav-pill:hover { color: #1a1a1a; border-color: #ccc; }
@@ -441,8 +441,8 @@ body {
 
 [data-theme="light"] .text-stroke-hero:hover {
   text-shadow:
-    0 0 12px rgba(204, 0, 0, 0.35),
-    0 0 30px rgba(204, 0, 0, 0.15);
+    0 0 12px rgba(0, 95, 204, 0.35),
+    0 0 30px rgba(0, 95, 204, 0.15);
 }
 
 .hero-name-xl {
@@ -1266,15 +1266,6 @@ body {
   gap: 0.75rem;
 }
 
-.mission-classified-badge {
-  font-family: var(--font-mono);
-  font-size: 0.55rem;
-  color: var(--accent);
-  border: 1px solid rgba(255, 204, 0, 0.3);
-  padding: 2px 6px;
-  letter-spacing: 2px;
-}
-
 .mission-id {
   font-family: var(--font-mono);
   font-size: 0.55rem;
@@ -1444,7 +1435,7 @@ body {
     grid-template-columns: 1fr;
   }
 
-  /* Touch: no hover, so show description unredacted and expanded */
+  /* Touch: no hover, so show description revealed and expanded */
   .mission-brief-text {
     filter: none;
   }
@@ -1660,17 +1651,6 @@ body {
   color: var(--fg-secondary);
   line-height: 1.6;
   max-width: 500px;
-}
-
-.timeline-redacted {
-  font-family: var(--font-mono);
-  font-size: 0.65rem;
-  color: var(--fg-dim);
-  background: var(--bg-card);
-  padding: 0.5rem 1rem;
-  display: inline-block;
-  border: 1px dashed var(--border);
-  margin-top: 0.5rem;
 }
 
 /* ───────── Contact ───────── */
@@ -2072,24 +2052,6 @@ a.contact-info-value:hover {
   100% { transform: scale(2.5); opacity: 0; }
 }
 
-/* ───────── Classified Stamp Rotation ───────── */
-.mission-classified-badge {
-  display: inline-block;
-  transform: rotate(-1.5deg);
-}
-
-.mission-card:nth-child(2) .mission-classified-badge {
-  transform: rotate(1deg);
-}
-
-.mission-card:nth-child(3) .mission-classified-badge {
-  transform: rotate(-0.5deg);
-}
-
-.mission-card:nth-child(4) .mission-classified-badge {
-  transform: rotate(1.5deg);
-}
-
 /* ───────── Accessibility: Focus Styles ───────── */
 *:focus-visible {
   outline: 2px solid var(--accent);
@@ -2443,31 +2405,6 @@ textarea:focus-visible {
   margin-top: 0.35rem;
 }
 
-.footer-stats {
-  display: flex;
-  gap: 2rem;
-}
-
-.footer-stat {
-  text-align: center;
-}
-
-.footer-stat-value {
-  display: block;
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  color: var(--accent);
-  line-height: 1;
-}
-
-.footer-stat-label {
-  font-family: var(--font-mono);
-  font-size: 0.5rem;
-  color: var(--fg-dim);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-}
-
 .footer-links {
   display: flex;
   gap: 1rem;
@@ -2510,7 +2447,6 @@ textarea:focus-visible {
     align-items: center;
     text-align: center;
   }
-  .footer-stats { gap: 1.5rem; }
   .footer-links { flex-wrap: wrap; justify-content: center; }
 }
 
@@ -3034,7 +2970,6 @@ input, select, textarea { font-size: 16px; }
   /* Footer: stack */
   .footer-inner { flex-direction: column; gap: 1.5rem; text-align: center; }
   .footer-links { justify-content: center; flex-wrap: wrap; }
-  .footer-stat { min-width: 60px; }
 
   /* Minimap: compact, avoid covering content */
   /* keep visible but slimmer — still inline with BackToTop */

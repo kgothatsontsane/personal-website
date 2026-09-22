@@ -134,8 +134,8 @@ export default function Minimap() {
           left: 0,
           height: '100%',
           width: `${progress * 100}%`,
-          background: 'linear-gradient(90deg, rgba(255,204,0,0.5), var(--accent))',
-          boxShadow: '0 0 14px rgba(255,204,0,0.4)',
+          background: 'linear-gradient(90deg, var(--accent-dim), var(--accent))',
+          boxShadow: '0 0 14px var(--accent-glow)',
           willChange: 'width',
         }} />
         {sections.map((s) => {
@@ -158,8 +158,8 @@ export default function Minimap() {
                 borderRadius: '50%',
                 padding: 0,
                 background: isActive ? 'var(--accent)' : 'rgba(10, 10, 15, 0.9)',
-                border: `1px solid ${isActive ? 'var(--accent)' : 'rgba(255,204,0,0.5)'}`,
-                boxShadow: isActive ? '0 0 10px rgba(255,204,0,0.8)' : '0 0 4px rgba(0,0,0,0.6)',
+                border: `1px solid ${isActive ? 'var(--accent)' : 'var(--accent-dim)'}`,
+                boxShadow: isActive ? '0 0 10px var(--accent-dim)' : '0 0 4px rgba(0,0,0,0.6)',
                 cursor: 'pointer',
                 zIndex: 2,
               }}
