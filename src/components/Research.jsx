@@ -81,6 +81,25 @@ export default function Research() {
           <span className="research-poster-hint">OPEN FULL RESOLUTION ↗</span>
         </motion.a>
       </div>
+
+      <motion.div className="research-report" variants={child}>
+        <div className="research-report-head">
+          <span className="research-callout-label">REPORT DRAFT</span>
+          <h4 className="research-report-title">{research.title}</h4>
+          <div className="research-report-actions">
+            <a className="research-report-btn" href={research.report} target="_blank" rel="noopener noreferrer">OPEN PDF ↗</a>
+            <a className="research-report-btn research-report-btn--alt" href={research.report} download="kgothatso-ntsane-cos700-report-draft.pdf">DOWNLOAD ↓</a>
+          </div>
+        </div>
+        <object
+          className="research-report-frame"
+          data={`${research.report}#view=FitH`}
+          type="application/pdf"
+          aria-label="COS700 research report draft (PDF)"
+        >
+          <a href={research.report} target="_blank" rel="noopener noreferrer">Open the report draft PDF</a>
+        </object>
+      </motion.div>
     </motion.section>
   )
 }

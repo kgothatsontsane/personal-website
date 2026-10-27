@@ -3148,6 +3148,53 @@ input, select, textarea { font-size: 16px; }
   .research-cards-grid { grid-template-columns: 1fr; }
 }
 
+.research-report {
+  margin-top: 3rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg-card);
+  overflow: hidden;
+}
+.research-report-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem 1.4rem;
+  border-bottom: 1px solid var(--border);
+}
+.research-report-title {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin: 0;
+  flex: 1;
+  min-width: 240px;
+}
+.research-report-actions { display: flex; gap: 0.6rem; }
+.research-report-btn {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+.research-report-btn:hover { background: var(--accent); color: var(--bg); }
+.research-report-btn--alt { border-color: var(--border); color: var(--fg-muted); }
+.research-report-btn--alt:hover { background: var(--border); color: var(--fg); }
+.research-report-frame {
+  display: block;
+  width: 100%;
+  height: 90vh;
+  min-height: 600px;
+  border: 0;
+  background: #1a1a1f;
+}
+
 /* ---- Blog ---- */
 .blog-intro {
   font-size: 0.95rem;

@@ -6,6 +6,7 @@ export const research = {
   supervisor: 'Prof. M. S. Olivier',
   year: '2026',
   poster: '/images/research-poster.jpg',
+  report: '/research-report-draft.pdf',
   thesis: 'A PDF\'s "Produced by Microsoft Word" line is a label, not proof — anyone can rewrite it in two seconds. Every engine that writes a PDF leaves tiny habits in how it embeds and shapes fonts. Those habits are the identity.',
   motivation: 'Across 39 664 agency PDFs, two thirds of "cleaned" files still leaked data (Adhatarao & Lauradoux 2021). Metadata scrubbing is everywhere; toolmarks are the part scrubbers don\'t reach.',
   facts: [
