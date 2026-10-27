@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo, specializations, certifications, missions } from '../data'
+import { Link } from '../router'
 
 const roles = [
   'Full-Stack Developer',
@@ -227,8 +228,8 @@ const heroStats = [
           </motion.div>
 
           <motion.div className="hero-cta" variants={childVariants}>
-            <a className="btn-primary" href="#projects">View Projects</a>
-            <a className="btn-secondary" href="#contact">Contact</a>
+            <Link className="btn-primary" href="/projects">View Projects</Link>
+            <Link className="btn-secondary" href="/contact">Contact</Link>
             <a
               className="hero-cv-link"
               href="/kgothatso-ntsane-resume.pdf"

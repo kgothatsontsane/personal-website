@@ -1,26 +1,39 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { navigate, useRoute } from '../router'
 
-const sections = [
-  { id: 'hero', label: 'Home', shortcut: 'H' },
-  { id: 'philosophy', label: 'Philosophy', shortcut: 'P' },
-  { id: 'about', label: 'About', shortcut: 'A' },
-  { id: 'research', label: 'Research', shortcut: 'R' },
-  { id: 'projects', label: 'Projects', shortcut: 'P' },
-  { id: 'stats', label: 'Skills', shortcut: 'S' },
-  { id: 'certifications', label: 'Certs', shortcut: 'C' },
-  { id: 'timeline', label: 'Timeline', shortcut: 'T' },
-  { id: 'blog', label: 'Blog', shortcut: 'B' },
-  { id: 'contact', label: 'Contact', shortcut: 'E' },
+const routes = [
+  { path: '/', label: 'Home', shortcut: 'H' },
+  { path: '/', label: 'Philosophy', shortcut: 'P', anchor: 'philosophy' },
+  { path: '/', label: 'Skills', shortcut: 'S', anchor: 'stats' },
+  { path: '/about', label: 'About', shortcut: 'A' },
+  { path: '/about', label: 'Certs', shortcut: 'C', anchor: 'certifications' },
+  { path: '/about', label: 'Timeline', shortcut: 'T', anchor: 'timeline' },
+  { path: '/research', label: 'Research', shortcut: 'R' },
+  { path: '/projects', label: 'Projects', shortcut: 'J' },
+  { path: '/blog', label: 'Blog', shortcut: 'B' },
+  { path: '/contact', label: 'Contact', shortcut: 'E' },
 ]
+
+// After switching pages the target section may still be lazy-loading; poll briefly.
+function scrollToAnchor(id, tries = 0) {
+  const el = document.getElementById(id)
+  if (el) {
+    el.scrollIntoView({ behavior: 'smooth' })
+  } else if (tries < 20) {
+    setTimeout(() => scrollToAnchor(id, tries + 1), 100)
+  }
+}
 
 export default function CommandPalette({ open, setOpen }) {
   const [query, setQuery] = useState('')
   const inputRef = useRef(null)
 
-  const filtered = sections.filter(s =>
+  const route = useRoute()
+
+  const filtered = routes.filter(s =>
     s.label.toLowerCase().includes(query.toLowerCase()) ||
-    s.id.toLowerCase().includes(query.toLowerCase())
+    s.path.toLowerCase().includes(query.toLowerCase())
   )
 
   useEffect(() => {
@@ -42,9 +55,10 @@ export default function CommandPalette({ open, setOpen }) {
     }
   }, [open])
 
-  const navigate = (id) => {
+  const go = (r) => {
     setOpen(false)
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    if (r.path !== route) navigate(r.path)
+    if (r.anchor) scrollToAnchor(r.anchor)
   }
 
   return (
@@ -79,7 +93,7 @@ export default function CommandPalette({ open, setOpen }) {
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' && filtered.length > 0) {
-                    navigate(filtered[0].id)
+                    go(filtered[0])
                   }
                 }}
               />
@@ -88,9 +102,9 @@ export default function CommandPalette({ open, setOpen }) {
             <div className="cmd-results">
               {filtered.map((s) => (
                 <button
-                  key={s.id}
+                  key={s.label}
                   className="cmd-result"
-                  onClick={() => navigate(s.id)}
+                  onClick={() => go(s)}
                 >
                   <span className="cmd-result-label">{s.label}</span>
                   <span className="cmd-result-shortcut">{s.shortcut}</span>

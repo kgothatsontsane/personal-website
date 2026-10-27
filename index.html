@@ -29,6 +29,16 @@
     }
     </script>
     <title>Kgothatso Ntsane — Full-Stack Developer</title>
+    <script>
+      // Set theme before first paint; localStorage override wins over OS preference
+      (function () {
+        var t = localStorage.getItem('theme')
+        if (t !== 'dark' && t !== 'light') {
+          t = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+        }
+        document.documentElement.setAttribute('data-theme', t)
+      })()
+    </script>
     <link rel="modulepreload" href="/src/main.jsx">
     <link rel="preload" href="/favicon.svg" as="image" type="image/svg+xml" fetchpriority="high">
     <link rel="preconnect" href="https://fonts.googleapis.com">

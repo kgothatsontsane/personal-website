@@ -21,6 +21,18 @@ export default function Research() {
         Honours <span>Research</span>
       </motion.h2>
 
+      <motion.a
+        className="research-poster"
+        variants={child}
+        href={research.poster}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="View full-size research poster"
+      >
+        <img src={research.poster} alt={`Research poster — ${research.title}`} loading="lazy" decoding="async" />
+        <span className="research-poster-hint">OPEN FULL RESOLUTION ↗</span>
+      </motion.a>
+
       <div className="research-grid">
         <motion.div className="research-main" variants={child}>
           <div className="research-card">
@@ -68,18 +80,6 @@ export default function Research() {
             </ul>
           </div>
         </motion.div>
-
-        <motion.a
-          className="research-poster"
-          variants={child}
-          href={research.poster}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="View full-size research poster"
-        >
-          <img src={research.poster} alt={`Research poster — ${research.title}`} loading="lazy" decoding="async" />
-          <span className="research-poster-hint">OPEN FULL RESOLUTION ↗</span>
-        </motion.a>
       </div>
 
       <motion.div className="research-report" variants={child}>

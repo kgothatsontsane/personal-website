@@ -1,21 +1,29 @@
 import { useState, useEffect } from 'react'
+import { Link, useRoute } from '../router'
+import useTheme from '../useTheme'
 
-const sections = ['hero', 'philosophy', 'about', 'research', 'projects', 'stats', 'certifications', 'timeline', 'blog', 'contact']
+const NAV_LINKS = [
+  { label: 'home', path: '/' },
+  { label: 'about', path: '/about' },
+  { label: 'research', path: '/research' },
+  { label: 'projects', path: '/projects' },
+  { label: 'blog', path: '/blog' },
+  { label: 'contact', path: '/contact' },
+]
 
 export default function Nav({ onSearchOpen }) {
-  const [active, setActive] = useState('hero')
+  const route = useRoute()
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [scrollPct, setScrollPct] = useState(0)
-  const [dark, setDark] = useState(true)
+  const { theme, toggle } = useTheme()
 
   useEffect(() => {
-    document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light')
-  }, [dark])
+    setMenuOpen(false)
+  }, [route])
 
   useEffect(() => {
     let ticking = false
-    let lastActive = 'hero'
     let lastScrolled = false
     let lastPct = -1
 
@@ -31,49 +39,31 @@ export default function Nav({ onSearchOpen }) {
         const docH = document.documentElement.scrollHeight - window.innerHeight
         const pct = docH > 0 ? (y / docH) * 100 : 0
         if (Math.abs(pct - lastPct) > 0.5) { lastPct = pct; setScrollPct(pct) }
-
-        // read live offsets — lazy sections (About/Projects) not in DOM on mount, so don't cache
-        const mid = y + window.innerHeight / 3
-        for (const id of sections) {
-          const el = document.getElementById(id)
-          if (!el) continue
-          const top = el.offsetTop
-          const h = el.offsetHeight
-          if (mid >= top && mid < top + h) {
-            if (id !== lastActive) { lastActive = id; setActive(id) }
-            break
-          }
-        }
       })
     }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  const scrollTo = (id) => {
-    setMenuOpen(false)
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
-  }
-
   return (
     <nav className={`nav${scrolled ? ' scrolled' : ''}`} role="navigation" aria-label="Main navigation">
-      <a className="nav-logo" href="#" onClick={(e) => { e.preventDefault(); scrollTo('hero') }}>
+      <Link className="nav-logo" href="/">
         <span className="nav-logo-k">K</span>
         <span className="nav-logo-text">GOTHATSO</span>
         <span className="nav-logo-dot">.</span>
         <div className="nav-logo-progress" style={{ width: `${scrollPct}%` }} />
-      </a>
+      </Link>
 
       <ul className={`nav-links${menuOpen ? ' open' : ''}`} role="list">
-        {sections.map(s => (
-          <li key={s}>
-            <button
-              className={`nav-link${active === s ? ' active' : ''}`}
-              onClick={() => scrollTo(s)}
-              aria-current={active === s ? 'true' : undefined}
+        {NAV_LINKS.map(({ label, path }) => (
+          <li key={path}>
+            <Link
+              className={`nav-link${route === path ? ' active' : ''}`}
+              href={path}
+              aria-current={route === path ? 'page' : undefined}
             >
-              {s}
-            </button>
+              {label}
+            </Link>
           </li>
         ))}
       </ul>
@@ -81,11 +71,11 @@ export default function Nav({ onSearchOpen }) {
       <div className="nav-actions">
         <button
           className="nav-pill"
-          onClick={() => setDark(!dark)}
-          aria-label={`Switch to ${dark ? 'light' : 'dark'} mode`}
-          title={`Switch to ${dark ? 'light' : 'dark'} mode`}
+          onClick={toggle}
+          aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+          title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
         >
-          {dark ? (
+          {theme === 'dark' ? (
             <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
               <circle cx="8" cy="8" r="3" />
               <line x1="8" y1="1" x2="8" y2="3" /><line x1="8" y1="13" x2="8" y2="15" />
@@ -103,8 +93,8 @@ export default function Nav({ onSearchOpen }) {
         <button
           className="nav-pill"
           onClick={onSearchOpen}
-          aria-label="Search sections"
-          title="Search sections (⌘K)"
+          aria-label="Search pages"
+          title="Search pages (⌘K)"
         >
           <svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" strokeWidth="1.5">
             <circle cx="6" cy="6" r="5" />
