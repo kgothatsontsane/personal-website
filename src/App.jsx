@@ -16,6 +16,8 @@ import ConfettiCanvas from './components/ConfettiCanvas'
 import Footer from './components/Footer'
 
 const About = lazy(() => import('./components/About'))
+const Research = lazy(() => import('./components/Research'))
+const Blog = lazy(() => import('./components/Blog'))
 const Projects = lazy(() => import('./components/Projects'))
 const Stats = lazy(() => import('./components/Stats'))
 const Certifications = lazy(() => import('./components/Certifications'))
@@ -64,6 +66,8 @@ export default function App() {
           <SectionDivider />
           <About />
           <SectionDivider />
+          <Research />
+          <SectionDivider />
           <Projects />
           <SectionDivider />
           <Stats />
@@ -73,6 +77,8 @@ export default function App() {
           <LearningMarquee />
           <SectionDivider />
           <Timeline />
+          <SectionDivider />
+          <Blog />
           <SectionDivider />
           <Contact />
         </Suspense>

@@ -5,10 +5,12 @@ const sections = [
   { id: 'hero', label: 'Home', shortcut: 'H' },
   { id: 'philosophy', label: 'Philosophy', shortcut: 'P' },
   { id: 'about', label: 'About', shortcut: 'A' },
+  { id: 'research', label: 'Research', shortcut: 'R' },
   { id: 'projects', label: 'Projects', shortcut: 'P' },
   { id: 'stats', label: 'Skills', shortcut: 'S' },
   { id: 'certifications', label: 'Certs', shortcut: 'C' },
   { id: 'timeline', label: 'Timeline', shortcut: 'T' },
+  { id: 'blog', label: 'Blog', shortcut: 'B' },
   { id: 'contact', label: 'Contact', shortcut: 'E' },
 ]
 

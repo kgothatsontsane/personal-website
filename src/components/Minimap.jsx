@@ -4,10 +4,12 @@ const sections = [
   { id: 'hero', label: 'HQ' },
   { id: 'philosophy', label: 'PHIL' },
   { id: 'about', label: 'PROFILE' },
+  { id: 'research', label: 'LAB' },
   { id: 'projects', label: 'PROJECTS' },
   { id: 'stats', label: 'SKILLS' },
   { id: 'certifications', label: 'CERTS' },
   { id: 'timeline', label: 'RECORD' },
+  { id: 'blog', label: 'NOTES' },
   { id: 'contact', label: 'COMMS' },
 ]
 
