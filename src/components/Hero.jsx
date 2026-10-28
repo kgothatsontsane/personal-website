@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { personalInfo, specializations, certifications, missions } from '../data'
-import { Link } from '../router'
+import { Link, getNavDir } from '../router'
 
 const roles = [
   'Full-Stack Developer',
@@ -63,15 +63,19 @@ const BOOT_STAGES = [
 ]
 
 export default function Hero() {
-  const [loading, setLoading] = useState(true)
+  // Loader plays only on the first page load of the session;
+  // return visits get the fast direction-aware K-fill instead.
+  const booted = sessionStorage.getItem('booted') === '1'
+  const [loading, setLoading] = useState(!booted)
   const [progress, setProgress] = useState(0)
   const [log, setLog] = useState([])
-  const [ready, setReady] = useState(false)
-  const [showContent, setShowContent] = useState(false)
+  const [ready, setReady] = useState(booted)
+  const [showContent, setShowContent] = useState(booted)
   const intervalRef = useRef(null)
-  const readyRef = useRef(false)
-  const loadingRef = useRef(true)
+  const readyRef = useRef(booted)
+  const loadingRef = useRef(!booted)
   const stalledRef = useRef(false)
+  const firstBootRef = useRef(!booted) // stays true across re-render: first boot = loader, no K-fill
 
   // Phased boot sequence — stages unlock as progress crosses thresholds,
   // increments ease off near the end, with one occasional mid-sequence stall.
@@ -114,6 +118,7 @@ export default function Hero() {
     if (!readyRef.current) return
     loadingRef.current = false
     setLoading(false)
+    sessionStorage.setItem('booted', '1')
     setTimeout(() => setShowContent(true), 80)
   }
 
@@ -136,6 +141,7 @@ export default function Hero() {
 
   const nameFirst = personalInfo.name.split(' ')[0]
   const nameRest = personalInfo.name.split(' ').slice(1).join(' ')
+  const kDir = firstBootRef.current ? 'static' : (getNavDir() ?? 'none')
 
   const loaderTitle = [...LOADER_TITLES].reverse().find((t) => progress >= t.at)?.text ?? LOADER_TITLES[0].text
 
@@ -214,7 +220,12 @@ const heroStats = [
             {personalInfo.tagline}
           </motion.div>
           <motion.div className="hero-name-block" variants={childVariants}>
-            <div className="hero-name hero-name-first">{nameFirst}</div>
+            <div className="hero-name hero-name-first">
+              <span className="hero-k" data-dir={kDir}>
+                <span className="hero-k-outline" aria-hidden="true">{nameFirst.slice(0, 1)}</span>
+                <span className="hero-k-solid">{nameFirst.slice(0, 1)}</span>
+              </span>{nameFirst.slice(1)}
+            </div>
             <div className="hero-name hero-name-last">
               <span className="text-stroke-hero" data-text={nameRest}>
                 {nameRest}

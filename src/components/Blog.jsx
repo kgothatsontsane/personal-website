@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-import { blogPosts } from '../researchData'
+import { blogPosts, MEMES } from '../researchData'
+import BlogMeme from './BlogMeme'
 
 const child = {
   hidden: { opacity: 0, y: 24 },
@@ -9,6 +10,37 @@ const child = {
 
 function fmtDate(d) {
   return new Date(d + 'T12:00:00').toLocaleDateString('en-ZA', { year: 'numeric', month: 'short', day: 'numeric' })
+}
+
+function PostCard({ p, index, featured, open, setOpen }) {
+  const isOpen = open === p.id
+  return (
+    <motion.article className={`blog-item${featured ? ' blog-featured' : ''}`} variants={child}>
+      <button
+        className="blog-head"
+        onClick={() => setOpen(isOpen ? null : p.id)}
+        aria-expanded={isOpen}
+      >
+        <div className="blog-head-main">
+          <div className="blog-head-meta">
+            <span className="blog-tag">{p.tag}</span>
+            <span className="blog-date">{fmtDate(p.date)}</span>
+            <span className="blog-mins">{p.readMins} min</span>
+          </div>
+          <h3 className="blog-title">{p.title}</h3>
+          <p className="blog-excerpt">{p.excerpt}</p>
+        </div>
+        <span className={`blog-chevron${isOpen ? ' open' : ''}`} aria-hidden="true" />
+      </button>
+      <BlogMeme meme={MEMES[p.id]} index={index} />
+      {isOpen && (
+        <div className="blog-body">
+          {p.body.map((para, i) => <p key={i}>{para}</p>)}
+          <div className="blog-end">— KG</div>
+        </div>
+      )}
+    </motion.article>
+  )
 }
 
 export default function Blog() {
@@ -34,38 +66,14 @@ export default function Blog() {
         forensics and the occasional heresy. I change my mind when the logs do.
       </motion.p>
 
-      <div className="blog-list">
-        {posts.map((p) => {
-          const isOpen = open === p.id
-          return (
-            <motion.article key={p.id} className="blog-item" variants={child}>
-              <button
-                className="blog-head"
-                onClick={() => setOpen(isOpen ? null : p.id)}
-                aria-expanded={isOpen}
-              >
-                <div className="blog-head-main">
-                  <div className="blog-head-meta">
-                    <span className="blog-tag">{p.tag}</span>
-                    <span className="blog-date">{fmtDate(p.date)}</span>
-                    <span className="blog-mins">{p.readMins} min</span>
-                  </div>
-                  <h3 className="blog-title">{p.title}</h3>
-                  <p className="blog-excerpt">{p.excerpt}</p>
-                </div>
-                <span className={`blog-chevron${isOpen ? ' open' : ''}`} aria-hidden="true" />
-              </button>
-
-              {isOpen && (
-                <div className="blog-body">
-                  {p.body.map((para, i) => <p key={i}>{para}</p>)}
-                  <div className="blog-end">— KG</div>
-                </div>
-              )}
-            </motion.article>
-          )
-        })}
-      </div>
+      <motion.div className="blog-board" variants={child}>
+        <PostCard p={posts[0]} index={0} featured open={open} setOpen={setOpen} />
+        <div className="blog-grid">
+          {posts.slice(1).map((p, i) => (
+            <PostCard key={p.id} p={p} index={i + 1} open={open} setOpen={setOpen} />
+          ))}
+        </div>
+      </motion.div>
     </motion.section>
   )
 }

@@ -29,8 +29,6 @@ export default function Footer() {
 
       <div className="footer-bottom">
         <span>© {year} Kgothatso Ntsane</span>
-        <span className="footer-sep">•</span>
-        <span>Built with React + Framer Motion</span>
       </div>
     </footer>
   )

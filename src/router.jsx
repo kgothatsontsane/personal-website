@@ -8,24 +8,39 @@ function normalize(path) {
 }
 
 let route = normalize(location.pathname)
+let navDir = null // forward | back | null (same-page reload)
 const listeners = new Set()
 
 function subscribe(cb) { listeners.add(cb); return () => listeners.delete(cb) }
 function snapshot() { return route }
 
-function update() {
+function update(fromPopstate) {
+  if (fromPopstate) {
+    const idx = history.state?.idx ?? 0
+    navDir = idx > currentIdx ? 'forward' : idx < currentIdx ? 'back' : null
+    currentIdx = idx
+  }
   route = normalize(location.pathname)
   window.scrollTo(0, 0)
   listeners.forEach(l => l())
 }
 
-window.addEventListener('popstate', update)
+let currentIdx = history.state?.idx ?? 0
+
+window.addEventListener('popstate', () => update(true))
 
 export function navigate(path) {
   const next = normalize(path)
   if (next === route) return
-  history.pushState({}, '', next)
+  currentIdx += 1
+  history.pushState({ idx: currentIdx }, '', next)
+  navDir = 'forward'
   update()
+}
+
+// Direction of the most recent navigation: 'forward' | 'back' | null (reload/same idx)
+export function getNavDir() {
+  return navDir
 }
 
 // Live region announcing the current page to screen readers

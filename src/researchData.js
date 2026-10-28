@@ -38,6 +38,7 @@ export const research = {
 }
 
 export const blogPosts = [
+
   {
     id: 'compose-delusion',
     date: '2019-11-12',
@@ -160,7 +161,7 @@ export const blogPosts = [
   },
   {
     id: 'pdf-crime-scene',
-    date: '2023-06-15',
+    date: '2026-05-14',
     tag: 'Forensics',
     readMins: 7,
     title: 'PDF Is Not a Document Format. It Is a Crime Scene.',
@@ -175,7 +176,7 @@ export const blogPosts = [
   },
   {
     id: 'toolmarks-metadata',
-    date: '2023-12-04',
+    date: '2026-06-03',
     tag: 'Forensics',
     readMins: 6,
     title: 'Metadata Never Forgets — But Everyone Deletes It. Toolmarks Don\'t.',
@@ -190,7 +191,7 @@ export const blogPosts = [
   },
   {
     id: 'self-taught-honours',
-    date: '2024-05-11',
+    date: '2026-06-25',
     tag: 'Career',
     readMins: 6,
     title: 'Self-Taught, Then Honours: Why I Went Back (and Why Most Devs Shouldn\'t)',
@@ -250,7 +251,7 @@ export const blogPosts = [
   },
   {
     id: 'fonts-forensics-2',
-    date: '2025-10-30',
+    date: '2026-07-15',
     tag: 'Forensics',
     readMins: 8,
     title: 'Fonts Don\'t Lie (Well. Their Toolmarks Don\'t.)',
@@ -294,4 +295,191 @@ export const blogPosts = [
       'If you build product software: reach for the boring choices and spend your novelty budget on the *client problem* — the domain model, the UX decisions, the security posture of things that actually get attacked. That is where cleverness pays. It pays badly when spent on infrastructure that already has a solved answer.',
     ],
   },
+  {
+    id: 'postmortems-die',
+    date: '2026-10-02',
+    tag: 'DevOps',
+    readMins: 5,
+    title: 'Your Postmortem Is Where Incidents Go to Die',
+    excerpt: 'Blameless is not the same as painless. A postmortem without a deletion, a change or a test in it is fan fiction.',
+    body: [
+      'Every incident ends the same way: an emergency channel, a fix, then a document with a timeline, five whys, and the words "action items" pointing at a Jira epilogue nobody opens again. Six months later the identical outage happens, and everyone reads the old postmortem out loud like it is an heirloom. It was never an action plan. It was paperwork for the guilt.',
+      '"Blameless" was sold to us as the fix, and it fixed the wrong half. Yes, nobody should get fired for a pager. But blameless also made the documents comfortable: "the incident was caused by the interaction of several factors" is blameless and toothless in the same breath. Painless postmortems produce no fear and no change, which is the worst of both worlds.',
+      'The postmortems I still respect all closed with something deleted, replaced or pinned. A feature flag ripped out. A runbook that became a script. A cron job given a lock. An alert deleted because it fired at everything and meant nothing. The unit of a real postmortem is a merge request, not a paragraph that begins with "consider".',
+      'Two rules that made mine actually work. One: at most three action items, owned by a name, with a date — more than three turns a doc into a wishlist. Two: the incident commander closes the action items personally before the doc is archived. If the owner did not do it, the commander chases it, in the open. The list goes in every next incident review until it is empty.',
+      'You can tell a team\'s maturity from its incident library. If it reads like a museum — lovingly written, never revisited, referencing the same "several factors" — the incidents are recurring tenants, not donors. If it reads like a ledger of paid invoices, with numbers against each, you are actually buying the lesson.',
+    ],
+  },
+  {
+    id: 'migrations-weekend',
+    date: '2026-10-08',
+    tag: 'Backend',
+    readMins: 6,
+    title: 'Every Data Migration Steals Exactly One Weekend',
+    excerpt: 'The migration itself is small. The blast radius around it is not. Plan the weekend you will lose and spend it on the edges.',
+    body: [
+      'Seen from the tickets, a data migration is modest: rename the column, backfill fifteen million rows, flip the reads. Seen from the calendar, it is a weekend you will never get back, always scheduled to run in "an afternoon". The SQL is an hour. The other thirty hours are everything the SQL touches.',
+      'The edges eat the time. The script that backfills in batches now has to survive a deploy mid-run. The old readers you missed — a cron job, a read replica, a CSV export someone built in 2022 — are still writing the old shape. The backup you would need if it half-succeeded takes four hours to restore and you have never actually tried it. Every one of these is discovered at midnight, never in the plan.',
+      'The pattern that keeps me sane is expand-contract, strictly separated by weeks, not by tickets. Week one: add the new column, dual-write, and let every old reader keep running untouched. Week two: flip reads to the new shape and watch the dashboards, with the switch wired to be reversible in one deploy. Week three or later: delete the old column — a tiny, boring change, because by then nothing in the system remembers it but you.',
+      'Dual-writes deserve their own warning. They look easy and they are where the corruption lives: two paths writing one fact with no ordering guarantee. Where the stakes are real, prefer writing once to the primary and reading the projection — or accept an idempotent backfill script instead of a distributed write path. Every "temporary" dual-write I have seen lasted either three days or eighteen months; plan for which of those you can live with.',
+      'The honest ritual: before you touch schema, restore the latest backup into a scratch instance and prove your migration runs against it twice, clean. Doing this on a Thursday costs two hours of rehearsal. Not doing it costs the weekend, around 2am, in front of the backup you now believe in.',
+    ],
+  },
+  {
+    id: 'abstraction-one-user',
+    date: '2026-10-14',
+    tag: 'Architecture',
+    readMins: 5,
+    title: 'Build the Abstraction When the Second Caller Arrives',
+    excerpt: 'An abstraction with one user is a plinth you built for a statue that does not exist. Duplicating code is cheaper than guessing wrong.',
+    body: [
+      'The best abstractions arrive after the fact, the way good jokes do: the exact same idea twice, slightly reshaped, and the audience invents the generalisation themselves. The worst ones arrive first — a BaseService, a generic Repository<T>, a plugin architecture for a feature with one plugin. Both are the same act; only the timing differs.',
+      'The number that decides it is two, and the reason is cheap. The first caller pins a shape by example. When the second caller arrives, you get a controlled A/B: the places they agree are the real interface, the places they fight are the decisions you have not earned yet. Guessing that answer with one caller means you are designing for a stranger, and the stranger you designed for never shows up.',
+      'Meanwhile, duplication is a tool, not a sin. Two modules that each own their own tiny version of "fetch and cache" are a mess of twelve lines apiece — mount, pay once, forget. The abstraction version is a shared core, two adapters, one factory, and a comment apologising for the factory. Duplicated humble code fails locally and is deleted locally. A wrong abstraction fails in every caller at once.',
+      'The smell I have learned to trust: the abstraction is used in production but every caller disables half of it. Every plugin passes the same flag. Every subclass overrides the same three methods to do nothing. That is not an interface — it is a room you rent where everyone has moved the furniture against the walls. Roll the users\' own shapes back down and the abstraction will either vanish or finally work.',
+      'None of this is an argument for spaghetti. Delete the duplication on the third caller, always — one caller is an anecdote, two is evidence, three is a coincidence worth building a wall around. Wait for the wall to be load-bearing before you pour the concrete.',
+    ],
+  },
+  {
+    id: 'ci-ninety-seconds',
+    date: '2026-10-20',
+    tag: 'Tooling',
+    readMins: 6,
+    title: 'A 90-Second CI Beats a Protocol Every Time',
+    excerpt: 'Slow pipelines do not cost machines. They cost context, and they train your best people to merge on vibes.',
+    body: [
+      'Track a typical change through a 12-minute pipeline: push, switch tabs, a meeting ends, you come back later, force-push after a failed test you already fixed locally, wait again. The pipeline never blocked you — it just spaced you out. Context, not CPU, is what slow CI burns, and context is the expensive resource on a team.',
+      'Under that pressure, engineers optimise themselves. They merge on vibes ("the tests were green before my change, it\'s probably fine"), they batch three unrelated changes into one PR so the queue only bites once, they mark the slow suite `skip` on Fridays. Every coping strategy is rational locally and corrosive globally, and all of them came from a build the team could not stand to wait for.',
+      'The 90-second budget forces honest engineering. Nothing that runs slower than a minute gets to live in the required check: the unit tests run with coverage, the expensive integration tests run in parallel against ephemeral containers, lint and types run in a job that starts in the same second, not behind the previous one. The deploy preview is a separate queue entirely. What did *not* fit in 90 seconds moves to an hourly "deep" job that runs everything regardless.',
+      'On every team I have put this on, the deep job finds almost nothing. That is not because the slow tests were useless — it is because fast feedback makes issues cheap to act on, so they get fixed before the deep job even sees them. Counter-intuitively, the tests stop being flaky too: nobody reruns a 35-second suite five times to see what happens.',
+      'The budget cuts the other way from buying hardware. Machines are an hour of shopping. The work is cultural and architectural: tests touch less, containers start from images you actually cache, and the database does not boot in the load path. Start by recording a graph of pipeline time on the wall of the team channel. The curve changes behaviour faster than any RFC.',
+    ],
+  },
+  {
+    id: 'dependency-debt',
+    date: '2026-10-26',
+    tag: 'Security',
+    readMins: 6,
+    title: 'Your Node Modules Folder Is a Handshake With 400 Strangers',
+    excerpt: 'Every dependency is a person you have never met with commit access, in a sense, to your production box. The update backlog is security work in clown clothes.',
+    body: [
+      'A fresh install of a typical web app resolves between 300 and 1 200 packages. Each one is code you execute in production, written by someone with a laptop, published under a name you resolved from a three-letter string. None of that is automatically wrong — it is only wrong when treated as a neutral background process instead of an ongoing decision.',
+      'The classic failure is not the headline exploit either. It is the slow one: a maintainer of the left-pad-shaped utility you import for `isOdd` loses interest and hands the package to a helpful contributor. Ninety percent of the time that story ends fine. The other ten percent is what the discipline exists for: the incident that starts with a version bump at 3am in another timezone and ends in servers you do not understand.',
+      'Pinning exact versions buys you slightly better reproducibility and worse security: the fixes exist and your lockfile has opinions. The real fix is boring and structural — minimise the count (do you import four packages to format a date?), prefer packages with an obvious reason to exist and healthy release cadence, and — the part almost everyone skips — put the default-deny allowlist in front of upgrades: a dependabot-style PR is a proposal reviewed by a human, not a button pressed by a cron job.',
+      'Lockfile hygiene is the unglamorous half: committed, reviewed in PRs like any other surface — not just for what changed, but for what was silently added. A dependency diff that goes from 412 to 512 transitive packages for one "type-safe ordinal" deserves a conversation. Once you make the count visible, the count starts shrinking; nobody argues to add a package they have to justify.',
+      'The finance metaphor is exact and it is the whole point: dependencies are debt, the tooling exists to measure it (audit, lockfile diff, SBOM), and each alert is minimum payment on something you own. The compound interest accrues precisely while the team is busy. That team is your team. The weekend this catches fire is your weekend. Schedule yours for the updates instead — it is cheaper either way.',
+    ],
+  },
 ]
+
+// One hand-written meme per post, rendered as a CSS "photo card" by BlogMeme.
+// formats: drake { no, yes } | gru { plan: [4] } | brain { steps: [4] } | thisisfine { line } | spiderman { left, right, line } | panik { kalm, panic, kalm2 }
+export const MEMES = {
+  'compose-delusion': {
+    format: 'drake',
+    no: 'Six months learning etcd for 4 000 users',
+    yes: '`docker compose logs` at 2am',
+  },
+  'tests-that-pay': {
+    format: 'gru',
+    plan: ['Hit 90% coverage', 'Brag in the retro', '40% of seeded bugs escape', 'Hoard the unhappy-path tests'],
+  },
+  'microservices-data': {
+    format: 'brain',
+    steps: ['Monolith that ships', 'Split along one real seam', 'Twelve services + a saga chorus', '“It was a data problem all along”'],
+  },
+  'logs-betray': {
+    format: 'thisisfine',
+    line: 'Token in a stack trace. This is fine.',
+  },
+  'redis-default': {
+    format: 'panik',
+    kalm: 'Postgres for everything',
+    panic: 'p99 latency at 2am',
+    kalm2: 'One INCR + a TTL',
+  },
+  'cache-invalidations': {
+    format: 'gru',
+    plan: ['Bolt on a cache', '40× faster', 'Two services write the same key', 'Congratulations: you run a consensus protocol now'],
+  },
+  'terraform-small-teams': {
+    format: 'spiderman',
+    left: 'The reusable module',
+    right: 'The 30-line copy-paste',
+    line: 'only one of us can be read in a PR',
+  },
+  'spa-overdose': {
+    format: 'drake',
+    no: '900kB of React to render a pricing page',
+    yes: '14kB of HTML that actually arrives',
+  },
+  'pdf-crime-scene': {
+    format: 'spiderman',
+    left: '“Produced by Microsoft Word”',
+    right: 'The embedded font habits',
+    line: 'only one of us is telling the truth',
+  },
+  'toolmarks-metadata': {
+    format: 'gru',
+    plan: ['Scrub the metadata', 'Declare it clean', 'Every font re-embeds the same way', 'The bytes remember'],
+  },
+  'self-taught-honours': {
+    format: 'brain',
+    steps: ['Ship for seven years', 'Go back for Honours', 'Blind trials and error rates', 'Plumbing-free ascension: knowing which job the degree does'],
+  },
+  'ai-forgetfulness': {
+    format: 'panik',
+    kalm: 'AI wrote the auth middleware',
+    panic: 'Nobody reviewed it',
+    kalm2: 'Fuzz it like a hostile intern',
+  },
+  'typescript-backend-yes': {
+    format: 'drake',
+    no: '`any` at the trust boundary',
+    yes: 'zod parse or the door stays shut',
+  },
+  'threat-model-first': {
+    format: 'drake',
+    no: '200 scanner findings in one sprint',
+    yes: 'One hour thinking like the attacker',
+  },
+  'fonts-forensics-2': {
+    format: 'gru',
+    plan: ['Plan: classify font bytes with a model', 'It works on seen files', 'The blind set arrives', 'It memorised. The rulers did not.'],
+  },
+  'standards-lockin': {
+    format: 'spiderman',
+    left: 'Vendorsuite™ 4.2',
+    right: 'qpdf and a terminal',
+    line: 'only one of us can reproduce the answer in court',
+  },
+  'ship-boring': {
+    format: 'brain',
+    steps: ['Boring stack, decade-old parts', 'Pager silent at 3am', 'The clever stack gets rewritten back to boring', 'Galaxy mind: the invoices keep coming'],
+  },
+  'postmortems-die': {
+    format: 'thisisfine',
+    line: '"Root cause: human error." This is fine.',
+  },
+  'migrations-weekend': {
+    format: 'panik',
+    kalm: 'Small schema change, one afternoon',
+    panic: 'Friday, 23:47, one lock, all of prod',
+    kalm2: 'Expand this week, contract never-soon',
+  },
+  'abstraction-one-user': {
+    format: 'brain',
+    steps: ['Spot near-duplicate code', 'Extract a plugin framework', 'Second caller never arrives', 'Delete it, ship the boring version'],
+  },
+  'ci-ninety-seconds': {
+    format: 'spiderman',
+    left: 'Cache the CI properly',
+    right: 'Buy everyone faster laptops',
+    line: 'only one of us is finished by lunch',
+  },
+  'dependency-debt': {
+    format: 'drake',
+    no: '"We audit dependencies manually"',
+    yes: 'Dependabot PR merged before lunch',
+  },
+}

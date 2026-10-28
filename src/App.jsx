@@ -88,6 +88,10 @@ export default function App() {
   const route = useRoute()
 
   useEffect(() => {
+    sessionStorage.setItem('booted', '1')
+  }, [])
+
+  useEffect(() => {
     const [title, url] = META[route]
     document.title = title
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', url)
